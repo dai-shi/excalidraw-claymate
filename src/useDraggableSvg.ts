@@ -78,11 +78,8 @@ export const useDraggableSvg = (
       containerRef.current.appendChild(svg);
     }
   }, [containerRef, svg]);
-  const getSvgHtml = useCallback(() => {
-    if (containerRef.current) {
-      return containerRef.current.innerHTML;
-    }
-    return undefined;
-  }, [containerRef]);
+  const getSvgHtml = useCallback(() => containerRef.current?.innerHTML, [
+    containerRef,
+  ]);
   return { getSvgHtml };
 };
