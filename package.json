@@ -20,6 +20,7 @@
     "lodash.throttle": "^4.1.1",
     "nanoid": "2",
     "open-color": "^1.7.0",
+    "pepjs": "^0.5.2",
     "points-on-curve": "^0.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -36,6 +37,11 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(roughjs|points-on-curve|path-data-parser|points-on-path|browser-nativefs)/)"
+    ]
   },
   "browserslist": {
     "production": [
