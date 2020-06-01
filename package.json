@@ -2,6 +2,7 @@
   "name": "excalidraw-claymate",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@sentry/browser": "^5.15.5",
     "@sentry/integrations": "^5.15.5",
