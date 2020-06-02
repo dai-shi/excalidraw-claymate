@@ -10,7 +10,7 @@
     "@testing-library/react": "^10.0.5",
     "@types/jest": "^24.0.0",
     "@types/lodash.throttle": "^4.1.6",
-    "@types/nanoid": "2",
+    "@types/nanoid": "^2.1.0",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
@@ -21,7 +21,7 @@
     "i18next-browser-languagedetector": "^4.2.0",
     "jest-canvas-mock": "^2.2.0",
     "lodash.throttle": "^4.1.1",
-    "nanoid": "2",
+    "nanoid": "^2.1.11",
     "open-color": "^1.7.0",
     "pepjs": "^0.5.2",
     "points-on-curve": "^0.2.0",
@@ -31,15 +31,16 @@
     "react-scripts": "3.4.1",
     "roughjs": "^4.3.1",
     "socket.io-client": "^2.3.0",
-    "typescript": "3"
+    "typescript": "^3.9.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "yarn run test:all",
-    "test:all": "yarn run test:type && yarn run test:lint && yarn run test:app --watchAll=false",
+    "test:all": "yarn run test:type && yarn run test:lint && yarn run test:format && yarn run test:app --watchAll=false",
     "test:type": "tsc",
     "test:lint": "eslint --max-warnings=0 --ignore-path .gitignore --ext .js,.ts,.tsx .",
+    "test:format": "prettier src/**/*.* --list-different",
     "test:app": "react-scripts test --env=jsdom --passWithNoTests",
     "preinstall": "git submodule update --init --recursive"
   },
