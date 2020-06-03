@@ -1,20 +1,15 @@
-.App {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 1fr;
-  grid-gap: 2px;
-  height: 100vh;
+.ClaymateApp .container {
+  bottom: 120px;
 }
 
-.App .toolbar {
-  grid-column: 1 / span 2;
-  margin: 2px;
+.ClaymateApp .container .App-menu__left {
+  max-height: calc(100vh - 120px - 236px);
 }
 
-.App .svg {
-  user-select: none;
+.ClaymateApp .container .App-menu_bottom {
+  bottom: 120px;
 }
 
-.App .snapshots {
-  overflow-y: scroll;
+.ClaymateApp .container footer * {
+  bottom: 120px;
 }

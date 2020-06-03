@@ -1,0 +1,70 @@
+.Claymate {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 4px;
+  padding: 4px;
+  height: calc(120px - 4 * 4px);
+  overflow: scroll;
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: auto 1fr;
+}
+
+.Claymate-buttons {
+  display: grid;
+  grid-gap: 2px;
+  grid-template-rows: repeat(auto-fit, 30px);
+}
+
+.Claymate-snapshots {
+  display: flex;
+  overflow: scroll;
+}
+
+.Claymate-snapshot {
+  height: calc(120px - 4 * 4px);
+  border-left: lightgray solid 1px;
+  position: relative;
+}
+
+.Claymate-snapshot img {
+  height: 100%;
+}
+
+.Claymate-snapshot:hover .Claymate-delete,
+.Claymate-snapshot:hover .Claymate-left,
+.Claymate-snapshot:hover .Claymate-right {
+  display: block;
+}
+
+.Claymate-delete {
+  display: none;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+
+.Claymate-left {
+  display: none;
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+
+.Claymate-right {
+  display: none;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}

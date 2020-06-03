@@ -1,6 +1,6 @@
 {
   "name": "excalidraw-claymate",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "./",
   "dependencies": {
@@ -22,6 +22,7 @@
     "jest-canvas-mock": "^2.2.0",
     "lodash.throttle": "^4.1.1",
     "nanoid": "^2.1.11",
+    "node-sass": "^4.14.1",
     "open-color": "^1.7.0",
     "pepjs": "^0.5.2",
     "points-on-curve": "^0.2.0",
