@@ -2,7 +2,7 @@
 
 ## What is this
 
-This is an experimental tool to create clay animations with
+This is an experimental tool to create stop motion animations with
 [Excalidraw](https://excalidraw.com).
 
 ## How to use it
