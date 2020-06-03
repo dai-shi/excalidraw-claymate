@@ -1,80 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import nanoid from "nanoid";
+import { fileSave } from "browser-nativefs";
+// @ts-ignore
+import GIF from "gif.js/dist/gif";
 
 import "./Claymate.css";
 import { Island } from "./excalidraw/src/components/Island";
 import { globalSceneState } from "./excalidraw/src/scene";
 import { exportToCanvas } from "./excalidraw/src/scene/export";
-import { AppState } from "./excalidraw/src/types";
 
-const dummyAppState: AppState = {
-  isLoading: false,
-  errorMessage: null,
-  draggingElement: null,
-  resizingElement: null,
-  multiElement: null,
-  selectionElement: null,
-  editingElement: null,
-  editingLinearElement: null,
-  elementType: "selection",
-  elementLocked: false,
-  exportBackground: false,
-  shouldAddWatermark: false,
-  currentItemStrokeColor: "",
-  currentItemBackgroundColor: "",
-  currentItemFillStyle: "",
-  currentItemStrokeWidth: -1,
-  currentItemStrokeStyle: "solid",
-  currentItemRoughness: -1,
-  currentItemOpacity: -1,
-  currentItemFontFamily: 1,
-  currentItemFontSize: -1,
-  currentItemTextAlign: "center",
-  viewBackgroundColor: "",
-  scrollX: -1 as any,
-  scrollY: -1 as any,
-  cursorX: -1,
-  cursorY: -1,
-  cursorButton: "up",
-  scrolledOutside: false,
-  name: "",
-  username: "",
-  isCollaborating: false,
-  isResizing: false,
-  isRotating: false,
-  zoom: 1,
-  openMenu: null,
-  lastPointerDownWith: "mouse",
-  selectedElementIds: {},
-  collaborators: new Map(),
-  shouldCacheIgnoreZoom: false,
-  showShortcutsDialog: false,
-  zenModeEnabled: false,
-  selectedGroupIds: {},
-  editingGroupId: null,
+type Snapshot = {
+  id: string;
+  width: number;
+  height: number;
+  imageData: ImageData;
 };
 
-const createDataUrl = () => {
+const createSnapshot = (size?: { width: number; height: number }): Snapshot => {
   const elements = globalSceneState.getElements();
-  const tempCanvas = exportToCanvas(elements, dummyAppState, dummyAppState);
-  tempCanvas.style.display = "none";
-  document.body.appendChild(tempCanvas);
-  const dataUrl = tempCanvas.toDataURL();
-  tempCanvas.remove();
-  return dataUrl;
+  const canvas = exportToCanvas(elements, {} as any, {
+    exportBackground: true,
+    exportPadding: 10,
+    viewBackgroundColor: "#fff",
+    scale: window.devicePixelRatio,
+    shouldAddWatermark: false,
+  });
+  const width = size ? size.width : canvas.width;
+  const height = size ? size.height : canvas.height;
+  const ctx = canvas.getContext("2d");
+  return {
+    id: nanoid(),
+    width,
+    height,
+    imageData: ctx.getImageData(0, 0, width, height),
+  };
+};
+
+const Preview: React.FC<{ snapshot: Snapshot }> = ({ snapshot }) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const ctx = ref.current.getContext("2d");
+    if (!ctx) return;
+    ctx.putImageData(snapshot.imageData, 0, 0);
+  }, [snapshot]);
+  return <canvas ref={ref} width={snapshot.width} height={snapshot.height} />;
 };
 
 const Claymate: React.FC = () => {
-  const [snapshots, setSnapshots] = useState<
-    {
-      id: string;
-      dataUrl: string;
-    }[]
-  >([]);
+  const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
+  const exportGif = () => {
+    const gif = new GIF();
+    snapshots.forEach((snapshot) => {
+      gif.addFrame(snapshot.imageData);
+    });
+    gif.on("finished", async (blob: Blob) => {
+      await fileSave(blob, {
+        fileName: "excalidraw-claymate.gif",
+      });
+    });
+    gif.render();
+  };
   const addSnapshot = () => {
-    const dataUrl = createDataUrl();
-    const id = nanoid();
-    setSnapshots((prev) => [...prev, { id, dataUrl }]);
+    const snapshot = createSnapshot(
+      snapshots[0] && {
+        width: snapshots[0].width,
+        height: snapshots[0].height,
+      }
+    );
+    setSnapshots((prev) => [...prev, snapshot]);
   };
   const deleteSnapshot = (id: string) => {
     setSnapshots((prev) => prev.filter((item) => item.id !== id));
@@ -103,12 +97,18 @@ const Claymate: React.FC = () => {
         <button type="button" onClick={addSnapshot}>
           Add snapshot
         </button>
-        <button type="button">Export GIF</button>
+        <button
+          type="button"
+          onClick={exportGif}
+          disabled={snapshots.length === 0}
+        >
+          Export GIF
+        </button>
       </div>
       <div className="Claymate-snapshots">
         {snapshots.map((snapshot, index) => (
           <div key={snapshot.id} className="Claymate-snapshot">
-            <img alt="snapshot" src={snapshot.dataUrl} />
+            <Preview snapshot={snapshot} />
             <button
               type="button"
               className="Claymate-delete"
