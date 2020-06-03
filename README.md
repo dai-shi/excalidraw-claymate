@@ -19,4 +19,5 @@ Notes:
 
 ## Tweets
 
-- [The first trial versiono](https://twitter.com/dai_shi/status/1267491837897367553)
+- [The first trial version](https://twitter.com/dai_shi/status/1267491837897367553)
+- [Embedded in the app](https://twitter.com/dai_shi/status/1268221326822535168)
