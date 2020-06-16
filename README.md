@@ -1,5 +1,9 @@
 # excalidraw-claymate
 
+<table><tr><td>
+<img alt="excalidraw-claymate" src="https://user-images.githubusercontent.com/490574/84717128-eedfbf80-afaf-11ea-82e4-d4c601136b9a.gif" width="50%" />
+</td></tr></table>
+
 ## What is this
 
 This is an experimental tool to create stop motion animations with
