@@ -1,15 +1,15 @@
-.ClaymateApp .container {
+.ClaymateApp .excalidraw {
   bottom: 120px;
 }
 
-.ClaymateApp .container .App-menu__left {
+.ClaymateApp .excalidraw .App-menu__left {
   max-height: calc(100vh - 120px - 236px);
 }
 
-.ClaymateApp .container .App-menu_bottom {
+.ClaymateApp .excalidraw .App-menu_bottom {
   bottom: 120px;
 }
 
-.ClaymateApp .container footer * {
+.ClaymateApp .excalidraw footer * {
   bottom: 120px;
 }
