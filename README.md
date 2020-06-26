@@ -25,6 +25,7 @@ Notes:
 
 - [The first trial version](https://twitter.com/dai_shi/status/1267491837897367553)
 - [Embedded in the app](https://twitter.com/dai_shi/status/1268221326822535168)
+- [Example with grid](https://twitter.com/dai_shi/status/1275941775878713344)
 
 ## Other projects with Excalidraw
 
