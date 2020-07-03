@@ -21,6 +21,7 @@
     "gif.js": "^0.2.0",
     "i18next-browser-languagedetector": "^4.2.0",
     "jest-canvas-mock": "^2.2.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "lodash.throttle": "^4.1.1",
     "nanoid": "^2.1.11",
     "node-sass": "^4.14.1",
@@ -43,7 +44,7 @@
     "test:type": "tsc",
     "test:lint": "eslint --max-warnings=0 --ignore-path .gitignore --ignore-pattern gif.worker.js --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
-    "test:app": "react-scripts test --env=jsdom --passWithNoTests",
+    "test:app": "react-scripts test --env=jsdom-sixteen --passWithNoTests --testPathIgnorePatterns=src/excalidraw",
     "preinstall": "git submodule update --init --recursive"
   },
   "eslintConfig": {

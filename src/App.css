@@ -5,11 +5,3 @@
 .ClaymateApp .excalidraw .App-menu__left {
   max-height: calc(100vh - 120px - 236px);
 }
-
-.ClaymateApp .excalidraw .App-menu_bottom {
-  bottom: 120px;
-}
-
-.ClaymateApp .excalidraw footer * {
-  bottom: 120px;
-}
