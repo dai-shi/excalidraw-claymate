@@ -1,0 +1,1 @@
+{"version":3,"sources":["excalidraw/src/bug-issue-template.js"],"names":["sentryErrorId"],"mappings":"mIAAA,OAAe,mBAACA,GAAD,oGASbA,EATa","file":"static/js/32.b59cf561.chunk.js","sourcesContent":["export default (sentryErrorId) => `\n### Scene content\n\n\\`\\`\\`\nPaste scene content here\n\\`\\`\\`\n\n### Sentry Error ID\n\n${sentryErrorId}\n`;\n"],"sourceRoot":""}

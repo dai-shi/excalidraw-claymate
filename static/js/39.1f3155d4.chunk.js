@@ -1,0 +1,2 @@
+(this["webpackJsonpexcalidraw-claymate"]=this["webpackJsonpexcalidraw-claymate"]||[]).push([[39],{98:function(a,e,c){a.exports=c.p+"static/media/README.ebec7061.md"}}]);
+//# sourceMappingURL=39.1f3155d4.chunk.js.map
