@@ -3,11 +3,10 @@ import nanoid from "nanoid";
 import { fileSave } from "browser-nativefs";
 // @ts-ignore
 import GIF from "gif.js/dist/gif";
+// @ts-ignore
+import { exportToCanvas } from "@excalidraw/utils";
 
 import "./Claymate.css";
-import { Island } from "./excalidraw/src/components/Island";
-import { globalSceneState } from "./excalidraw/src/scene";
-import { exportToCanvas } from "./excalidraw/src/scene/export";
 
 type Snapshot = {
   id: string;
@@ -16,15 +15,11 @@ type Snapshot = {
   imageData: ImageData;
 };
 
-const createSnapshot = (size?: { width: number; height: number }): Snapshot => {
-  const elements = globalSceneState.getElements();
-  const canvas = exportToCanvas(elements, {} as any, {
-    exportBackground: true,
-    exportPadding: 10,
-    viewBackgroundColor: "#fff",
-    scale: window.devicePixelRatio,
-    shouldAddWatermark: false,
-  });
+const createSnapshot = (
+  elements: unknown[],
+  size?: { width: number; height: number }
+): Snapshot => {
+  const canvas = exportToCanvas({ elements });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   const ctx = canvas.getContext("2d");
@@ -47,7 +42,11 @@ const Preview: React.FC<{ snapshot: Snapshot }> = ({ snapshot }) => {
   return <canvas ref={ref} width={snapshot.width} height={snapshot.height} />;
 };
 
-const Claymate: React.FC = () => {
+type Props = {
+  elements: unknown[];
+};
+
+const Claymate: React.FC<Props> = ({ elements }) => {
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const exportGif = () => {
     const gif = new GIF();
@@ -63,6 +62,7 @@ const Claymate: React.FC = () => {
   };
   const addSnapshot = () => {
     const snapshot = createSnapshot(
+      elements,
       snapshots[0] && {
         width: snapshots[0].width,
         height: snapshots[0].height,
@@ -92,7 +92,7 @@ const Claymate: React.FC = () => {
     });
   };
   return (
-    <Island className="Claymate">
+    <div className="Claymate">
       <div className="Claymate-buttons">
         <button type="button" onClick={addSnapshot}>
           Add snapshot
@@ -138,7 +138,7 @@ const Claymate: React.FC = () => {
           </div>
         ))}
       </div>
-    </Island>
+    </div>
   );
 };
 

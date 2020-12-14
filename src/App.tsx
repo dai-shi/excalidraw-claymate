@@ -1,25 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+// @ts-ignore
+import Excalidraw from "@excalidraw/excalidraw";
+
+import "@excalidraw/excalidraw/dist/excalidraw.min.css";
+import "@excalidraw/excalidraw/dist/fonts.min.css";
 
 import "./App.css";
-import "./Excalidraw.scss";
-import "./excalidraw/src/css/styles.scss";
-import { TopErrorBoundary } from "./excalidraw/src/components/TopErrorBoundary";
-import { InitializeApp } from "./excalidraw/src/components/InitializeApp";
-import { IsMobileProvider } from "./excalidraw/src/is-mobile";
-import ExcalidrawApp from "./excalidraw/src/components/App";
 import Claymate from "./Claymate";
 
-const App: React.FC = () => (
-  <div className="ClaymateApp">
-    <TopErrorBoundary>
-      <IsMobileProvider>
-        <InitializeApp>
-          <ExcalidrawApp />
-          <Claymate />
-        </InitializeApp>
-      </IsMobileProvider>
-    </TopErrorBoundary>
-  </div>
-);
+const App: React.FC = () => {
+  const [elements, setElements] = useState<unknown[]>([]);
+
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const onResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const { width, height } = dimensions;
+  return (
+    <div className="ClaymateApp">
+      <Excalidraw width={width} height={height} onChange={setElements} />
+      <Claymate elements={elements} />
+    </div>
+  );
+};
 
 export default App;

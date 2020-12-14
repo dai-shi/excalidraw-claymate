@@ -10,12 +10,49 @@
   display: grid;
   grid-gap: 4px;
   grid-template-columns: auto 1fr;
+
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: saturate(100%) blur(10px);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  transition: box-shadow 0.5s ease-in-out;
 }
 
 .Claymate-buttons {
   display: grid;
   grid-gap: 2px;
   grid-template-rows: repeat(auto-fit, 30px);
+}
+
+.Claymate-buttons button {
+  margin: 0.125rem 0;
+  padding: 0.25rem;
+}
+
+.Claymate button {
+  user-select: none;
+  background-color: #e9ecef;
+  border: 0;
+  border-radius: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.Claymate button:focus {
+  outline: transparent;
+  box-shadow: 0 0 0 2px #a5d8ff;
+}
+
+.Claymate button:hover {
+  background-color: #ced4da;
+}
+
+.Claymate button:active {
+  background-color: #adb5bd;
+}
+
+.Claymate button:disabled {
+  cursor: not-allowed;
 }
 
 .Claymate-snapshots {
