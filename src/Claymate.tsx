@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import { fileSave } from "browser-nativefs";
 // @ts-ignore
@@ -16,10 +16,10 @@ type Snapshot = {
 };
 
 const createSnapshot = (
-  elements: unknown[],
+  lastElementsRef: MutableRefObject<unknown[]>,
   size?: { width: number; height: number }
 ): Snapshot => {
-  const canvas = exportToCanvas({ elements });
+  const canvas = exportToCanvas({ elements: lastElementsRef.current });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   const ctx = canvas.getContext("2d");
@@ -43,10 +43,10 @@ const Preview: React.FC<{ snapshot: Snapshot }> = ({ snapshot }) => {
 };
 
 type Props = {
-  elements: unknown[];
+  lastElementsRef: MutableRefObject<unknown[]>;
 };
 
-const Claymate: React.FC<Props> = ({ elements }) => {
+const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const exportGif = () => {
     const gif = new GIF();
@@ -62,7 +62,7 @@ const Claymate: React.FC<Props> = ({ elements }) => {
   };
   const addSnapshot = () => {
     const snapshot = createSnapshot(
-      elements,
+      lastElementsRef,
       snapshots[0] && {
         width: snapshots[0].width,
         height: snapshots[0].height,

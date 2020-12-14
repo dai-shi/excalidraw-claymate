@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // @ts-ignore
 import Excalidraw from "@excalidraw/excalidraw";
 
@@ -27,11 +27,11 @@ const saveStorage = (data: unknown) => {
 const initialData = loadStorage();
 
 const App: React.FC = () => {
-  const [elements, setElements] = useState<unknown[]>([]);
+  const lastElementsRef = useRef<unknown[]>([]);
 
-  const onChange = (nextElements: unknown[], nextState: unknown) => {
-    setElements(nextElements);
-    saveStorage({ elements: nextElements, appState: nextState });
+  const onChange = (elements: unknown[], appState: unknown) => {
+    lastElementsRef.current = elements;
+    saveStorage({ elements, appState });
   };
 
   const [dimensions, setDimensions] = useState({
@@ -59,7 +59,7 @@ const App: React.FC = () => {
         initialData={initialData}
         onChange={onChange}
       />
-      <Claymate elements={elements} />
+      <Claymate lastElementsRef={lastElementsRef} />
     </div>
   );
 };
