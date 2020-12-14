@@ -44,7 +44,7 @@
     "test": "yarn run test:all",
     "test:all": "yarn run test:type && yarn run test:lint && yarn run test:format && yarn run test:app --watchAll=false",
     "test:type": "tsc",
-    "test:lint": "eslint --max-warnings=0 --ignore-path .gitignore --ignore-pattern gif.worker.js --ext .js,.ts,.tsx .",
+    "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
     "test:app": "react-scripts test --env=jsdom-sixteen --passWithNoTests --testPathIgnorePatterns=src/excalidraw",
     "preinstall": "git submodule update --init --recursive"
@@ -53,6 +53,9 @@
     "extends": "react-app"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(css|sass)$": "identity-obj-proxy"
+    },
     "transformIgnorePatterns": [
       "node_modules/(?!(roughjs|points-on-curve|path-data-parser|points-on-path|browser-nativefs)/)"
     ]
