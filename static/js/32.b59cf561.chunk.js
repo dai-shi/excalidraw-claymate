@@ -1,2 +1,0 @@
-(this["webpackJsonpexcalidraw-claymate"]=this["webpackJsonpexcalidraw-claymate"]||[]).push([[32],{160:function(n,e,t){"use strict";t.r(e),e.default=function(n){return"\n### Scene content\n\n```\nPaste scene content here\n```\n\n### Sentry Error ID\n\n".concat(n,"\n")}}}]);
-//# sourceMappingURL=32.b59cf561.chunk.js.map
