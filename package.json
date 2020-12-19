@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
-    "@excalidraw/excalidraw": "^0.1.1",
+    "@excalidraw/excalidraw": "npm:aakansha-excalidraw@0.2.1-cdn",
     "@excalidraw/utils": "file:./excalidraw-utils-0.1.0.tgz",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
