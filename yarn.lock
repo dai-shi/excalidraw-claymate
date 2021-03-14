@@ -1153,9 +1153,10 @@
   resolved "https://registry.yarnpkg.com/aakansha-excalidraw/-/aakansha-excalidraw-0.2.1-cdn.tgz#634398cff99d7fad1c299db0ba7b10ccbd9f8bec"
   integrity sha512-OCKpPcYUq4NQZ62DiJpQ/yBscc9KDOzJnQbrVv40IrkTsWQSsYzgMAHU+DcILj1I5sK5dm33DWRg5M1dqcAR+w==
 
-"@excalidraw/utils@file:./excalidraw-utils-0.1.0.tgz":
-  version "0.1.0"
-  resolved "file:./excalidraw-utils-0.1.0.tgz#89767cae5d36c5dc177bb15b22c17246e6b3d53f"
+"@excalidraw/utils@^0.1.0-temp":
+  version "0.1.0-temp"
+  resolved "https://registry.yarnpkg.com/@excalidraw/utils/-/utils-0.1.0-temp.tgz#66b6b414e040dc50d43f215890d021e6496d7e93"
+  integrity sha512-8rWzVNMGws3Od9AL0QzZibBIz+sfFvf6+wJZ51ndUYJl85Iav+GKsKvNgur3VZCsZW+YTihWPicMtf9E8RN4wA==
 
 "@hapi/address@2.x.x":
   version "2.1.4"
