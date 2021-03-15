@@ -5,8 +5,7 @@
   left: 0;
   margin: 4px;
   padding: 4px;
-  height: calc(120px - 4 * 4px);
-  overflow: scroll;
+  height: calc(var(--bottomSpacing) - 4 * 4px);
   display: grid;
   grid-gap: 4px;
   grid-template-columns: auto 1fr;
@@ -57,17 +56,27 @@
 
 .Claymate-snapshots {
   display: flex;
-  overflow: scroll;
+  overflow-y: hidden;
+  overflow-x: scroll;
 }
 
 .Claymate-snapshot {
-  height: calc(120px - 4 * 4px);
+  height: 100%;
   border-left: lightgray solid 1px;
   position: relative;
+  width: 128px;
+  min-width: 128px;
 }
 
 .Claymate-snapshot canvas {
-  height: 100%;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 .Claymate-snapshot:hover .Claymate-delete,

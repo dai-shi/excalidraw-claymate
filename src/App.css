@@ -1,15 +1,19 @@
+:root {
+  --bottomSpacing: 140px;
+}
+
 .ClaymateApp .excalidraw .App-menu_bottom {
-  bottom: 120px;
+  bottom: var(--bottomSpacing);
 }
 
 .ClaymateApp .excalidraw .layer-ui__wrapper__footer {
-  bottom: 120px;
+  bottom: var(--bottomSpacing);
 }
 
 .ClaymateApp .excalidraw .App-bottom-bar {
-  bottom: 120px;
+  bottom: var(--bottomSpacing);
 }
 
 .ClaymateApp .excalidraw .App-menu__left {
-  max-height: calc(100vh - 120px - 200px);
+  max-height: calc(100vh - var(--bottomSpacing) - 200px);
 }
