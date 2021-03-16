@@ -1,3 +1,7 @@
 :root {
   --bottomSpacing: 140px;
 }
+
+.ClaymateApp .excalidraw .App-bottom-bar {
+  bottom: var(--bottomSpacing);
+}
