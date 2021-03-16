@@ -93,18 +93,6 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
   };
   return (
     <div className="Claymate">
-      <div className="Claymate-buttons">
-        <button type="button" onClick={addSnapshot}>
-          Add snapshot
-        </button>
-        <button
-          type="button"
-          onClick={exportGif}
-          disabled={snapshots.length === 0}
-        >
-          Export GIF
-        </button>
-      </div>
       <div className="Claymate-snapshots">
         {snapshots.map((snapshot, index) => (
           <div key={snapshot.id} className="Claymate-snapshot">
@@ -137,6 +125,18 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
             </button>
           </div>
         ))}
+      </div>
+      <div className="Claymate-buttons">
+        <button type="button" onClick={addSnapshot}>
+          Add snapshot
+        </button>
+        <button
+          type="button"
+          onClick={exportGif}
+          disabled={snapshots.length === 0}
+        >
+          Export GIF
+        </button>
       </div>
     </div>
   );

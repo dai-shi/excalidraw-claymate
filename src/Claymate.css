@@ -2,19 +2,31 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  left: 0;
+  left: 248px;
   margin: 4px;
-  padding: 4px;
   height: calc(var(--bottomSpacing) - 4 * 4px);
   display: grid;
   grid-gap: 4px;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto;
 
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--bg-color-island);
   backdrop-filter: saturate(100%) blur(10px);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+  box-shadow: var(--shadow-island);
+  border-radius: var(--border-radius-m);
+  padding: 8px;
   transition: box-shadow 0.5s ease-in-out;
+}
+
+@media (max-width: 640px) {
+  .Claymate {
+    left: 0;
+  }
+}
+
+@media (max-width: 1000px) and (max-height: 500px) {
+  .Claymate {
+    left: 0;
+  }
 }
 
 .Claymate-buttons {
