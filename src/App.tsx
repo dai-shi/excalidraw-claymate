@@ -2,9 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 // @ts-ignore
 import Excalidraw from "@excalidraw/excalidraw";
 
-import "@excalidraw/excalidraw/dist/excalidraw.min.css";
-import "@excalidraw/excalidraw/dist/fonts.min.css";
-
 import "./App.css";
 import Claymate from "./Claymate";
 
