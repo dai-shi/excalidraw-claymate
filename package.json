@@ -38,7 +38,8 @@
     "e2e": "cypress open"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["react-app", "plugin:cypress/recommended"],
+    "plugins": ["cypress"]
   },
   "jest": {
     "moduleNameMapper": {
@@ -61,6 +62,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^7.1.0"
+    "cypress": "^7.1.0",
+    "eslint-plugin-cypress": "^2.11.2"
   }
 }
