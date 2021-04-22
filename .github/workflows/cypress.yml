@@ -1,0 +1,15 @@
+name: Cypress
+on: [push,pull_request]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        with:
+          record: true
+          browser: chrome
+          headless: true
+          start: yarn start
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

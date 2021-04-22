@@ -34,10 +34,12 @@
     "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
     "test:app": "react-scripts test --env=jsdom-sixteen --passWithNoTests",
-    "preinstall": "git submodule update --init --recursive"
+    "preinstall": "git submodule update --init --recursive",
+    "e2e": "cypress open"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["react-app", "plugin:cypress/recommended"],
+    "plugins": ["cypress"]
   },
   "jest": {
     "moduleNameMapper": {
@@ -58,5 +60,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^7.1.0",
+    "eslint-plugin-cypress": "^2.11.2"
   }
 }
