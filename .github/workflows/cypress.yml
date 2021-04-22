@@ -1,0 +1,15 @@
+name: Cypress
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
+          build: yarn build
+          start: yarn serve
+        env:
+          CYPRESS_CI: true
