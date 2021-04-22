@@ -9,7 +9,6 @@ jobs:
         with:
           browser: chrome
           headless: true
-          build: yarn build
-          start: yarn serve
+          start: yarn start
         env:
           CYPRESS_CI: true
