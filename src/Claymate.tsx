@@ -91,6 +91,9 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
       return tmp;
     });
   };
+  const reverseOrder = () => {
+    setSnapshots( (prev) => [...prev].reverse())
+  }
   return (
     <div className="Claymate">
       <div className="Claymate-snapshots">
@@ -136,6 +139,13 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
           disabled={snapshots.length === 0}
         >
           Export GIF
+        </button>
+        <button
+          type="button"
+          onClick={reverseOrder}
+          disabled={snapshots.length <= 1}
+        >
+          Reverse order
         </button>
       </div>
     </div>
