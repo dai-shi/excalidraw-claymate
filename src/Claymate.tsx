@@ -92,8 +92,8 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
     });
   };
   const reverseOrder = () => {
-    setSnapshots( (prev) => [...prev].reverse())
-  }
+    setSnapshots((prev) => [...prev].reverse());
+  };
   return (
     <div className="Claymate">
       <div className="Claymate-snapshots">
