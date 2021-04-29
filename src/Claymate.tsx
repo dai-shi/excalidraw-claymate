@@ -8,6 +8,7 @@ import { exportToCanvas } from "@excalidraw/utils";
 
 import "./Claymate.css";
 import { Drawing } from "./types";
+import { useModifiedCheck } from "./useModifiedCheck";
 
 type Snapshot = {
   id: string;
@@ -47,11 +48,18 @@ const Preview: React.FC<{ snapshot: Snapshot }> = ({ snapshot }) => {
 
 type Props = {
   lastStateRef: MutableRefObject<Drawing>;
-  onRestore: (drawing:Drawing) => void;
+  onRestore: (drawing: Drawing) => void;
 };
 
 const Claymate: React.FC<Props> = ({ lastStateRef, onRestore }) => {
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
+  const setModified = useModifiedCheck();
+
+  const updateSnapshots = (updater: (prev: Snapshot[]) => Snapshot[]) => {
+    setSnapshots(updater);
+    setModified(true);
+  };
+
   const exportGif = () => {
     const gif = new GIF();
     snapshots.forEach((snapshot) => {
@@ -61,9 +69,11 @@ const Claymate: React.FC<Props> = ({ lastStateRef, onRestore }) => {
       await fileSave(blob, {
         fileName: "excalidraw-claymate.gif",
       });
+      setModified(false);
     });
     gif.render();
   };
+
   const addSnapshot = () => {
     const snapshot = createSnapshot(
       lastStateRef,
@@ -72,13 +82,15 @@ const Claymate: React.FC<Props> = ({ lastStateRef, onRestore }) => {
         height: snapshots[0].height,
       }
     );
-    setSnapshots((prev) => [...prev, snapshot]);
+    updateSnapshots((prev) => [...prev, snapshot]);
   };
+
   const deleteSnapshot = (id: string) => {
-    setSnapshots((prev) => prev.filter((item) => item.id !== id));
+    updateSnapshots((prev) => prev.filter((item) => item.id !== id));
   };
+
   const moveLeft = (id: string) => {
-    setSnapshots((prev) => {
+    updateSnapshots((prev) => {
       const index = prev.findIndex((item) => item.id === id);
       const tmp = [...prev];
       tmp[index - 1] = prev[index];
@@ -86,8 +98,9 @@ const Claymate: React.FC<Props> = ({ lastStateRef, onRestore }) => {
       return tmp;
     });
   };
+
   const moveRight = (id: string) => {
-    setSnapshots((prev) => {
+    updateSnapshots((prev) => {
       const index = prev.findIndex((item) => item.id === id);
       const tmp = [...prev];
       tmp[index + 1] = prev[index];
@@ -95,9 +108,11 @@ const Claymate: React.FC<Props> = ({ lastStateRef, onRestore }) => {
       return tmp;
     });
   };
+
   const reverseOrder = () => {
-    setSnapshots((prev) => [...prev].reverse());
+    updateSnapshots((prev) => [...prev].reverse());
   };
+
   return (
     <div className="Claymate">
       <div className="Claymate-snapshots">
