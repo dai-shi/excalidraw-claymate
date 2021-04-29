@@ -65,9 +65,9 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
       await fileSave(blob, {
         fileName: "excalidraw-claymate.gif",
       });
+      setModified(false);
     });
     gif.render();
-    setModified(false);
   };
 
   const addSnapshot = () => {
