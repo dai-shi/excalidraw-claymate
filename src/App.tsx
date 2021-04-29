@@ -25,16 +25,16 @@ const saveStorage = (data: unknown) => {
 let initialData = loadStorage();
 
 const App: React.FC = () => {
-  const lastStateRef = useRef<Drawing>({elements:[], appState: {}});
+  const lastStateRef = useRef<Drawing>({ elements: [], appState: {} });
   const [drawingVersion, setDrawingVersion] = useState(0);
 
-  const onRestore= (drawing:Drawing) => {    
-    setDrawingVersion( version => version + 1);
+  const onRestore = (drawing: Drawing) => {
+    setDrawingVersion((version) => version + 1);
     initialData = drawing;
-  }
+  };
 
   const onChange = (elements: unknown[], appState: unknown) => {
-    lastStateRef.current = {elements, appState};
+    lastStateRef.current = { elements, appState };
     saveStorage({ elements, appState });
   };
 
@@ -64,7 +64,7 @@ const App: React.FC = () => {
         initialData={initialData}
         onChange={onChange}
       />
-      <Claymate lastStateRef={lastStateRef} onRestore={onRestore}/>
+      <Claymate lastStateRef={lastStateRef} onRestore={onRestore} />
     </div>
   );
 };
