@@ -4,6 +4,7 @@ import Excalidraw from "@excalidraw/excalidraw";
 
 import "./App.css";
 import Claymate from "./Claymate";
+import { Drawing } from "./types";
 
 const STORAGE_KEY = "excalidraw-elements";
 
@@ -21,13 +22,19 @@ const saveStorage = (data: unknown) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
 
-const initialData = loadStorage();
+let initialData = loadStorage();
 
 const App: React.FC = () => {
-  const lastElementsRef = useRef<unknown[]>([]);
+  const lastStateRef = useRef<Drawing>({elements:[], appState: {}});
+  const [drawingVersion, setDrawingVersion] = useState(0);
+
+  const onRestore= (drawing:Drawing) => {    
+    setDrawingVersion( version => version + 1);
+    initialData = drawing;
+  }
 
   const onChange = (elements: unknown[], appState: unknown) => {
-    lastElementsRef.current = elements;
+    lastStateRef.current = {elements, appState};
     saveStorage({ elements, appState });
   };
 
@@ -51,12 +58,13 @@ const App: React.FC = () => {
   return (
     <div className="ClaymateApp">
       <Excalidraw
+        key={drawingVersion}
         width={width}
         height={height}
         initialData={initialData}
         onChange={onChange}
       />
-      <Claymate lastElementsRef={lastElementsRef} />
+      <Claymate lastStateRef={lastStateRef} onRestore={onRestore}/>
     </div>
   );
 };

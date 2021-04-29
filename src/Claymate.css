@@ -93,7 +93,8 @@
 
 .Claymate-snapshot:hover .Claymate-delete,
 .Claymate-snapshot:hover .Claymate-left,
-.Claymate-snapshot:hover .Claymate-right {
+.Claymate-snapshot:hover .Claymate-right,
+.Claymate-snapshot:hover .Claymate-restore {
   display: block;
 }
 
@@ -122,6 +123,16 @@
   position: absolute;
   bottom: 4px;
   right: 4px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+
+.Claymate-restore {
+  display: none;
+  position: absolute;
+  top: 4px;
+  left: 4px;
   width: 24px;
   height: 24px;
   padding: 0;

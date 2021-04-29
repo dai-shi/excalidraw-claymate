@@ -7,19 +7,21 @@ import GIF from "gif.js/dist/gif";
 import { exportToCanvas } from "@excalidraw/utils";
 
 import "./Claymate.css";
+import { Drawing } from "./types";
 
 type Snapshot = {
   id: string;
   width: number;
   height: number;
   imageData: ImageData;
+  drawing: Drawing;
 };
 
 const createSnapshot = (
-  lastElementsRef: MutableRefObject<unknown[]>,
+  lastStateRef: MutableRefObject<Drawing>,
   size?: { width: number; height: number }
 ): Snapshot => {
-  const canvas = exportToCanvas({ elements: lastElementsRef.current });
+  const canvas = exportToCanvas({ elements: lastStateRef.current.elements });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   const ctx = canvas.getContext("2d");
@@ -28,6 +30,7 @@ const createSnapshot = (
     width,
     height,
     imageData: ctx.getImageData(0, 0, width, height),
+    drawing: lastStateRef.current,
   };
 };
 
@@ -43,10 +46,11 @@ const Preview: React.FC<{ snapshot: Snapshot }> = ({ snapshot }) => {
 };
 
 type Props = {
-  lastElementsRef: MutableRefObject<unknown[]>;
+  lastStateRef: MutableRefObject<Drawing>;
+  onRestore: (drawing:Drawing) => void;
 };
 
-const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
+const Claymate: React.FC<Props> = ({ lastStateRef, onRestore }) => {
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const exportGif = () => {
     const gif = new GIF();
@@ -62,7 +66,7 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
   };
   const addSnapshot = () => {
     const snapshot = createSnapshot(
-      lastElementsRef,
+      lastStateRef,
       snapshots[0] && {
         width: snapshots[0].width,
         height: snapshots[0].height,
@@ -125,6 +129,14 @@ const Claymate: React.FC<Props> = ({ lastElementsRef }) => {
               onClick={() => moveRight(snapshot.id)}
             >
               &#x27a1;
+            </button>
+            <button
+              type="button"
+              className="Claymate-restore"
+              aria-label="Restore"
+              onClick={() => onRestore(snapshot.drawing)}
+            >
+              R
             </button>
           </div>
         ))}
