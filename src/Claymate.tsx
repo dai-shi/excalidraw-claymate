@@ -10,7 +10,7 @@ import "./Claymate.css";
 import { Drawing } from "./types";
 import { useModifiedCheck } from "./useModifiedCheck";
 
-type Snapshot = {
+type Scene = {
   id: string;
   width: number;
   height: number;
@@ -18,10 +18,10 @@ type Snapshot = {
   drawing: Drawing;
 };
 
-const createSnapshot = (
+const createScene = (
   drawing: Drawing,
   size?: { width: number; height: number }
-): Snapshot => {
+): Scene => {
   const canvas = exportToCanvas({ elements: drawing.elements });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
@@ -35,15 +35,15 @@ const createSnapshot = (
   };
 };
 
-const Preview: React.FC<{ snapshot: Snapshot }> = ({ snapshot }) => {
+const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (!ref.current) return;
     const ctx = ref.current.getContext("2d");
     if (!ctx) return;
-    ctx.putImageData(snapshot.imageData, 0, 0);
-  }, [snapshot]);
-  return <canvas ref={ref} width={snapshot.width} height={snapshot.height} />;
+    ctx.putImageData(scene.imageData, 0, 0);
+  }, [scene]);
+  return <canvas ref={ref} width={scene.width} height={scene.height} />;
 };
 
 type Props = {
@@ -53,25 +53,25 @@ type Props = {
 
 const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
   const [currentIndex, setCurrentIndex] = useState<number | undefined>();
-  const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
+  const [scenes, setScenes] = useState<Scene[]>([]);
   const setModified = useModifiedCheck();
 
-  const currentSnapshot =
-    currentIndex !== undefined && currentIndex < snapshots.length
-      ? { ...snapshots[currentIndex], drawing }
+  const currentScene =
+    currentIndex !== undefined && currentIndex < scenes.length
+      ? { ...scenes[currentIndex], drawing }
       : undefined;
 
-  const changeToSnapshot = (index: number) => {
-    onRestore(snapshots[index].drawing);
+  const moveToScene = (index: number) => {
+    onRestore(scenes[index].drawing);
     setCurrentIndex(index);
   };
 
-  const updateSnapshots = useCallback(
+  const updateScenes = useCallback(
     (
-      updater: (prev: Snapshot[]) => Snapshot[],
+      updater: (prev: Scene[]) => Scene[],
       newCurrent?: { index: number; drawing: Drawing }
     ) => {
-      setSnapshots(updater);
+      setScenes(updater);
       setModified(true);
       if (newCurrent) {
         onRestore(newCurrent.drawing);
@@ -83,8 +83,8 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
 
   const exportGif = () => {
     const gif = new GIF();
-    snapshots.forEach((snapshot) => {
-      gif.addFrame(snapshot.imageData);
+    scenes.forEach((scene) => {
+      gif.addFrame(scene.imageData);
     });
     gif.on("finished", async (blob: Blob) => {
       await fileSave(blob, {
@@ -95,96 +95,93 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
     gif.render();
   };
 
-  const addSnapshot = useCallback(() => {
+  const addScene = useCallback(() => {
     if (drawing) {
-      const snapshot = createSnapshot(
+      const scene = createScene(
         drawing,
-        snapshots[0] && {
-          width: snapshots[0].width,
-          height: snapshots[0].height,
+        scenes[0] && {
+          width: scenes[0].width,
+          height: scenes[0].height,
         }
       );
-      updateSnapshots((prev) => [...prev, snapshot], {
-        index: snapshots.length,
+      updateScenes((prev) => [...prev, scene], {
+        index: scenes.length,
         drawing: drawing,
       });
     }
-  }, [updateSnapshots, snapshots, drawing]);
+  }, [updateScenes, scenes, drawing]);
 
-  const deleteSnapshot = (id: string) => {
-    const index = snapshots.findIndex((sc) => sc.id === id);
+  const deleteScene = (id: string) => {
+    const index = scenes.findIndex((sc) => sc.id === id);
     if (index >= 0) {
-      const remainingSnapshots = snapshots.length - 1;
+      const remainingScenes = scenes.length - 1;
       let newIndex;
-      if (remainingSnapshots > 0) {
-        newIndex = index < remainingSnapshots ? index : remainingSnapshots - 1;
+      if (remainingScenes > 0) {
+        newIndex = index < remainingScenes ? index : remainingScenes - 1;
       }
       const newCurrent =
         newIndex !== undefined
-          ? { index: newIndex, drawing: snapshots[newIndex].drawing }
+          ? { index: newIndex, drawing: scenes[newIndex].drawing }
           : undefined;
 
-      updateSnapshots(
-        (prev) => prev.filter((item) => item.id !== id),
-        newCurrent
-      );
+      updateScenes((prev) => prev.filter((item) => item.id !== id), newCurrent);
     }
   };
 
   const moveLeft = (id: string) => {
-    const index = snapshots.findIndex((item) => item.id === id);
-    updateSnapshots(
+    const index = scenes.findIndex((item) => item.id === id);
+    updateScenes(
       (prev) => {
         const tmp = [...prev];
         tmp[index - 1] = prev[index];
         tmp[index] = prev[index - 1];
         return tmp;
       },
-      { index: index - 1, drawing: snapshots[index].drawing }
+      { index: index - 1, drawing: scenes[index].drawing }
     );
   };
 
   const moveRight = (id: string) => {
-    const index = snapshots.findIndex((item) => item.id === id);
-    updateSnapshots(
+    const index = scenes.findIndex((item) => item.id === id);
+    updateScenes(
       (prev) => {
         const tmp = [...prev];
         tmp[index + 1] = prev[index];
         tmp[index] = prev[index + 1];
         return tmp;
       },
-      { index: index + 1, drawing: snapshots[index].drawing }
+      { index: index + 1, drawing: scenes[index].drawing }
     );
   };
 
   const reverseOrder = () => {
-    updateSnapshots(
+    updateScenes(
       (prev) => [...prev].reverse(),
       currentIndex !== undefined
         ? {
-            index: snapshots.length - 1 - currentIndex,
-            drawing: snapshots[currentIndex].drawing,
+            index: scenes.length - 1 - currentIndex,
+            drawing: scenes[currentIndex].drawing,
           }
         : undefined
     );
   };
 
   useEffect(() => {
-    if (snapshots.length === 0) {
-      addSnapshot();
+    if (scenes.length === 0) {
+      addScene();
     }
-  }, [snapshots, addSnapshot]);
+  }, [scenes, addScene]);
 
   let requiredWidth: number | undefined;
   let requiredHeight: number | undefined;
-  if (currentSnapshot != null && snapshots.length !== 1) {
-    requiredWidth = currentSnapshot.width;
-    requiredHeight = currentSnapshot.height;
+  if (currentScene != null && scenes.length !== 1) {
+    requiredWidth = currentScene.width;
+    requiredHeight = currentScene.height;
   }
 
   useEffect(() => {
     if (currentIndex != null) {
-      const snapshot = createSnapshot(
+      const scene = createScene(
         drawing,
         requiredWidth === undefined || requiredHeight === undefined
           ? undefined
@@ -193,40 +190,40 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
               height: requiredHeight,
             }
       );
-      updateSnapshots((prev) => {
+      updateScenes((prev) => {
         const result = [...prev];
-        result[currentIndex] = snapshot;
+        result[currentIndex] = scene;
         return result;
       }, undefined);
     }
   }, [
     drawing,
     currentIndex,
-    snapshots.length,
-    updateSnapshots,
+    scenes.length,
+    updateScenes,
     requiredWidth,
     requiredHeight,
   ]);
 
   return (
     <div className="Claymate">
-      <div className="Claymate-snapshots">
-        {snapshots.map((snapshot, index) => (
+      <div className="Claymate-scenes">
+        {scenes.map((scene, index) => (
           <div
-            key={snapshot.id}
-            className={`Claymate-snapshot ${
-              index === currentIndex ? "Claymate-current-snapshot" : ""
+            key={scene.id}
+            className={`Claymate-scene ${
+              index === currentIndex ? "Claymate-current-scene" : ""
             }`}
-            onClick={() => changeToSnapshot(index)}
+            onClick={() => moveToScene(index)}
           >
-            <Preview snapshot={snapshot} />
+            <Preview scene={scene} />
             <button
               type="button"
               className="Claymate-delete"
               aria-label="Delete"
               onClick={(event) => {
                 event.stopPropagation();
-                deleteSnapshot(snapshot.id);
+                deleteScene(scene.id);
               }}
             >
               &#x2716;
@@ -238,7 +235,7 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
               disabled={index === 0}
               onClick={(event) => {
                 event.stopPropagation();
-                moveLeft(snapshot.id);
+                moveLeft(scene.id);
               }}
             >
               &#x2b05;
@@ -247,10 +244,10 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
               type="button"
               className="Claymate-right"
               aria-label="Move Right"
-              disabled={index === snapshots.length - 1}
+              disabled={index === scenes.length - 1}
               onClick={(event) => {
                 event.stopPropagation();
-                moveRight(snapshot.id);
+                moveRight(scene.id);
               }}
             >
               &#x27a1;
@@ -259,20 +256,20 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
         ))}
       </div>
       <div className="Claymate-buttons">
-        <button type="button" onClick={addSnapshot}>
+        <button type="button" onClick={addScene}>
           Add scene
         </button>
         <button
           type="button"
           onClick={exportGif}
-          disabled={snapshots.length === 0}
+          disabled={scenes.length === 0}
         >
           Export GIF
         </button>
         <button
           type="button"
           onClick={reverseOrder}
-          disabled={snapshots.length <= 1}
+          disabled={scenes.length <= 1}
         >
           Reverse order
         </button>
