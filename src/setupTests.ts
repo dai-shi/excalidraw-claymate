@@ -5,8 +5,8 @@
 import "@testing-library/jest-dom/extend-expect";
 import "jest-canvas-mock";
 import crypto from "crypto";
-window.crypto = {
-  getRandomValues: function (buffer: T) {
+(window as any).crypto = {
+  getRandomValues: function (buffer: any) {
     return crypto.randomFillSync(buffer);
   },
 };
