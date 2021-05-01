@@ -3,8 +3,7 @@ import { nanoid } from "nanoid";
 import { fileSave } from "browser-nativefs";
 // @ts-ignore
 import GIF from "gif.js/dist/gif";
-// @ts-ignore
-import { exportToCanvas } from "@excalidraw/utils";
+import { exportToCanvas } from "@excalidraw/excalidraw";
 
 import "./Claymate.css";
 import { Drawing } from "./types";
@@ -21,18 +20,20 @@ type Scene = {
 const createScene = (
   drawing: Drawing,
   size?: { width: number; height: number }
-): Scene => {
+): Scene | undefined => {
   const canvas = exportToCanvas({ elements: drawing.elements });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   const ctx = canvas.getContext("2d");
-  return {
-    id: nanoid(),
-    width,
-    height,
-    imageData: ctx.getImageData(0, 0, width, height),
-    drawing,
-  };
+  if (ctx) {
+    return {
+      id: nanoid(),
+      width,
+      height,
+      imageData: ctx.getImageData(0, 0, width, height),
+      drawing,
+    };
+  }
 };
 
 const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
@@ -104,10 +105,12 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
           height: scenes[0].height,
         }
       );
-      updateScenes((prev) => [...prev, scene], {
-        index: scenes.length,
-        drawing: drawing,
-      });
+      if (scene) {
+        updateScenes((prev) => [...prev, scene], {
+          index: scenes.length,
+          drawing: drawing,
+        });
+      }
     }
   }, [updateScenes, scenes, drawing]);
 
@@ -190,11 +193,13 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
               height: requiredHeight,
             }
       );
-      updateScenes((prev) => {
-        const result = [...prev];
-        result[currentIndex] = scene;
-        return result;
-      }, undefined);
+      if (scene) {
+        updateScenes((prev) => {
+          const result = [...prev];
+          result[currentIndex] = scene;
+          return result;
+        }, undefined);
+      }
     }
   }, [
     drawing,
