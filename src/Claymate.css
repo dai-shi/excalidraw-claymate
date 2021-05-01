@@ -98,8 +98,7 @@
 
 .Claymate-scene:hover .Claymate-delete,
 .Claymate-scene:hover .Claymate-left,
-.Claymate-scene:hover .Claymate-right,
-.Claymate-scene:hover .Claymate-restore {
+.Claymate-scene:hover .Claymate-right {
   display: block;
 }
 
@@ -128,16 +127,6 @@
   position: absolute;
   bottom: 4px;
   right: 4px;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-}
-
-.Claymate-restore {
-  display: none;
-  position: absolute;
-  top: 4px;
-  left: 4px;
   width: 24px;
   height: 24px;
   padding: 0;
