@@ -15,10 +15,11 @@ If you are already familiar with Excalidraw,
 just visit <https://dai-shi.github.io/excalidraw-claymate>
 and you can do the same.
 Only the difference is the bottom area, where you can
-add snapshots and export them as animated GIF.
+add scenes and export them as animated GIF.
 
 Notes:
-- The snapshot size is limited to the size of the first snapshot.
+
+- The scene size is limited to the size of the first scene.
 - Currently, there's no way to configure animation speed (help wanted!)
 
 ## Tweets

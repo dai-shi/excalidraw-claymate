@@ -66,13 +66,14 @@
   cursor: not-allowed;
 }
 
-.Claymate-snapshots {
+.Claymate-scenes {
   display: flex;
   overflow-y: hidden;
   overflow-x: scroll;
+  padding-bottom: 10px;
 }
 
-.Claymate-snapshot {
+.Claymate-scene {
   height: 100%;
   border-left: lightgray solid 1px;
   position: relative;
@@ -80,7 +81,11 @@
   min-width: 128px;
 }
 
-.Claymate-snapshot canvas {
+.Claymate-current-scene {
+  border: 1px dotted gray;
+}
+
+.Claymate-scene canvas {
   display: block;
   max-width: 100%;
   max-height: 100%;
@@ -91,9 +96,9 @@
   margin: 0;
 }
 
-.Claymate-snapshot:hover .Claymate-delete,
-.Claymate-snapshot:hover .Claymate-left,
-.Claymate-snapshot:hover .Claymate-right {
+.Claymate-scene:hover .Claymate-delete,
+.Claymate-scene:hover .Claymate-left,
+.Claymate-scene:hover .Claymate-right {
   display: block;
 }
 

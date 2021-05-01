@@ -64,7 +64,7 @@ context('GIF', () => {
   });
 
   it('Export GIF', () => {
-    cy.contains("Add snapshot").click()
+    cy.contains("Add scene").click()
     // Fails on a window development system unless gif.worker.js    
     // is manually copied from node_modules/gif.js/dist to public
     cy.contains("Export GIF").click()
