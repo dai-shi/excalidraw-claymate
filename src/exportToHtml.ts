@@ -7,6 +7,9 @@ import { Scene } from "./types";
 export const exportToHtml = async (scenes: Scene[]) => {
   let html = `
     <html>
+      <style>
+        svg { width: 100%; height: 100%; }
+      </style>
       <script>
         let index = 0;
         document.addEventListener('DOMContentLoaded', () => {
@@ -22,6 +25,13 @@ export const exportToHtml = async (scenes: Scene[]) => {
             document.getElementById('scene' + index).style.display = 'none';
             index -= 1;
             document.getElementById('scene' + index).style.display = 'block';
+          }
+          if (event.key.toLowerCase() === "f") {
+            if (document.fullscreenElement === document.body) {
+              document.exitFullscreen();
+            } else {
+              document.body.requestFullscreen();
+            }
           }
         });
       </script>
