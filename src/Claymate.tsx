@@ -1,22 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
-import { fileSave } from "browser-nativefs";
-// @ts-ignore
-import GIF from "gif.js/dist/gif";
 // @ts-ignore
 import { exportToCanvas } from "@excalidraw/utils";
 
 import "./Claymate.css";
-import { Drawing } from "./types";
+import { Drawing, Scene } from "./types";
 import { useModifiedCheck } from "./useModifiedCheck";
-
-type Scene = {
-  id: string;
-  width: number;
-  height: number;
-  imageData: ImageData;
-  drawing: Drawing;
-};
+import { exportToGif } from "./exportToGif";
+import { exportToHtml } from "./exportToHtml";
 
 const createScene = (
   drawing: Drawing,
@@ -81,18 +72,14 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
     [setModified, setCurrentIndex, onRestore]
   );
 
-  const exportGif = () => {
-    const gif = new GIF();
-    scenes.forEach((scene) => {
-      gif.addFrame(scene.imageData);
-    });
-    gif.on("finished", async (blob: Blob) => {
-      await fileSave(blob, {
-        fileName: "excalidraw-claymate.gif",
-      });
-      setModified(false);
-    });
-    gif.render();
+  const exportGif = async () => {
+    await exportToGif(scenes);
+    setModified(false);
+  };
+
+  const exportHtml = async () => {
+    await exportToHtml(scenes);
+    setModified(false);
   };
 
   const addScene = useCallback(() => {
@@ -265,6 +252,13 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
           disabled={scenes.length === 0}
         >
           Export GIF
+        </button>
+        <button
+          type="button"
+          onClick={exportHtml}
+          disabled={scenes.length === 0}
+        >
+          Export HTML
         </button>
         <button
           type="button"

@@ -12,7 +12,7 @@
     "@types/nanoid": "^2.1.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "browser-nativefs": "0.11.2",
+    "browser-fs-access": "^0.16.4",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.3.0",
     "gif.js": "^0.2.0",
@@ -52,7 +52,7 @@
       "\\.(css|sass)$": "identity-obj-proxy"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(roughjs|points-on-curve|path-data-parser|points-on-path|browser-nativefs)/)"
+      "node_modules/(?!(roughjs|points-on-curve|path-data-parser|points-on-path|browser-fs-access)/)"
     ]
   },
   "browserslist": {
