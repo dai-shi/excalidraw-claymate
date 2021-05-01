@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { nanoid } from "nanoid/non-secure";
+import { nanoid } from "nanoid";
 import { fileSave } from "browser-nativefs";
 // @ts-ignore
 import GIF from "gif.js/dist/gif";
