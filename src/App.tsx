@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 // @ts-ignore
 import Excalidraw from "@excalidraw/excalidraw";
+import isEqual from "lodash/isEqual";
 
 import "./App.css";
 import Claymate from "./Claymate";
@@ -25,7 +26,7 @@ const saveStorage = (data: unknown) => {
 let initialData = loadStorage();
 
 const App: React.FC = () => {
-  const lastStateRef = useRef<Drawing>({ elements: [], appState: {} });
+  const [drawing, setDrawing] = useState<Drawing>(initialData);
   const [drawingVersion, setDrawingVersion] = useState(0);
 
   const onRestore = (drawing: Drawing) => {
@@ -34,7 +35,18 @@ const App: React.FC = () => {
   };
 
   const onChange = (elements: unknown[], appState: unknown) => {
-    lastStateRef.current = { elements, appState };
+    if (
+      drawing == null ||
+      !isEqual(elements, drawing.elements) ||
+      !isEqual(appState, drawing.appState)
+    ) {
+      setDrawing({
+        elements: elements.map((el) => {
+          return { ...(el as any) };
+        }),
+        appState: { ...(appState as any) },
+      });
+    }
     saveStorage({ elements, appState });
   };
 
@@ -64,7 +76,7 @@ const App: React.FC = () => {
         initialData={initialData}
         onChange={onChange}
       />
-      <Claymate lastStateRef={lastStateRef} onRestore={onRestore} />
+      <Claymate drawing={drawing} onRestore={onRestore} />
     </div>
   );
 };

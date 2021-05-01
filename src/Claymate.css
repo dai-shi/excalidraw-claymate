@@ -70,6 +70,7 @@
   display: flex;
   overflow-y: hidden;
   overflow-x: scroll;
+  padding-bottom: 10px;
 }
 
 .Claymate-snapshot {
@@ -78,6 +79,10 @@
   position: relative;
   width: 128px;
   min-width: 128px;
+}
+
+.Claymate-current-snapshot {
+  border: 1px dotted gray;
 }
 
 .Claymate-snapshot canvas {
