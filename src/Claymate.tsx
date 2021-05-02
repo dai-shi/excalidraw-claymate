@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
-// @ts-ignore
-import { exportToCanvas } from "@excalidraw/utils";
+import { exportToCanvas } from "@excalidraw/excalidraw";
 
 import "./Claymate.css";
 import { Drawing, Scene } from "./types";
