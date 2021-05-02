@@ -4,8 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
-    "@excalidraw/excalidraw": "~0.4.3",
-    "@excalidraw/utils": "~0.1.0-temp",
+    "@excalidraw/excalidraw": "0.7.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@types/jest": "^26.0.19",
