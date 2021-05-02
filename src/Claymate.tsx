@@ -1,31 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { nanoid } from "nanoid";
-import { exportToCanvas } from "@excalidraw/excalidraw";
+import React, { useEffect, useRef } from "react";
 
 import "./Claymate.css";
 import { Drawing, Scene } from "./types";
-import { useModifiedCheck } from "./useModifiedCheck";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml } from "./exportToHtml";
-
-const createScene = (
-  drawing: Drawing,
-  size?: { width: number; height: number }
-): Scene | undefined => {
-  const canvas = exportToCanvas({ elements: drawing.elements });
-  const width = size ? size.width : canvas.width;
-  const height = size ? size.height : canvas.height;
-  const ctx = canvas.getContext("2d");
-  if (ctx) {
-    return {
-      id: nanoid(),
-      width,
-      height,
-      imageData: ctx.getImageData(0, 0, width, height),
-      drawing,
-    };
-  }
-};
 
 const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -39,67 +17,30 @@ const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
 };
 
 type Props = {
-  drawing: Drawing;
-  onRestore: (drawing: Drawing) => void;
+  currentIndex: number | undefined;
+  scenes: Scene[];
+  updateScenes: (
+    updater: (prev: Scene[]) => Scene[],
+    newCurrent?: { index: number; drawing: Drawing }
+  ) => void;
+  moveToScene: (index: number) => void;
+  addScene: () => void;
 };
 
-const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
-  const [currentIndex, setCurrentIndex] = useState<number | undefined>();
-  const [scenes, setScenes] = useState<Scene[]>([]);
-  const setModified = useModifiedCheck();
-
-  const currentScene =
-    currentIndex !== undefined && currentIndex < scenes.length
-      ? { ...scenes[currentIndex], drawing }
-      : undefined;
-
-  const moveToScene = (index: number) => {
-    onRestore(scenes[index].drawing);
-    setCurrentIndex(index);
-  };
-
-  const updateScenes = useCallback(
-    (
-      updater: (prev: Scene[]) => Scene[],
-      newCurrent?: { index: number; drawing: Drawing }
-    ) => {
-      setScenes(updater);
-      setModified(true);
-      if (newCurrent) {
-        onRestore(newCurrent.drawing);
-        setCurrentIndex(newCurrent.index);
-      }
-    },
-    [setModified, setCurrentIndex, onRestore]
-  );
-
+const Claymate: React.FC<Props> = ({
+  scenes,
+  currentIndex,
+  updateScenes,
+  moveToScene,
+  addScene,
+}) => {
   const exportGif = async () => {
     await exportToGif(scenes);
-    setModified(false);
   };
 
   const exportHtml = async () => {
     await exportToHtml(scenes);
-    setModified(false);
   };
-
-  const addScene = useCallback(() => {
-    if (drawing) {
-      const scene = createScene(
-        drawing,
-        scenes[0] && {
-          width: scenes[0].width,
-          height: scenes[0].height,
-        }
-      );
-      if (scene) {
-        updateScenes((prev) => [...prev, scene], {
-          index: scenes.length,
-          drawing: drawing,
-        });
-      }
-    }
-  }, [updateScenes, scenes, drawing]);
 
   const deleteScene = (id: string) => {
     const index = scenes.findIndex((sc) => sc.id === id);
@@ -161,41 +102,6 @@ const Claymate: React.FC<Props> = ({ drawing, onRestore }) => {
       addScene();
     }
   }, [scenes, addScene]);
-
-  let requiredWidth: number | undefined;
-  let requiredHeight: number | undefined;
-  if (currentScene != null && scenes.length !== 1) {
-    requiredWidth = currentScene.width;
-    requiredHeight = currentScene.height;
-  }
-
-  useEffect(() => {
-    if (currentIndex != null) {
-      const scene = createScene(
-        drawing,
-        requiredWidth === undefined || requiredHeight === undefined
-          ? undefined
-          : {
-              width: requiredWidth,
-              height: requiredHeight,
-            }
-      );
-      if (scene) {
-        updateScenes((prev) => {
-          const result = [...prev];
-          result[currentIndex] = scene;
-          return result;
-        }, undefined);
-      }
-    }
-  }, [
-    drawing,
-    currentIndex,
-    scenes.length,
-    updateScenes,
-    requiredWidth,
-    requiredHeight,
-  ]);
 
   return (
     <div className="Claymate">
