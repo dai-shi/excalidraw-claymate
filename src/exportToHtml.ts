@@ -1,6 +1,5 @@
 import { fileSave } from "browser-fs-access";
-// @ts-ignore
-import { exportToSvg } from "@excalidraw/utils";
+import { exportToSvg } from "@excalidraw/excalidraw";
 
 import { Scene } from "./types";
 
