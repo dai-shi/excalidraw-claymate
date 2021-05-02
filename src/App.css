@@ -2,6 +2,6 @@
   --bottomSpacing: 140px;
 }
 
-.ClaymateApp .excalidraw .App-bottom-bar {
-  bottom: var(--bottomSpacing);
+.ClaymateApp {
+  height: 100vh;
 }

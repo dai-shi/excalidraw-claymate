@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-// @ts-ignore
+import React, { useState } from "react";
 import Excalidraw from "@excalidraw/excalidraw";
+import { AppState } from "@excalidraw/excalidraw/types/types";
+import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import isEqual from "lodash/isEqual";
 
 import "./App.css";
@@ -34,7 +35,10 @@ const App: React.FC = () => {
     initialData = drawing;
   };
 
-  const onChange = (elements: unknown[], appState: unknown) => {
+  const onChange = (
+    elements: readonly ExcalidrawElement[],
+    appState: AppState
+  ) => {
     if (
       drawing == null ||
       !isEqual(elements, drawing.elements) ||
@@ -50,29 +54,10 @@ const App: React.FC = () => {
     saveStorage({ elements, appState });
   };
 
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    const onResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  const { width, height } = dimensions;
   return (
     <div className="ClaymateApp">
       <Excalidraw
         key={drawingVersion}
-        width={width}
-        height={height}
         initialData={initialData}
         onChange={onChange}
       />

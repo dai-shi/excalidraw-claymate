@@ -8,13 +8,13 @@
   display: grid;
   grid-gap: 4px;
   grid-template-columns: 1fr auto;
-
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: saturate(100%) blur(10px);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   padding: 8px;
   transition: box-shadow 0.5s ease-in-out;
+  z-index: 1;
 }
 
 @media (max-width: 640px) {
