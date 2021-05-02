@@ -28,6 +28,7 @@ Notes:
 - [Embedded in the app](https://twitter.com/dai_shi/status/1268221326822535168)
 - [Example with grid](https://twitter.com/dai_shi/status/1275941775878713344)
 - [New dev with excalidraw package](https://twitter.com/dai_shi/status/1338500086343430146)
+- [Export to HTML](https://twitter.com/dai_shi/status/1388675104888934400)
 
 ## Other projects with Excalidraw
 
