@@ -4,8 +4,6 @@ object-assign
 @license MIT
 */
 
-/*! For license information please see excalidraw-utils.min.js.LICENSE.txt */
-
 /** @license React v0.20.1
  * scheduler.production.min.js
  *
