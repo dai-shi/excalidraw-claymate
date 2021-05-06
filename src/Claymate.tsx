@@ -4,8 +4,6 @@ import "./Claymate.css";
 import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml } from "./exportToHtml";
-import { restoreAppState } from "@excalidraw/excalidraw";
-import { createScene } from "./creation";
 
 const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -56,19 +54,6 @@ const Claymate: React.FC<Props> = ({
           index: newIndex,
           drawing: scenes[drawingSourceIndex].drawing,
         });
-      } else {
-        const deletedItemAppState = scenes[index].drawing.appState;
-        const emptyDrawing = {
-          elements: [],
-          appState: {
-            ...deletedItemAppState,
-            ...restoreAppState(null, deletedItemAppState),
-          },
-        };
-        const scene = createScene(emptyDrawing);
-        if (scene) {
-          updateScenes(() => [scene], { index: 0, drawing: scene.drawing });
-        }
       }
     }
   };
@@ -133,6 +118,7 @@ const Claymate: React.FC<Props> = ({
               type="button"
               className="Claymate-delete"
               aria-label="Delete"
+              disabled={scenes.length <= 1}
               onClick={(event) => {
                 event.stopPropagation();
                 deleteScene(scene.id);
