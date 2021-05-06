@@ -50,9 +50,11 @@ const Claymate: React.FC<Props> = ({
       const remainingScenes = scenes.length - 1;
       if (remainingScenes > 0) {
         const newIndex = index < remainingScenes ? index : remainingScenes - 1;
+        const drawingSourceIndex =
+          index < remainingScenes ? index + 1 : index - 1;
         updateScenes((prev: Scene[]) => prev.filter((item) => item.id !== id), {
           index: newIndex,
-          drawing: scenes[newIndex].drawing,
+          drawing: scenes[drawingSourceIndex].drawing,
         });
       } else {
         const deletedItemAppState = scenes[index].drawing.appState;
