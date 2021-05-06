@@ -4,6 +4,8 @@ import "./Claymate.css";
 import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml } from "./exportToHtml";
+import { restoreAppState } from "@excalidraw/excalidraw";
+import { createScene } from "./creation";
 
 const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -46,16 +48,26 @@ const Claymate: React.FC<Props> = ({
     const index = scenes.findIndex((sc) => sc.id === id);
     if (index >= 0) {
       const remainingScenes = scenes.length - 1;
-      let newIndex;
       if (remainingScenes > 0) {
-        newIndex = index < remainingScenes ? index : remainingScenes - 1;
+        const newIndex = index < remainingScenes ? index : remainingScenes - 1;
+        updateScenes((prev: Scene[]) => prev.filter((item) => item.id !== id), {
+          index: newIndex,
+          drawing: scenes[newIndex].drawing,
+        });
+      } else {
+        const deletedItemAppState = scenes[index].drawing.appState;
+        const emptyDrawing = {
+          elements: [],
+          appState: {
+            ...deletedItemAppState,
+            ...restoreAppState(null, deletedItemAppState),
+          },
+        };
+        const scene = createScene(emptyDrawing);
+        if (scene) {
+          updateScenes(() => [scene], { index: 0, drawing: scene.drawing });
+        }
       }
-      const newCurrent =
-        newIndex !== undefined
-          ? { index: newIndex, drawing: scenes[newIndex].drawing }
-          : undefined;
-
-      updateScenes((prev) => prev.filter((item) => item.id !== id), newCurrent);
     }
   };
 
