@@ -47,13 +47,23 @@ const Claymate: React.FC<Props> = ({
     if (index >= 0) {
       const remainingScenes = scenes.length - 1;
       if (remainingScenes > 0) {
-        const newIndex = index < remainingScenes ? index : remainingScenes - 1;
-        const drawingSourceIndex =
-          index < remainingScenes ? index + 1 : index - 1;
-        updateScenes((prev: Scene[]) => prev.filter((item) => item.id !== id), {
-          index: newIndex,
-          drawing: scenes[drawingSourceIndex].drawing,
-        });
+        let newCurrent;
+        if (currentIndex !== undefined) {
+          const changingCurrentScene =
+            currentIndex === remainingScenes && index === currentIndex;
+          if (currentIndex > index || changingCurrentScene) {
+            newCurrent = {
+              index: currentIndex - 1,
+              drawing:
+                scenes[changingCurrentScene ? currentIndex - 1 : currentIndex]
+                  .drawing,
+            };
+          }
+        }
+        updateScenes(
+          (prev: Scene[]) => prev.filter((item) => item.id !== id),
+          newCurrent
+        );
       }
     }
   };

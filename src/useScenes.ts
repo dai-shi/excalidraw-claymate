@@ -22,9 +22,14 @@ export const useScenes = () => {
     initialScenes ? initialScenes[0].drawing : undefined
   );
 
+  useEffect(() => {
+    saveStorage(scenes);
+  }, [scenes]);
+
   const onRestore = useCallback((drawing: Drawing) => {
     setDrawingVersion((version) => version + 1);
     initialData = drawing;
+    setDrawing(drawing);
   }, []);
 
   const moveToScene = useCallback(
@@ -51,14 +56,6 @@ export const useScenes = () => {
         appState: { ...(appState as any) },
       };
       setDrawing(update);
-      if (currentIndex !== undefined) {
-        const updatedScenes = [...scenes];
-        updatedScenes[currentIndex] = {
-          ...updatedScenes[currentIndex],
-          drawing: update,
-        };
-        saveStorage(updatedScenes);
-      }
     }
   };
 
