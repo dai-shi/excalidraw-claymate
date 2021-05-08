@@ -4,6 +4,7 @@ import "./Claymate.css";
 import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml } from "./exportToHtml";
+import { isEmpty } from "lodash";
 
 const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -49,14 +50,19 @@ const Claymate: React.FC<Props> = ({
       if (remainingScenes > 0) {
         let newCurrent;
         if (currentIndex !== undefined) {
-          const changingCurrentScene =
-            currentIndex === remainingScenes && index === currentIndex;
-          if (currentIndex > index || changingCurrentScene) {
+          const deletingCurrentScene = index === currentIndex;
+          if (currentIndex > index || deletingCurrentScene) {
+            let sourceIndex = currentIndex;
+            if (deletingCurrentScene) {
+              if (currentIndex === remainingScenes) {
+                sourceIndex = currentIndex - 1;
+              } else if (currentIndex === 0) {
+                sourceIndex = 1;
+              }
+            }
             newCurrent = {
-              index: currentIndex - 1,
-              drawing:
-                scenes[changingCurrentScene ? currentIndex - 1 : currentIndex]
-                  .drawing,
+              index: currentIndex > 0 ? currentIndex - 1 : currentIndex,
+              drawing: scenes[sourceIndex].drawing,
             };
           }
         }
@@ -115,53 +121,60 @@ const Claymate: React.FC<Props> = ({
   return (
     <div className="Claymate">
       <div className="Claymate-scenes">
-        {scenes.map((scene, index) => (
-          <div
-            key={scene.id}
-            className={`Claymate-scene ${
-              index === currentIndex ? "Claymate-current-scene" : ""
-            }`}
-            onClick={() => moveToScene(index)}
-          >
-            <Preview scene={scene} />
-            <button
-              type="button"
-              className="Claymate-delete"
-              aria-label="Delete"
-              disabled={scenes.length <= 1}
-              onClick={(event) => {
-                event.stopPropagation();
-                deleteScene(scene.id);
-              }}
+        {scenes.map((scene, index) => {
+          let testId = "MissingId";
+          if (!isEmpty(scenes[index].drawing.elements)) {
+            testId = scenes[index].drawing.elements[0].id;
+          }
+          return (
+            <div
+              key={scene.id}
+              className={`Claymate-scene ${
+                index === currentIndex ? "Claymate-current-scene" : ""
+              }`}
+              onClick={() => moveToScene(index)}
+              data-testid={testId}
             >
-              &#x2716;
-            </button>
-            <button
-              type="button"
-              className="Claymate-left"
-              aria-label="Move Left"
-              disabled={index === 0}
-              onClick={(event) => {
-                event.stopPropagation();
-                moveLeft(scene.id);
-              }}
-            >
-              &#x2b05;
-            </button>
-            <button
-              type="button"
-              className="Claymate-right"
-              aria-label="Move Right"
-              disabled={index === scenes.length - 1}
-              onClick={(event) => {
-                event.stopPropagation();
-                moveRight(scene.id);
-              }}
-            >
-              &#x27a1;
-            </button>
-          </div>
-        ))}
+              <Preview scene={scene} />
+              <button
+                type="button"
+                className="Claymate-delete"
+                aria-label="Delete"
+                disabled={scenes.length <= 1}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  deleteScene(scene.id);
+                }}
+              >
+                &#x2716;
+              </button>
+              <button
+                type="button"
+                className="Claymate-left"
+                aria-label="Move Left"
+                disabled={index === 0}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  moveLeft(scene.id);
+                }}
+              >
+                &#x2b05;
+              </button>
+              <button
+                type="button"
+                className="Claymate-right"
+                aria-label="Move Right"
+                disabled={index === scenes.length - 1}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  moveRight(scene.id);
+                }}
+              >
+                &#x27a1;
+              </button>
+            </div>
+          );
+        })}
       </div>
       <div className="Claymate-buttons">
         <button type="button" onClick={addScene}>

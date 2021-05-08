@@ -6,21 +6,23 @@ import { createScene } from "./creation";
 import { Drawing, Scene } from "./types";
 import { loadStorage, saveStorage } from "./persistence";
 
-let initialScenes = loadStorage();
-let initialData =
-  initialScenes && initialScenes.length > 0
-    ? initialScenes[0].drawing
-    : undefined;
-
 export const useScenes = () => {
+  const [initialised, setInitialised] = useState(false);
   const [drawingVersion, setDrawingVersion] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState<number | undefined>(
-    initialScenes ? 0 : undefined
-  );
-  const [scenes, setScenes] = useState<Scene[]>(initialScenes || []);
-  const [drawing, setDrawing] = useState<Drawing | undefined>(
-    initialScenes ? initialScenes[0].drawing : undefined
-  );
+  const [currentIndex, setCurrentIndex] = useState<number | undefined>(0);
+  const [scenes, setScenes] = useState<Scene[]>([]);
+  const [drawing, setDrawing] = useState<Drawing | undefined>();
+
+  useEffect(() => {
+    if (!initialised) {
+      const initialScenes = loadStorage();
+      if (initialScenes && initialScenes.length > 0) {
+        setScenes(initialScenes);
+        setCurrentIndex(0);
+        setDrawing(initialScenes[0].drawing);
+      }
+    }
+  }, [initialised, setInitialised]);
 
   useEffect(() => {
     saveStorage(scenes);
@@ -28,7 +30,6 @@ export const useScenes = () => {
 
   const onRestore = useCallback((drawing: Drawing) => {
     setDrawingVersion((version) => version + 1);
-    initialData = drawing;
     setDrawing(drawing);
   }, []);
 
@@ -132,6 +133,7 @@ export const useScenes = () => {
   }, [updateScenes, scenes, drawing]);
 
   return {
+    initialised,
     moveToScene,
     addScene,
     onChange,
@@ -139,6 +141,6 @@ export const useScenes = () => {
     currentIndex,
     scenes,
     updateScenes,
-    initialData,
+    initialData: drawing,
   };
 };
