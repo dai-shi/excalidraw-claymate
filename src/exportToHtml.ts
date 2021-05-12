@@ -8,9 +8,10 @@ export const exportToHtml = async (scenes: Scene[]) => {
     <html lang="en">
       <style>
         svg { width: 100%; height: 100%; }
+        body { margin: 0px; font-size: 20px; }
         #container { display: flex; flex-direction: column; height: 100%; }
         #navigation { display: flex; justify-content: center; align-items: center; padding: 5px;}
-        .navbutton { padding: 3px; margin: 0px 5px; }
+        .navbutton { padding: 3px; margin: 0px 10px; width: 30px; height: 30px; }
         #slides { height: calc(100vh - 50px); }                
       </style>
       <script>
