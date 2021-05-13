@@ -79,7 +79,7 @@ export const exportToHtml = async (scenes: Scene[]) => {
               <div id="title">1 of ${scenes.length}</div>
               <button class="navbutton" type="button" onClick="moveRight()" title="Next slide">&#9654;</button>          
               <div id="rightbuttons">
-                <button type="button" onClick="toggleMaximise()" title="Toggle full-screen">&#x26F6</button>
+                <button type="button" onClick="toggleMaximise()" title="Toggle full-screen">&#x26F6;</button>
                 <button type="button" onClick="closeNavigation()" title="Close this panel">&#x2716;</button>
               <div>
             </div>
