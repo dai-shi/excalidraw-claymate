@@ -75,12 +75,12 @@ export const exportToHtml = async (scenes: Scene[]) => {
   });
   html += `</div>
             <div id="navigation">
-              <button class="navbutton" type="button" onClick="moveLeft()">&#9664;</button>
+              <button class="navbutton" type="button" onClick="moveLeft()" title="Previous slide">&#9664;</button>
               <div id="title">1 of ${scenes.length}</div>
-              <button class="navbutton" type="button" onClick="moveRight()">&#9654;</button>          
+              <button class="navbutton" type="button" onClick="moveRight()" title="Next slide">&#9654;</button>          
               <div id="rightbuttons">
-                <button type="button" onClick="toggleMaximise()">&#x26F6</button>
-                <button type="button" onClick="closeNavigation()">&#x2716;</button>
+                <button type="button" onClick="toggleMaximise()" title="Toggle full-screen">&#x26F6</button>
+                <button type="button" onClick="closeNavigation()" title="Close this panel">&#x2716;</button>
               <div>
             </div>
         </div></body></html>`;
