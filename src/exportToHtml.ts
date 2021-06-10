@@ -1,9 +1,25 @@
 import { fileSave } from "browser-fs-access";
 import { exportToSvg } from "@excalidraw/excalidraw";
+import type {
+  ExcalidrawElement,
+  NonDeletedExcalidrawElement,
+} from "@excalidraw/excalidraw/types/element/types";
+import { animateSvg } from "excalidraw-animate";
 
 import { Scene } from "./types";
 
-export const exportToHtml = async (scenes: Scene[]) => {
+const getNonDeletedElements = (
+  elements: readonly ExcalidrawElement[]
+): NonDeletedExcalidrawElement[] =>
+  elements.filter(
+    (element): element is NonDeletedExcalidrawElement => !element.isDeleted
+  );
+
+type Options = {
+  animate?: boolean;
+};
+
+export const exportToHtml = async (scenes: Scene[], options: Options) => {
   let html = `<!DOCTYPE html>
     <html lang="en">
       <style>
@@ -19,7 +35,7 @@ export const exportToHtml = async (scenes: Scene[]) => {
         let index = 0;
         let totalScenes = ${scenes.length}
         function updateTitle() {
-          document.getElementById('title').innerText = index+1 + " of " + totalScenes;
+          document.getElementById('title').innerText = '' + (index + 1) + ' of ' + totalScenes;
         }
         function moveLeft() {
           if (index > 0) {
@@ -27,6 +43,7 @@ export const exportToHtml = async (scenes: Scene[]) => {
             index -= 1;
             document.getElementById('scene' + index).style.display = 'block';
             updateTitle();
+            document.getElementById('scene' + index).setCurrentTime(0);
           }
         }
         function moveRight() {
@@ -35,11 +52,12 @@ export const exportToHtml = async (scenes: Scene[]) => {
             index += 1;
             document.getElementById('scene' + index).style.display = 'block';
             updateTitle();
+            document.getElementById('scene' + index).setCurrentTime(0);
           }
         }
         function closeNavigation() {
           document.getElementById('navigation').style.display = 'none';
-          document.getElementById('slides').style.height = "100vh";
+          document.getElementById('slides').style.height = '100vh'
         }
         function toggleMaximise() {
           if (document.fullscreenElement === document.body) {
@@ -49,7 +67,8 @@ export const exportToHtml = async (scenes: Scene[]) => {
           }
         }
         document.addEventListener('DOMContentLoaded', () => {
-          document.getElementById('scene' + index).style.display = 'block';          
+          document.getElementById('scene' + index).style.display = 'block';
+          document.getElementById('scene' + index).setCurrentTime(0);
         });
         document.addEventListener('keydown', (event) => {
           if (event.key === 'ArrowRight') {
@@ -58,7 +77,7 @@ export const exportToHtml = async (scenes: Scene[]) => {
           if (event.key === 'ArrowLeft') {
             moveLeft();
           }
-          if (event.key.toLowerCase() === "f") {
+          if (event.key.toLowerCase() === 'f') {
             toggleMaximise();            
           }
         });
@@ -69,6 +88,9 @@ export const exportToHtml = async (scenes: Scene[]) => {
   `;
   scenes.forEach((scene, index) => {
     const svg: SVGSVGElement = exportToSvg(scene.drawing);
+    if (options.animate) {
+      animateSvg(svg, getNonDeletedElements(scene.drawing.elements));
+    }
     svg.id = `scene${index}`;
     svg.style.display = "none";
     html += svg.outerHTML;

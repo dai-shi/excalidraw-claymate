@@ -4773,6 +4773,14 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
+excalidraw-animate@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/excalidraw-animate/-/excalidraw-animate-0.1.1.tgz#00f9a9f67d37c839ba31ed6a8867be6a1230b52e"
+  integrity sha512-aYCVoMmFS2YRRiTRoTDkQTPvcMf720j/I+Rt2pPH70zqjjkkumJwgah9mBOwOTjvQ5rg8A2ytnBmHm15wD8KBA==
+  dependencies:
+    "@excalidraw/excalidraw" "0.8.0"
+    perfect-freehand "0.4.71"
+
 exec-sh@^0.3.2:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.3.6.tgz#ff264f9e325519a60cb5e273692943483cca63bc"
@@ -8528,6 +8536,11 @@ pend@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha1-elfrVQpng/kRUzH89GY9XI4AelA=
+
+perfect-freehand@0.4.71:
+  version "0.4.71"
+  resolved "https://registry.yarnpkg.com/perfect-freehand/-/perfect-freehand-0.4.71.tgz#b98ffc3cbc4e3cd930528e8d74a8849ee77475fb"
+  integrity sha512-bJ3w2E6WcUfZJTXWPlS7DI6FIT9rRIYSCXgDYjvST8sAe/c+zNnJnlfJp3q8Hk1uPt9dH7bFuj8Sico6CKZw7A==
 
 performance-now@^2.1.0:
   version "2.1.0"
