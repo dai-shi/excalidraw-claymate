@@ -4,7 +4,7 @@ import type {
   ExcalidrawElement,
   NonDeletedExcalidrawElement,
 } from "@excalidraw/excalidraw/types/element/types";
-import { animateSvg } from "excalidraw-animate";
+import { animateSvg } from "excalidraw-animate/dist/library";
 
 import { Scene } from "./types";
 
