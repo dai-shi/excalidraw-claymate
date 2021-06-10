@@ -39,8 +39,8 @@ const Claymate: React.FC<Props> = ({
     await exportToGif(scenes);
   };
 
-  const exportHtml = async () => {
-    await exportToHtml(scenes);
+  const exportHtml = async (animate?: boolean) => {
+    await exportToHtml(scenes, { animate });
   };
 
   const deleteScene = (id: string) => {
@@ -187,13 +187,22 @@ const Claymate: React.FC<Props> = ({
         >
           Export GIF
         </button>
-        <button
-          type="button"
-          onClick={exportHtml}
-          disabled={scenes.length === 0}
-        >
-          Export HTML
-        </button>
+        <div>
+          <button
+            type="button"
+            onClick={() => exportHtml()}
+            disabled={scenes.length === 0}
+          >
+            Export HTML
+          </button>
+          <button
+            type="button"
+            onClick={() => exportHtml(true)}
+            disabled={scenes.length === 0}
+          >
+            (animate)
+          </button>
+        </div>
         <button
           type="button"
           onClick={reverseOrder}
