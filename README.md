@@ -6,8 +6,9 @@
 
 ## What is this
 
-This is an experimental tool to create stop motion animations with
-[Excalidraw](https://excalidraw.com).
+This is a tool based on
+[Excalidraw](https://excalidraw.com)
+to create stop motion animations and slides.
 
 ## How to use it
 
@@ -29,6 +30,7 @@ Notes:
 - [Example with grid](https://twitter.com/dai_shi/status/1275941775878713344)
 - [New dev with excalidraw package](https://twitter.com/dai_shi/status/1338500086343430146)
 - [Export to HTML](https://twitter.com/dai_shi/status/1388675104888934400)
+- [Integrating excalidraw-animate](https://twitter.com/dai_shi/status/1403381850907693057)
 
 ## Other projects with Excalidraw
 
