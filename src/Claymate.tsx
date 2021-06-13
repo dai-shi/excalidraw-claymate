@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { memo, useState, useEffect, useRef } from "react";
+import { isEmpty } from "lodash";
 
 import "./Claymate.css";
 import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml } from "./exportToHtml";
-import { isEmpty } from "lodash";
+import AnimateConfig from "./AnimateConfig";
 
-const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
+const Preview = memo<{ scene: Scene }>(({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (!ref.current) return;
@@ -15,7 +16,7 @@ const Preview: React.FC<{ scene: Scene }> = ({ scene }) => {
     ctx.putImageData(scene.imageData, 0, 0);
   }, [scene]);
   return <canvas ref={ref} width={scene.width} height={scene.height} />;
-};
+});
 
 type Props = {
   currentIndex: number | undefined;
@@ -26,6 +27,7 @@ type Props = {
   ) => void;
   moveToScene: (index: number) => void;
   addScene: () => void;
+  updateDrawing: (drawing: Drawing) => void;
 };
 
 const Claymate: React.FC<Props> = ({
@@ -34,13 +36,17 @@ const Claymate: React.FC<Props> = ({
   updateScenes,
   moveToScene,
   addScene,
+  updateDrawing,
 }) => {
+  const [showAnimateConfig, setShowAnimateConfig] = useState(false);
+  const [animateEnabled, setAnimateEnabled] = useState(false);
+
   const exportGif = async () => {
     await exportToGif(scenes);
   };
 
-  const exportHtml = async (animate?: boolean) => {
-    await exportToHtml(scenes, { animate });
+  const exportHtml = async () => {
+    await exportToHtml(scenes, { animate: animateEnabled });
   };
 
   const deleteScene = (id: string) => {
@@ -176,6 +182,18 @@ const Claymate: React.FC<Props> = ({
           );
         })}
       </div>
+      <div className="Claymate-configs">
+        {showAnimateConfig && (
+          <AnimateConfig
+            animateEnabled={animateEnabled}
+            setAnimateEnabled={setAnimateEnabled}
+            scene={
+              currentIndex === undefined ? undefined : scenes[currentIndex]
+            }
+            updateDrawing={updateDrawing}
+          />
+        )}
+      </div>
       <div className="Claymate-buttons">
         <button type="button" onClick={addScene}>
           Add scene
@@ -188,19 +206,15 @@ const Claymate: React.FC<Props> = ({
           Export GIF
         </button>
         <div>
+          <button type="button" onClick={() => setShowAnimateConfig((x) => !x)}>
+            {showAnimateConfig ? <>&#9656;</> : <>&#9666;</>}
+          </button>
           <button
             type="button"
             onClick={() => exportHtml()}
             disabled={scenes.length === 0}
           >
             Export HTML
-          </button>
-          <button
-            type="button"
-            onClick={() => exportHtml(true)}
-            disabled={scenes.length === 0}
-          >
-            (animate)
           </button>
         </div>
         <button
