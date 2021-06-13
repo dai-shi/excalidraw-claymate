@@ -72,6 +72,7 @@ const AnimateConfig: React.FC<Props> = ({
       );
     }
   };
+  const animateOrderDisabled = !animateEnabled || !animateOrderSet.size;
   return (
     <div className="AnimateConfig">
       <div>
@@ -84,13 +85,13 @@ const AnimateConfig: React.FC<Props> = ({
           Enable animate
         </label>
       </div>
-      <div style={{ opacity: animateOrderSet.size ? 1.0 : 0.3 }}>
+      <div style={{ opacity: animateOrderDisabled ? 0.3 : 1.0 }}>
         Animate order:{" "}
         {animateOrderSet.size > 1 ? (
           <>(mixed)</>
         ) : (
           <input
-            disabled={!animateOrderSet.size}
+            disabled={animateOrderDisabled}
             value={
               (animateOrderSet.size === 1 &&
                 animateOrderSet.values().next().value) ||
