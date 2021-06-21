@@ -15,13 +15,19 @@ to create stop motion animations and slides.
 If you are already familiar with Excalidraw,
 just visit <https://dai-shi.github.io/excalidraw-claymate>
 and you can do the same.
-Only the difference is the bottom area, where you can
-add scenes and export them as animated GIF.
+
+The main difference is in the footer, where you can:
+
+- add/edit scenes
+- reorder scenes
+- export the scenes as either:
+  - an animated GIF (configurable order & animation speed)
+  - an HTML slide show.
 
 Notes:
 
 - The scene size is limited to the size of the first scene.
-- Currently, there's no way to configure animation speed (help wanted!)
+- Scenes are automatically saved to local storage
 
 ## Tweets
 
