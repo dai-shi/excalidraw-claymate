@@ -124,7 +124,7 @@ const AnimateConfig: React.FC<Props> = ({
         )}
       </div>
       <div style={{ opacity: animateDurationDisabled ? 0.3 : 1.0 }}>
-        Animate duration:{" "}
+        Animate duration (ms):{" "}
         {animateDurationSet.size > 1 ? (
           <>(mixed)</>
         ) : (
@@ -133,10 +133,10 @@ const AnimateConfig: React.FC<Props> = ({
             value={
               (animateDurationSet.size === 1 &&
                 animateDurationSet.values().next().value) ||
-              0
+              ""
             }
             onChange={onChangeAnimateDuration}
-            type="number"
+            placeholder="Default"
             style={{ width: 50 }}
           />
         )}
