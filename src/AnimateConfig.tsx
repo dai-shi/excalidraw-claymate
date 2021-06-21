@@ -57,9 +57,14 @@ const AnimateConfig: React.FC<Props> = ({
   updateDrawing,
 }) => {
   const elements = scene?.drawing.elements ?? [];
-  const selectedIds = Object.keys(
-    scene?.drawing.appState.selectedElementIds ?? {}
-  ).filter((id) => elements.some((element) => element.id === id));
+  const selectedIds = scene
+    ? Object.keys(scene.drawing.appState.selectedElementIds ?? {}).filter(
+        (id) =>
+          scene.drawing.appState.selectedElementIds[id] &&
+          elements.some((element) => element.id === id)
+      )
+    : [];
+
   const animateOrderSet = new Set<number | undefined>();
   selectedIds.forEach((id) => {
     animateOrderSet.add(extractNumberFromId(id, "animateOrder"));
@@ -73,6 +78,21 @@ const AnimateConfig: React.FC<Props> = ({
     }
   };
   const animateOrderDisabled = !animateEnabled || !animateOrderSet.size;
+
+  const animateDurationSet = new Set<number | undefined>();
+  selectedIds.forEach((id) => {
+    animateDurationSet.add(extractNumberFromId(id, "animateDuration"));
+  });
+  const onChangeAnimateDuration = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = Math.floor(Number(e.target.value));
+    if (scene && Number.isFinite(value)) {
+      updateDrawing(
+        applyNumberInId(scene.drawing, selectedIds, "animateDuration", value)
+      );
+    }
+  };
+  const animateDurationDisabled = !animateEnabled || !animateDurationSet.size;
+
   return (
     <div className="AnimateConfig">
       <div>
@@ -99,7 +119,25 @@ const AnimateConfig: React.FC<Props> = ({
             }
             onChange={onChangeAnimateOrder}
             type="number"
-            style={{ width: 30 }}
+            style={{ width: 40 }}
+          />
+        )}
+      </div>
+      <div style={{ opacity: animateDurationDisabled ? 0.3 : 1.0 }}>
+        Animate duration (ms):{" "}
+        {animateDurationSet.size > 1 ? (
+          <>(mixed)</>
+        ) : (
+          <input
+            disabled={animateDurationDisabled}
+            value={
+              (animateDurationSet.size === 1 &&
+                animateDurationSet.values().next().value) ||
+              ""
+            }
+            onChange={onChangeAnimateDuration}
+            placeholder="Default"
+            style={{ width: 50 }}
           />
         )}
       </div>
