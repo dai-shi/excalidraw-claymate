@@ -21,8 +21,8 @@ The main difference is in the footer, where you can:
 - add/edit scenes
 - reorder scenes
 - export the scenes as either:
-  - an animated GIF (configurable order & animation speed)
-  - an HTML slide show.
+  - an animated GIF
+  - an HTML slide show (w/ animation, configurable order & speed).
 
 Notes:
 
