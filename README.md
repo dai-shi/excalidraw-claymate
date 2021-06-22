@@ -37,6 +37,7 @@ Notes:
 - [New dev with excalidraw package](https://twitter.com/dai_shi/status/1338500086343430146)
 - [Export to HTML](https://twitter.com/dai_shi/status/1388675104888934400)
 - [Integrating excalidraw-animate](https://twitter.com/dai_shi/status/1403381850907693057)
+- [Configurable excalidraw-animate speed](https://twitter.com/dai_shi/status/1407360080568221698)
 
 ## Other projects with Excalidraw
 
