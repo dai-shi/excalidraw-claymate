@@ -5,7 +5,7 @@ import "./Claymate.css";
 import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml } from "./exportToHtml";
-import AnimateConfig from "./AnimateConfig";
+import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
 
 const Preview = memo<{ scene: Scene }>(({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -40,13 +40,14 @@ const Claymate: React.FC<Props> = ({
 }) => {
   const [showAnimateConfig, setShowAnimateConfig] = useState(false);
   const [animateEnabled, setAnimateEnabled] = useState(false);
+  const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});
 
   const exportGif = async () => {
     await exportToGif(scenes);
   };
 
   const exportHtml = async () => {
-    await exportToHtml(scenes, { animate: animateEnabled });
+    await exportToHtml(scenes, { animate: animateEnabled, animateOptions });
   };
 
   const deleteScene = (id: string) => {
@@ -191,6 +192,8 @@ const Claymate: React.FC<Props> = ({
               currentIndex === undefined ? undefined : scenes[currentIndex]
             }
             updateDrawing={updateDrawing}
+            animateOptions={animateOptions}
+            setAnimateOptions={setAnimateOptions}
           />
         )}
       </div>

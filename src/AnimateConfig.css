@@ -5,3 +5,32 @@
   padding: 2px;
   font-size: small;
 }
+
+.AnimateConfig-button-like {
+  user-select: none;
+  background-color: #e9ecef;
+  border: 0;
+  border-radius: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+  margin: 0.125rem;
+  padding: 0.05rem 0.25rem;
+}
+
+.AnimateConfig-button-like:focus {
+  outline: transparent;
+  box-shadow: 0 0 0 2px #a5d8ff;
+}
+
+.AnimateConfig-button-like:hover {
+  background-color: #ced4da;
+}
+
+.AnimateConfig-button-like-enabled:active {
+  background-color: #adb5bd;
+}
+
+.AnimateConfig-button-like-disabled {
+  cursor: not-allowed;
+}
+

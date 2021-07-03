@@ -43,11 +43,18 @@ const applyNumberInId = (
   };
 };
 
+export type AnimateOptions = {
+  pointerImg?: string;
+  pointerWidth?: string;
+};
+
 type Props = {
   animateEnabled: boolean;
   setAnimateEnabled: Dispatch<SetStateAction<boolean>>;
   scene: Scene | undefined;
   updateDrawing: (drawing: Drawing) => void;
+  animateOptions: AnimateOptions;
+  setAnimateOptions: Dispatch<SetStateAction<AnimateOptions>>;
 };
 
 const AnimateConfig: React.FC<Props> = ({
@@ -55,6 +62,8 @@ const AnimateConfig: React.FC<Props> = ({
   setAnimateEnabled,
   scene,
   updateDrawing,
+  animateOptions,
+  setAnimateOptions,
 }) => {
   const elements = scene?.drawing.elements ?? [];
   const selectedIds = scene
@@ -92,6 +101,35 @@ const AnimateConfig: React.FC<Props> = ({
     }
   };
   const animateDurationDisabled = !animateEnabled || !animateDurationSet.size;
+
+  const onChangeAnimatePointerText = (e: ChangeEvent<HTMLInputElement>) => {
+    setAnimateOptions((prev) => ({
+      ...prev,
+      pointerImg: e.target.value,
+    }));
+  };
+
+  const onChangeAnimatePointerFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        const pointerImg = reader.result;
+        setAnimateOptions((prev) => ({ ...prev, pointerImg }));
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const onChangeAnimatePointerWidth = (e: ChangeEvent<HTMLInputElement>) => {
+    setAnimateOptions((prev) => ({
+      ...prev,
+      pointerWidth: e.target.value,
+    }));
+  };
 
   return (
     <div className="AnimateConfig">
@@ -140,6 +178,43 @@ const AnimateConfig: React.FC<Props> = ({
             style={{ width: 50 }}
           />
         )}
+      </div>
+      <div style={{ opacity: !animateEnabled ? 0.3 : 1.0 }}>
+        Animate pointer:{" "}
+        <input
+          disabled={!animateEnabled}
+          value={animateOptions.pointerImg || ""}
+          onChange={onChangeAnimatePointerText}
+          placeholder="URL..."
+          style={{ width: 50 }}
+        />{" "}
+        <label
+          className={`AnimateConfig-button-like ${
+            animateEnabled
+              ? "AnimateConfig-button-like-enabled"
+              : "AnimateConfig-button-like-disabled"
+          }`}
+        >
+          <input
+            disabled={!animateEnabled}
+            type="file"
+            accept="image/*"
+            onChange={onChangeAnimatePointerFile}
+            style={{ width: 0 }}
+          />
+          File
+        </label>
+      </div>
+      <div style={{ opacity: !animateEnabled ? 0.3 : 1.0 }}>
+        (Pointer width:{" "}
+        <input
+          disabled={!animateEnabled}
+          value={animateOptions.pointerWidth || ""}
+          onChange={onChangeAnimatePointerWidth}
+          placeholder="Num..."
+          style={{ width: 50 }}
+        />
+        )
       </div>
     </div>
   );
