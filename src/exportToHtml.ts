@@ -5,6 +5,7 @@ import type {
   NonDeletedExcalidrawElement,
 } from "@excalidraw/excalidraw/types/element/types";
 import { animateSvg } from "excalidraw-animate/dist/library";
+import { AnimateOptions } from "./AnimateConfig";
 
 import { Scene } from "./types";
 
@@ -17,6 +18,7 @@ const getNonDeletedElements = (
 
 type Options = {
   animate?: boolean;
+  animateOptions?: AnimateOptions;
 };
 
 export const exportToHtml = async (scenes: Scene[], options: Options) => {
@@ -89,7 +91,11 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
   scenes.forEach((scene, index) => {
     const svg: SVGSVGElement = exportToSvg(scene.drawing);
     if (options.animate) {
-      animateSvg(svg, getNonDeletedElements(scene.drawing.elements));
+      animateSvg(
+        svg,
+        getNonDeletedElements(scene.drawing.elements),
+        options.animateOptions
+      );
     }
     svg.id = `scene${index}`;
     svg.style.display = "none";
