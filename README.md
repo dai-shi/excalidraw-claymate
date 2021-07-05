@@ -38,6 +38,7 @@ Notes:
 - [Export to HTML](https://twitter.com/dai_shi/status/1388675104888934400)
 - [Integrating excalidraw-animate](https://twitter.com/dai_shi/status/1403381850907693057)
 - [Configurable excalidraw-animate speed](https://twitter.com/dai_shi/status/1407360080568221698)
+- [excalidraw-animate pointer image](https://twitter.com/dai_shi/status/1412055528977489922)
 
 ## Other projects with Excalidraw
 
