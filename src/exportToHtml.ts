@@ -88,8 +88,9 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       <div id="container">
       <div id="slides">
   `;
-  scenes.forEach((scene, index) => {
-    const svg: SVGSVGElement = exportToSvg(scene.drawing);
+  for (let index = 0; index < scenes.length; ++index) {
+    const scene = scenes[index];
+    const svg: SVGSVGElement = await exportToSvg(scene.drawing);
     if (options.animate) {
       animateSvg(
         svg,
@@ -100,7 +101,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
     svg.id = `scene${index}`;
     svg.style.display = "none";
     html += svg.outerHTML;
-  });
+  }
   html += `</div>
             <div id="navigation">
               <button class="navbutton" type="button" onClick="moveLeft()" title="Previous slide">&#9664;</button>

@@ -112,7 +112,6 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
       selectedElementIds: {},
       selectedGroupIds: {},
       selectionElement: null,
-      shouldAddWatermark: false,
       shouldCacheIgnoreZoom: false,
       showHelpDialog: false,
       showStats: false,
@@ -133,6 +132,8 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
       offsetTop: 0,
       width: 1312,
       height: 1297,
+      exportScale: 1,
+      openPopup: null,
     },
   };
 };
