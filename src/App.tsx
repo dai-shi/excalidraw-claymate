@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import Excalidraw from "@excalidraw/excalidraw";
-import type { ExcalidrawAPIRefValue } from "@excalidraw/excalidraw/types/types";
-import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/components/App";
+import type {
+  ExcalidrawAPIRefValue,
+  ExcalidrawImperativeAPI,
+} from "@excalidraw/excalidraw/types/types";
 import "./App.css";
 import Claymate from "./Claymate";
 import { Drawing } from "./types";
