@@ -9,6 +9,9 @@ export const createScene = (
   const canvas = exportToCanvas({ elements: drawing.elements });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
+  if (!width || !height) {
+    return;
+  }
   const ctx = canvas.getContext("2d");
   if (ctx) {
     return {
