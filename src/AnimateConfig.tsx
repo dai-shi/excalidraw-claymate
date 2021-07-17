@@ -55,6 +55,7 @@ type Props = {
   updateDrawing: (drawing: Drawing) => void;
   animateOptions: AnimateOptions;
   setAnimateOptions: Dispatch<SetStateAction<AnimateOptions>>;
+  previewCurrentScene: () => void;
 };
 
 const AnimateConfig: React.FC<Props> = ({
@@ -64,6 +65,7 @@ const AnimateConfig: React.FC<Props> = ({
   updateDrawing,
   animateOptions,
   setAnimateOptions,
+  previewCurrentScene,
 }) => {
   const elements = scene?.drawing.elements ?? [];
   const selectedIds = scene
@@ -141,7 +143,10 @@ const AnimateConfig: React.FC<Props> = ({
             onChange={() => setAnimateEnabled((x) => !x)}
           />
           Enable animate
-        </label>
+        </label>{" "}
+        <button disabled={!animateEnabled} onClick={previewCurrentScene}>
+          Preview
+        </button>
       </div>
       <div style={{ opacity: animateOrderDisabled ? 0.3 : 1.0 }}>
         Animate order:{" "}

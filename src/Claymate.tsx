@@ -4,7 +4,7 @@ import { isEmpty } from "lodash";
 import "./Claymate.css";
 import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
-import { exportToHtml } from "./exportToHtml";
+import { exportToHtml, previewHtml } from "./exportToHtml";
 import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
 
 const Preview = memo<{ scene: Scene }>(({ scene }) => {
@@ -48,6 +48,27 @@ const Claymate: React.FC<Props> = ({
 
   const exportHtml = async () => {
     await exportToHtml(scenes, { animate: animateEnabled, animateOptions });
+  };
+
+  const previewCurrentSceneInHtml = async () => {
+    if (currentIndex !== undefined) {
+      let divId = "";
+      const ele = document.getElementById("previewOuter");
+      if (ele) {
+        divId = "previewInner";
+      }
+      await previewHtml(
+        scenes[currentIndex],
+        {
+          animate: animateEnabled,
+          animateOptions,
+        },
+        divId
+      );
+      if (ele) {
+        ele.style.display = "block";
+      }
+    }
   };
 
   const deleteScene = (id: string) => {
@@ -194,6 +215,7 @@ const Claymate: React.FC<Props> = ({
             updateDrawing={updateDrawing}
             animateOptions={animateOptions}
             setAnimateOptions={setAnimateOptions}
+            previewCurrentScene={previewCurrentSceneInHtml}
           />
         )}
       </div>

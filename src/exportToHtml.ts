@@ -117,3 +117,30 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
     fileName: "excalidraw-claymate.html",
   });
 };
+
+export const previewHtml = async (
+  scene: Scene,
+  options: Options,
+  divId?: string
+) => {
+  const svg: SVGSVGElement = await exportToSvg(scene.drawing);
+  if (options.animate) {
+    animateSvg(
+      svg,
+      getNonDeletedElements(scene.drawing.elements),
+      options.animateOptions
+    );
+  }
+  const html = svg.outerHTML;
+  if (divId) {
+    const ele = document.getElementById(divId);
+    if (ele) {
+      ele.innerHTML = html;
+    }
+  } else {
+    const win = window.open("", "_blank");
+    if (win) {
+      win.document.body.innerHTML = html;
+    }
+  }
+};
