@@ -24,7 +24,7 @@ The main difference is in the footer, where you can:
   - an animated GIF
   - an HTML slide show
     - with animation (configurable order & speed)
-    - with video recording
+    - with video recording (See [#46](https://github.com/dai-shi/excalidraw-claymate/pull/46) for instructions)
 
 Notes:
 
