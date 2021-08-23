@@ -16,56 +16,92 @@ const getNonDeletedElements = (
     (element): element is NonDeletedExcalidrawElement => !element.isDeleted
   );
 
+const getAnimateFunctions = (enabled: boolean) =>
+  enabled
+    ? `
+      function togglePausedAnimations() {
+        const svg = document.getElementById('scene' + index);
+        if (svg.animationsPaused()) {
+          for (const svg of document.getElementsByTagName('svg')) {
+            svg.unpauseAnimations();
+          }
+        } else {
+          for (const svg of document.getElementsByTagName('svg')) {
+            svg.pauseAnimations();
+          }
+        }
+      }
+      const beginTimeLists = [];
+      let animateTimer;
+      function stepForwardAnimations() {
+        const svg = document.getElementById('scene' + index);
+        const beginTimeList = beginTimeLists[index];
+        const currentTime = svg.getCurrentTime() * 1000;
+        let nextTime = beginTimeList.find((t) => t > currentTime + 50);
+        console.log(currentTime, beginTimeList, nextTime);
+        if (nextTime) {
+          nextTime -= 1;
+        } else {
+          nextTime = currentTime + 500;
+        }
+        clearTimeout(animateTimer);
+        svg.unpauseAnimations();
+        animateTimer = setTimeout(() => {
+          svg.pauseAnimations();
+          svg.setCurrentTime(nextTime / 1000);
+        }, nextTime - currentTime);
+      }
+      function resetAnimations() {
+        const svg = document.getElementById('scene' + index);
+        svg.setCurrentTime(0);
+      }
+`
+    : `
+      function togglePausedAnimations() {}
+      function stepForwardAnimations() {}
+      function resetAnimations() {}
+`;
+
+const recordingFunction = `
+  function startRecording() {
+    import('https://unpkg.com/browser-fs-access').then(({ fileSave }) => {
+      navigator.mediaDevices.getDisplayMedia({
+        video: { displaySurface: 'browser' },
+      }).then(function(stream) {
+        navigator.mediaDevices.getUserMedia({
+          audio: true,
+        }).catch(() => null).then(function(audioStream) {
+          if (audioStream) {
+            const audioTrack = audioStream.getAudioTracks()[0];
+            stream.getVideoTracks()[0].onended = () => {
+              audioTrack.stop();
+            };
+            stream.addTrack(audioTrack);
+          }
+          const recorder = new MediaRecorder(stream);
+          recorder.ondataavailable = (e) => {
+            const blob = new Blob([e.data], { type: "video/webm" });
+            const opts = { fileName: "video.webm", extensions: [".webm"] };
+            fileSave(blob, opts).catch(() => {
+              document.getElementById('startrecordingbutton').onclick = () => {
+                fileSave(blob, opts);
+              };
+              window.alert('Click the recording button again to save file');
+            });
+          };
+          recorder.start();
+        });
+      });
+    });
+  }
+`;
+
 type Options = {
   animate?: boolean;
   animateOptions?: AnimateOptions;
 };
 
 export const exportToHtml = async (scenes: Scene[], options: Options) => {
-  const animateFunctions = options.animate
-    ? `
-        function togglePausedAnimations() {
-          const svg = document.getElementById('scene' + index);
-          if (svg.animationsPaused()) {
-            for (const svg of document.getElementsByTagName('svg')) {
-              svg.unpauseAnimations();
-            }
-          } else {
-            for (const svg of document.getElementsByTagName('svg')) {
-              svg.pauseAnimations();
-            }
-          }
-        }
-        const beginTimeLists = [];
-        let animateTimer;
-        function stepForwardAnimations() {
-          const svg = document.getElementById('scene' + index);
-          const beginTimeList = beginTimeLists[index];
-          const currentTime = svg.getCurrentTime() * 1000;
-          let nextTime = beginTimeList.find((t) => t > currentTime + 50);
-          console.log(currentTime, beginTimeList, nextTime);
-          if (nextTime) {
-            nextTime -= 1;
-          } else {
-            nextTime = currentTime + 500;
-          }
-          clearTimeout(animateTimer);
-          svg.unpauseAnimations();
-          animateTimer = setTimeout(() => {
-            svg.pauseAnimations();
-            svg.setCurrentTime(nextTime / 1000);
-          }, nextTime - currentTime);
-        }
-        function resetAnimations() {
-          const svg = document.getElementById('scene' + index);
-          svg.setCurrentTime(0);
-        }
-`
-    : `
-        function togglePausedAnimations() {}
-        function stepForwardAnimations() {}
-        function resetAnimations() {}
-`;
   let html = `<!DOCTYPE html>
     <html lang="en">
       <style>
@@ -113,7 +149,8 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
             document.body.requestFullscreen();
           }
         }
-        ${animateFunctions}
+        ${getAnimateFunctions(!!options.animate)}
+        ${recordingFunction}
         document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('scene' + index).style.display = 'block';
           document.getElementById('scene' + index).setCurrentTime(0);
@@ -183,6 +220,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       <div id="title">1 of ${scenes.length}</div>
       <button class="navbutton" type="button" onclick="moveRight()" title="Next slide">&#9654;</button>
       <div id="rightbuttons">
+        <button type="button" onclick="startRecording()" title="Start recording" id="startrecordingbutton">&#x1F3A5;</button>
         <button type="button" onclick="toggleMaximise()" title="Toggle full-screen">&#x26F6;</button>
         <button type="button" onclick="closeNavigation()" title="Close this panel">&#x2716;</button>
       </div>
