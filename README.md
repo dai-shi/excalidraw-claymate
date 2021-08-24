@@ -22,7 +22,9 @@ The main difference is in the footer, where you can:
 - reorder scenes
 - export the scenes as either:
   - an animated GIF
-  - an HTML slide show (w/ animation, configurable order & speed).
+  - an HTML slide show
+    - with animation (configurable order & speed)
+    - with video recording (See [#46](https://github.com/dai-shi/excalidraw-claymate/pull/46) for instructions)
 
 Notes:
 
