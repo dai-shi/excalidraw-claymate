@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, createElement } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -15,3 +15,6 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+// HACK for https://github.com/dai-shi/excalidraw-claymate/issues/41
+(window as any).React = { createElement };
