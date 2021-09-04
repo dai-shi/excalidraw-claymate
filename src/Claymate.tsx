@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useRef } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import { isEmpty } from "lodash";
 
 import "./Claymate.css";
@@ -30,14 +30,14 @@ type Props = {
   updateDrawing: (drawing: Drawing) => void;
 };
 
-const Claymate: React.FC<Props> = ({
+const Claymate = ({
   scenes,
   currentIndex,
   updateScenes,
   moveToScene,
   addScene,
   updateDrawing,
-}) => {
+}: Props) => {
   const [showAnimateConfig, setShowAnimateConfig] = useState(false);
   const [animateEnabled, setAnimateEnabled] = useState(false);
   const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});

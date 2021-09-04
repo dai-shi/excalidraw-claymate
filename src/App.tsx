@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import Excalidraw from "@excalidraw/excalidraw";
 import type {
   ExcalidrawAPIRefValue,
@@ -10,7 +10,7 @@ import { Drawing } from "./types";
 import { useScenes } from "./useScenes";
 import { useLibrary } from "./useLibrary";
 
-const App: React.FC = () => {
+const App = () => {
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
   const updateDrawing = (drawing: Drawing) => {
     (excalidrawRef.current as ExcalidrawImperativeAPI | null)?.updateScene(

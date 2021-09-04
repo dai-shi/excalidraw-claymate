@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import "./AnimateConfig.css";
 import { Drawing, Scene } from "./types";
@@ -58,7 +58,7 @@ type Props = {
   previewCurrentScene: () => void;
 };
 
-const AnimateConfig: React.FC<Props> = ({
+const AnimateConfig = ({
   animateEnabled,
   setAnimateEnabled,
   scene,
@@ -66,7 +66,7 @@ const AnimateConfig: React.FC<Props> = ({
   animateOptions,
   setAnimateOptions,
   previewCurrentScene,
-}) => {
+}: Props) => {
   const elements = scene?.drawing.elements ?? [];
   const selectedIds = scene
     ? Object.keys(scene.drawing.appState.selectedElementIds ?? {}).filter(
