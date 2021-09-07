@@ -1,4 +1,3 @@
-import React from "react";
 import { render, waitForElementToBeRemoved } from "@testing-library/react";
 import App from "./App";
 
