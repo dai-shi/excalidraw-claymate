@@ -6,6 +6,7 @@ import { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
 import { exportToHtml, previewHtml } from "./exportToHtml";
 import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
+import { importFromFile } from "./importFromFile";
 
 const Preview = memo<{ scene: Scene }>(({ scene }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -26,7 +27,7 @@ type Props = {
     newCurrent?: { index: number; drawing: Drawing }
   ) => void;
   moveToScene: (index: number) => void;
-  addScene: () => void;
+  addScene: (optionalDrawing?: Drawing) => void;
   updateDrawing: (drawing: Drawing) => void;
 };
 
@@ -41,6 +42,21 @@ const Claymate = ({
   const [showAnimateConfig, setShowAnimateConfig] = useState(false);
   const [animateEnabled, setAnimateEnabled] = useState(false);
   const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});
+
+  const handleDrop = useRef<(e: DragEvent) => void>();
+  useEffect(() => {
+    handleDrop.current = async (e: DragEvent) => {
+      const file = e.dataTransfer?.files[0];
+      const appState =
+        currentIndex !== undefined && scenes[currentIndex].drawing.appState;
+      if (file && appState) {
+        const drawingToAdd = await importFromFile(file, appState);
+        if (drawingToAdd) {
+          addScene(drawingToAdd);
+        }
+      }
+    };
+  });
 
   const exportGif = async () => {
     await exportToGif(scenes);
@@ -147,7 +163,14 @@ const Claymate = ({
   }, [scenes, addScene]);
 
   return (
-    <div className="Claymate">
+    <div
+      className="Claymate"
+      ref={(ele) => {
+        if (ele) {
+          ele.ondrop = (e) => handleDrop.current?.(e);
+        }
+      }}
+    >
       <div className="Claymate-scenes">
         {scenes.map((scene, index) => {
           let testId = "MissingId";
@@ -220,7 +243,7 @@ const Claymate = ({
         )}
       </div>
       <div className="Claymate-buttons">
-        <button type="button" onClick={addScene}>
+        <button type="button" onClick={() => addScene()}>
           Add scene
         </button>
         <button
