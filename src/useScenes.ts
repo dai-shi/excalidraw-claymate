@@ -67,8 +67,8 @@ export const useScenes = () => {
     ) => {
       setScenes(updater);
       if (newCurrent) {
-        onRestore(newCurrent.drawing);
         setCurrentIndex(newCurrent.index);
+        onRestore(newCurrent.drawing);
       }
     },
     [setCurrentIndex, onRestore, setScenes]
@@ -114,23 +114,27 @@ export const useScenes = () => {
     requiredHeight,
   ]);
 
-  const addScene = useCallback(() => {
-    if (drawing) {
-      const scene = createScene(
-        drawing,
-        scenes[0] && {
-          width: scenes[0].width,
-          height: scenes[0].height,
+  const addScene = useCallback(
+    (optionalDrawing?: Drawing) => {
+      const drawingToAdd = optionalDrawing || drawing;
+      if (drawingToAdd) {
+        const scene = createScene(
+          drawingToAdd,
+          scenes[0] && {
+            width: scenes[0].width,
+            height: scenes[0].height,
+          }
+        );
+        if (scene) {
+          updateScenes((prev) => [...prev, scene], {
+            index: scenes.length,
+            drawing: drawingToAdd,
+          });
         }
-      );
-      if (scene) {
-        updateScenes((prev) => [...prev, scene], {
-          index: scenes.length,
-          drawing: drawing,
-        });
       }
-    }
-  }, [updateScenes, scenes, drawing]);
+    },
+    [updateScenes, scenes, drawing]
+  );
 
   return {
     initialised,
