@@ -42,6 +42,7 @@ Notes:
 - [Configurable excalidraw-animate speed](https://twitter.com/dai_shi/status/1407360080568221698)
 - [excalidraw-animate pointer image](https://twitter.com/dai_shi/status/1412055528977489922)
 - [animation preview](https://twitter.com/dai_shi/status/1417821074998272004)
+- [Importing files](https://twitter.com/dai_shi/status/1435569857408475137)
 
 ## Other projects with Excalidraw
 
