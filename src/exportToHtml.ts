@@ -192,7 +192,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       appState: {
         ...scene.drawing.appState,
         exportWithDarkMode: false,
-      }
+      },
     });
     if (options.animate) {
       animateSvg(
