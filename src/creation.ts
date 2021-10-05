@@ -6,7 +6,7 @@ export const createScene = (
   drawing: Drawing,
   size?: { width: number; height: number }
 ): Scene | undefined => {
-  const canvas = exportToCanvas({ elements: drawing.elements });
+  const canvas = exportToCanvas(drawing);
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   if (!width || !height) {
