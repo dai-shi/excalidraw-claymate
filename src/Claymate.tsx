@@ -8,16 +8,29 @@ import { exportToHtml, previewHtml } from "./exportToHtml";
 import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
 import { importFromFile } from "./importFromFile";
 
-const Preview = memo<{ scene: Scene }>(({ scene }) => {
-  const ref = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    if (!ref.current) return;
-    const ctx = ref.current.getContext("2d");
-    if (!ctx) return;
-    ctx.putImageData(scene.imageData, 0, 0);
-  }, [scene]);
-  return <canvas ref={ref} width={scene.width} height={scene.height} />;
-});
+const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
+
+const Preview = memo<{ scene: Scene; darkMode: boolean }>(
+  ({ scene, darkMode }) => {
+    const ref = useRef<HTMLCanvasElement>(null);
+    useEffect(() => {
+      if (!ref.current) return;
+      const ctx = ref.current.getContext("2d");
+      if (!ctx) return;
+      ctx.putImageData(scene.imageData, 0, 0);
+    }, [scene]);
+    return (
+      <canvas
+        ref={ref}
+        width={scene.width}
+        height={scene.height}
+        style={{
+          filter: darkMode ? DARK_FILTER : undefined,
+        }}
+      />
+    );
+  }
+);
 
 type Props = {
   currentIndex: number | undefined;
@@ -43,6 +56,8 @@ const Claymate = ({
   const [animateEnabled, setAnimateEnabled] = useState(false);
   const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});
 
+  const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === "dark";
+
   const handleDrop = useRef<(e: DragEvent) => void>();
   useEffect(() => {
     handleDrop.current = async (e: DragEvent) => {
@@ -63,7 +78,11 @@ const Claymate = ({
   };
 
   const exportHtml = async () => {
-    await exportToHtml(scenes, { animate: animateEnabled, animateOptions });
+    await exportToHtml(scenes, {
+      darkMode,
+      animate: animateEnabled,
+      animateOptions,
+    });
   };
 
   const previewCurrentSceneInHtml = async () => {
@@ -76,6 +95,7 @@ const Claymate = ({
       await previewHtml(
         scenes[currentIndex],
         {
+          darkMode,
           animate: animateEnabled,
           animateOptions,
         },
@@ -165,6 +185,9 @@ const Claymate = ({
   return (
     <div
       className="Claymate"
+      style={{
+        filter: darkMode ? DARK_FILTER : undefined,
+      }}
       ref={(ele) => {
         if (ele) {
           ele.ondrop = (e) => handleDrop.current?.(e);
@@ -186,7 +209,7 @@ const Claymate = ({
               onClick={() => moveToScene(index)}
               data-testid={testId}
             >
-              <Preview scene={scene} />
+              <Preview scene={scene} darkMode={darkMode} />
               <button
                 type="button"
                 className="Claymate-delete"

@@ -9,6 +9,8 @@ import { AnimateOptions } from "./AnimateConfig";
 
 import { Scene } from "./types";
 
+const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
+
 const getNonDeletedElements = (
   elements: readonly ExcalidrawElement[]
 ): NonDeletedExcalidrawElement[] =>
@@ -97,6 +99,7 @@ const recordingFunction = `
 `;
 
 type Options = {
+  darkMode: boolean;
   animate?: boolean;
   animateOptions?: AnimateOptions;
 };
@@ -106,9 +109,11 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
     <html lang="en">
       <style>
         svg { width: 100%; height: 100%; }
-        body { margin: 0px; font-size: 24px; }
+        body { margin: 0px; font-size: 24px; ${
+          options.darkMode ? `filter: ${DARK_FILTER}; ` : ""
+        }}
         button { background: transparent; border: none; cursor: pointer; padding: 3px; margin: 0px 10px; font-size: inherit;}
-        #container { display: flex; flex-direction: column; height: 100%; }
+        #container { display: flex; flex-direction: column; height: 100%; background: white; }
         #navigation { display: flex; justify-content: center; align-items: center; padding: 5px; border-top: 1px solid lightgray; background: white; }
         #leftbuttons { position: absolute; left: 10px; display: flex; }
         #rightbuttons { position: absolute; right: 10px; display: flex; }
@@ -182,7 +187,13 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
   `;
   for (let index = 0; index < scenes.length; ++index) {
     const scene = scenes[index];
-    const svg: SVGSVGElement = await exportToSvg(scene.drawing);
+    const svg: SVGSVGElement = await exportToSvg({
+      ...scene.drawing,
+      appState: {
+        ...scene.drawing.appState,
+        exportWithDarkMode: false,
+      },
+    });
     if (options.animate) {
       animateSvg(
         svg,
