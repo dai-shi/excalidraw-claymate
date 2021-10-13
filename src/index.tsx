@@ -15,6 +15,3 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-// HACK for https://github.com/dai-shi/excalidraw-claymate/issues/41
-(window as any).React = { createElement };
