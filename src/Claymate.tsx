@@ -1,4 +1,4 @@
-import { memo, useState, useEffect, useRef } from "react";
+import { DragEvent, memo, useState, useEffect, useRef } from "react";
 import { isEmpty } from "lodash";
 
 import "./Claymate.css";
@@ -58,20 +58,17 @@ const Claymate = ({
 
   const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === "dark";
 
-  const handleDrop = useRef<(e: DragEvent) => void>();
-  useEffect(() => {
-    handleDrop.current = async (e: DragEvent) => {
-      const file = e.dataTransfer?.files[0];
-      const appState =
-        currentIndex !== undefined && scenes[currentIndex].drawing.appState;
-      if (file && appState) {
-        const drawingToAdd = await importFromFile(file, appState);
-        if (drawingToAdd) {
-          addScene(drawingToAdd);
-        }
+  const handleDrop = async (e: DragEvent) => {
+    const file = e.dataTransfer?.files[0];
+    const appState =
+      currentIndex !== undefined && scenes[currentIndex].drawing.appState;
+    if (file && appState) {
+      const drawingToAdd = await importFromFile(file, appState);
+      if (drawingToAdd) {
+        addScene(drawingToAdd);
       }
-    };
-  });
+    }
+  };
 
   const exportGif = async () => {
     await exportToGif(scenes);
@@ -188,11 +185,8 @@ const Claymate = ({
       style={{
         filter: darkMode ? DARK_FILTER : undefined,
       }}
-      ref={(ele) => {
-        if (ele) {
-          ele.ondrop = (e) => handleDrop.current?.(e);
-        }
-      }}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={handleDrop}
     >
       <div className="Claymate-scenes">
         {scenes.map((scene, index) => {
