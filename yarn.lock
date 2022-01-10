@@ -2743,10 +2743,10 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-browser-fs-access@0.20.5:
-  version "0.20.5"
-  resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.20.5.tgz#16bea029f6dc14787c8b394360f32f3b8cf06f50"
-  integrity sha512-ROPZ9ZYC4gptm0JRH/DgTm9dDLzUrOksBw8VMcUm7TINyaan5KUJPkklEurl0WTapfuy5T85GSP6bRmX/BpbnA==
+browser-fs-access@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/browser-fs-access/-/browser-fs-access-0.24.0.tgz#aa735d97a20aa86aa555e151528cd7002496fb60"
+  integrity sha512-dW4kAA/sCy1ewJrHiz39j4TJmPuMcaY3VtyFBkKDftvYAPV21eYb/3BMeRrtmg7upApj1JLWHBqWc7jBy4xHPQ==
 
 browser-process-hrtime@^1.0.0:
   version "1.0.0"
