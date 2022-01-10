@@ -5,7 +5,7 @@
   "homepage": "./",
   "dependencies": {
     "@excalidraw/excalidraw": "0.10.0",
-    "browser-fs-access": "0.22.1",
+    "browser-fs-access": "0.21.1",
     "excalidraw-animate": "0.3.1",
     "gif.js": "^0.2.0",
     "lodash": "^4.17.21",
