@@ -15,12 +15,14 @@ export const useScenes = () => {
 
   useEffect(() => {
     if (!initialised) {
-      const initialScenes = loadStorage();
-      if (initialScenes && initialScenes.length > 0) {
-        setScenes(initialScenes);
-        setCurrentIndex(0);
-        setDrawing(initialScenes[0].drawing);
-      }
+      (async () => {
+        const initialScenes = await loadStorage();
+        if (initialScenes && initialScenes.length > 0) {
+          setScenes(initialScenes);
+          setCurrentIndex(0);
+          setDrawing(initialScenes[0].drawing);
+        }
+      })();
     }
   }, [initialised, setInitialised]);
 
@@ -55,6 +57,7 @@ export const useScenes = () => {
           return { ...(el as any) };
         }),
         appState: { ...(appState as any) },
+        files: null,
       };
       setDrawing(update);
     }
@@ -88,22 +91,24 @@ export const useScenes = () => {
 
   useEffect(() => {
     if (currentIndex != null && drawing) {
-      const scene = createScene(
-        drawing,
-        requiredWidth === undefined || requiredHeight === undefined
-          ? undefined
-          : {
-              width: requiredWidth,
-              height: requiredHeight,
-            }
-      );
-      if (scene) {
-        updateScenes((prev) => {
-          const result = [...prev];
-          result[currentIndex] = scene;
-          return result;
-        }, undefined);
-      }
+      (async () => {
+        const scene = await createScene(
+          drawing,
+          requiredWidth === undefined || requiredHeight === undefined
+            ? undefined
+            : {
+                width: requiredWidth,
+                height: requiredHeight,
+              }
+        );
+        if (scene) {
+          updateScenes((prev) => {
+            const result = [...prev];
+            result[currentIndex] = scene;
+            return result;
+          }, undefined);
+        }
+      })();
     }
   }, [
     drawing,
@@ -118,19 +123,21 @@ export const useScenes = () => {
     (optionalDrawing?: Drawing) => {
       const drawingToAdd = optionalDrawing || drawing;
       if (drawingToAdd) {
-        const scene = createScene(
-          drawingToAdd,
-          scenes[0] && {
-            width: scenes[0].width,
-            height: scenes[0].height,
+        (async () => {
+          const scene = await createScene(
+            drawingToAdd,
+            scenes[0] && {
+              width: scenes[0].width,
+              height: scenes[0].height,
+            }
+          );
+          if (scene) {
+            updateScenes((prev) => [...prev, scene], {
+              index: scenes.length,
+              drawing: drawingToAdd,
+            });
           }
-        );
-        if (scene) {
-          updateScenes((prev) => [...prev, scene], {
-            index: scenes.length,
-            drawing: drawingToAdd,
-          });
-        }
+        })();
       }
     },
     [updateScenes, scenes, drawing]

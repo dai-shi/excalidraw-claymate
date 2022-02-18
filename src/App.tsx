@@ -33,9 +33,13 @@ const App = () => {
 
   const initialData = useMemo(() => {
     if (libraryItems) {
-      return { ...initialSceneData, libraryItems };
+      return {
+        ...initialSceneData,
+        libraryItems,
+        files: initialSceneData?.files || undefined,
+      };
     }
-    return initialSceneData;
+    return { ...initialSceneData, files: initialSceneData?.files || undefined };
   }, [initialSceneData, libraryItems]);
 
   return (

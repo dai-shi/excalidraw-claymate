@@ -40,6 +40,7 @@ const applyNumberInId = (
       ...drawing.appState,
       selectedElementIds,
     },
+    files: null,
   };
 };
 
