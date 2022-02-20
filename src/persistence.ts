@@ -39,7 +39,8 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
       }
       return scenes;
     }
-  } catch {
+  } catch (e) {
+    console.error("Error loading from storage", e)
     try {
       const drawing = loadDrawingFromStorage();
       if (drawing) {
@@ -48,7 +49,7 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
           return [scene];
         }
       }
-    } catch {}
+    } catch { }
   }
   return null;
 };

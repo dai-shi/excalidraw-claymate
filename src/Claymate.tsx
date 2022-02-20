@@ -166,18 +166,12 @@ const Claymate = ({
       (prev) => [...prev].reverse(),
       currentIndex !== undefined
         ? {
-            index: scenes.length - 1 - currentIndex,
-            drawing: scenes[currentIndex].drawing,
-          }
+          index: scenes.length - 1 - currentIndex,
+          drawing: scenes[currentIndex].drawing,
+        }
         : undefined
     );
   };
-
-  useEffect(() => {
-    if (scenes.length === 0) {
-      addScene();
-    }
-  }, [scenes, addScene]);
 
   return (
     <div
@@ -197,9 +191,8 @@ const Claymate = ({
           return (
             <div
               key={scene.id}
-              className={`Claymate-scene ${
-                index === currentIndex ? "Claymate-current-scene" : ""
-              }`}
+              className={`Claymate-scene ${index === currentIndex ? "Claymate-current-scene" : ""
+                }`}
               onClick={() => moveToScene(index)}
               data-testid={testId}
             >
