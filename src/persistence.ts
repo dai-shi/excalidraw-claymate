@@ -16,9 +16,11 @@ const loadDrawingFromStorage = (): Drawing | null => {
 
 export const loadStorage = async (): Promise<Scene[] | null> => {
   try {
-    const drawings = JSON.parse(
-      localStorage.getItem(SCENE_STORAGE_KEY) || ""
-    ) as Drawing[];
+    const stored = localStorage.getItem(SCENE_STORAGE_KEY) || "";
+    const drawings =
+      stored && stored.length > 0
+        ? (JSON.parse(stored) as Drawing[])
+        : undefined;
     if (drawings && drawings.length > 0) {
       let firstScene: Scene | undefined;
       const scenes: Scene[] = [];
@@ -40,7 +42,7 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
       return scenes;
     }
   } catch (e) {
-    console.error("Error loading from storage", e)
+    console.error("Error loading from storage", e);
     try {
       const drawing = loadDrawingFromStorage();
       if (drawing) {
@@ -49,7 +51,7 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
           return [scene];
         }
       }
-    } catch { }
+    } catch {}
   }
   return null;
 };

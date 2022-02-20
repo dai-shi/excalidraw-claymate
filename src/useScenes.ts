@@ -9,7 +9,7 @@ import { loadStorage, saveStorage } from "./persistence";
 enum Initialisation {
   NotStarted,
   Started,
-  Complete
+  Complete,
 }
 
 export const useScenes = () => {
@@ -17,10 +17,12 @@ export const useScenes = () => {
   const [drawingVersion, setDrawingVersion] = useState(0);
   const [currentIndex, setCurrentIndex] = useState<number | undefined>(0);
   const [scenes, setScenes] = useState<Scene[]>([]);
-  const [drawing, setDrawing] = useState<Drawing | undefined>()
+  const [drawing, setDrawing] = useState<Drawing | undefined>();
 
   const currentScene =
-    currentIndex !== undefined && scenes !== undefined && currentIndex < scenes.length
+    currentIndex !== undefined &&
+    scenes !== undefined &&
+    currentIndex < scenes.length
       ? { ...scenes[currentIndex], drawing }
       : undefined;
 
@@ -31,46 +33,53 @@ export const useScenes = () => {
     requiredHeight = currentScene.height;
   }
 
+  const onRestore = useCallback(
+    (
+      drawing: Drawing,
+      index: number,
+      updateCurrent: (index: number, drawing: Drawing) => void
+    ) => {
+      setDrawingVersion((version) => version + 1);
+      setDrawing(drawing);
+      if (updateCurrent && index !== undefined) {
+        updateCurrent(index, drawing);
+      }
+    },
+    []
+  );
 
-  const onRestore = useCallback((drawing: Drawing, index: number, updateCurrent: (index: number, drawing: Drawing) => void) => {
-    setDrawingVersion((version) => version + 1);
-    setDrawing(drawing);
-    if (updateCurrent && index !== undefined) {
-      updateCurrent(index, drawing)
-    }
-  }, []);
-
-  const updateCurrentScene = useCallback((index: number, drawing: Drawing) => {
-    if (index != null && drawing) {
-      (async () => {
-        const scene = await createScene(
-          drawing,
-          index === 0 || requiredWidth === undefined || requiredHeight === undefined
-            ? undefined
-            : {
-              width: requiredWidth,
-              height: requiredHeight,
-            }
-        );
-        if (scene) {
-          setScenes((prev) => {
-            const result = [...prev];
-            result[index] = scene;
-            return result;
-          });
-        }
-      })();
-    }
-  }, [
-    requiredWidth,
-    requiredHeight,
-  ]);
-
+  const updateCurrentScene = useCallback(
+    (index: number, drawing: Drawing) => {
+      if (index != null && drawing) {
+        (async () => {
+          const scene = await createScene(
+            drawing,
+            index === 0 ||
+              requiredWidth === undefined ||
+              requiredHeight === undefined
+              ? undefined
+              : {
+                  width: requiredWidth,
+                  height: requiredHeight,
+                }
+          );
+          if (scene) {
+            setScenes((prev) => {
+              const result = [...prev];
+              result[index] = scene;
+              return result;
+            });
+          }
+        })();
+      }
+    },
+    [requiredWidth, requiredHeight]
+  );
 
   const updateScenes = useCallback(
     (
       updater: (prev: Scene[]) => Scene[],
-      newCurrent: { index: number; drawing: Drawing } | undefined,
+      newCurrent: { index: number; drawing: Drawing } | undefined
     ) => {
       setScenes(updater);
       if (newCurrent) {
@@ -81,14 +90,13 @@ export const useScenes = () => {
     [setCurrentIndex, onRestore, updateCurrentScene]
   );
 
-
   const onChange = (
     elements: readonly ExcalidrawElement[],
     appState: AppState
   ) => {
     if (
-      currentIndex !== undefined && (
-        drawing == null ||
+      currentIndex !== undefined &&
+      (drawing == null ||
         !isEqual(elements, drawing.elements) ||
         !isEqual(appState, drawing.appState))
     ) {
@@ -100,7 +108,7 @@ export const useScenes = () => {
         files: null,
       };
       setDrawing(update);
-      updateCurrentScene(currentIndex, update)
+      updateCurrentScene(currentIndex, update);
     }
   };
 
@@ -113,7 +121,6 @@ export const useScenes = () => {
     },
     [onRestore, scenes, updateCurrentScene]
   );
-
 
   const addScene = useCallback(
     (optionalDrawing?: Drawing) => {
