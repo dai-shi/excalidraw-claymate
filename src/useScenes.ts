@@ -20,15 +20,13 @@ export const useScenes = () => {
   const [drawing, setDrawing] = useState<Drawing | undefined>();
 
   const currentScene =
-    currentIndex !== undefined &&
-    scenes !== undefined &&
-    currentIndex < scenes.length
+    currentIndex !== undefined && currentIndex < scenes.length
       ? { ...scenes[currentIndex], drawing }
       : undefined;
 
   let requiredWidth: number | undefined;
   let requiredHeight: number | undefined;
-  if (currentScene != null && scenes !== undefined && scenes.length !== 1) {
+  if (currentScene != null && scenes.length !== 1) {
     requiredWidth = currentScene.width;
     requiredHeight = currentScene.height;
   }
@@ -54,9 +52,7 @@ export const useScenes = () => {
         (async () => {
           const scene = await createScene(
             drawing,
-            index === 0 ||
-              requiredWidth === undefined ||
-              requiredHeight === undefined
+            requiredWidth === undefined || requiredHeight === undefined
               ? undefined
               : {
                   width: requiredWidth,
@@ -114,10 +110,8 @@ export const useScenes = () => {
 
   const moveToScene = useCallback(
     (index: number) => {
-      if (scenes !== undefined) {
-        onRestore(scenes[index].drawing, index, updateCurrentScene);
-        setCurrentIndex(index);
-      }
+      onRestore(scenes[index].drawing, index, updateCurrentScene);
+      setCurrentIndex(index);
     },
     [onRestore, scenes, updateCurrentScene]
   );
