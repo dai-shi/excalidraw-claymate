@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AppState } from "@excalidraw/excalidraw/types/types";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import isEqual from "lodash/isEqual";
@@ -6,73 +6,18 @@ import { createScene } from "./creation";
 import { Drawing, Scene } from "./types";
 import { loadStorage, saveStorage } from "./persistence";
 
+enum Initialisation {
+  NotStarted,
+  Started,
+  Complete,
+}
+
 export const useScenes = () => {
-  const [initialised, setInitialised] = useState(false);
+  const initialisedRef = useRef<Initialisation>(Initialisation.NotStarted);
   const [drawingVersion, setDrawingVersion] = useState(0);
   const [currentIndex, setCurrentIndex] = useState<number | undefined>(0);
   const [scenes, setScenes] = useState<Scene[]>([]);
   const [drawing, setDrawing] = useState<Drawing | undefined>();
-
-  useEffect(() => {
-    if (!initialised) {
-      const initialScenes = loadStorage();
-      if (initialScenes && initialScenes.length > 0) {
-        setScenes(initialScenes);
-        setCurrentIndex(0);
-        setDrawing(initialScenes[0].drawing);
-      }
-    }
-  }, [initialised, setInitialised]);
-
-  useEffect(() => {
-    saveStorage(scenes);
-  }, [scenes]);
-
-  const onRestore = useCallback((drawing: Drawing) => {
-    setDrawingVersion((version) => version + 1);
-    setDrawing(drawing);
-  }, []);
-
-  const moveToScene = useCallback(
-    (index: number) => {
-      onRestore(scenes[index].drawing);
-      setCurrentIndex(index);
-    },
-    [onRestore, setCurrentIndex, scenes]
-  );
-
-  const onChange = (
-    elements: readonly ExcalidrawElement[],
-    appState: AppState
-  ) => {
-    if (
-      drawing == null ||
-      !isEqual(elements, drawing.elements) ||
-      !isEqual(appState, drawing.appState)
-    ) {
-      const update = {
-        elements: elements.map((el) => {
-          return { ...(el as any) };
-        }),
-        appState: { ...(appState as any) },
-      };
-      setDrawing(update);
-    }
-  };
-
-  const updateScenes = useCallback(
-    (
-      updater: (prev: Scene[]) => Scene[],
-      newCurrent?: { index: number; drawing: Drawing }
-    ) => {
-      setScenes(updater);
-      if (newCurrent) {
-        setCurrentIndex(newCurrent.index);
-        onRestore(newCurrent.drawing);
-      }
-    },
-    [setCurrentIndex, onRestore, setScenes]
-  );
 
   const currentScene =
     currentIndex !== undefined && currentIndex < scenes.length
@@ -86,58 +31,139 @@ export const useScenes = () => {
     requiredHeight = currentScene.height;
   }
 
-  useEffect(() => {
-    if (currentIndex != null && drawing) {
-      const scene = createScene(
-        drawing,
-        requiredWidth === undefined || requiredHeight === undefined
-          ? undefined
-          : {
-              width: requiredWidth,
-              height: requiredHeight,
-            }
-      );
-      if (scene) {
-        updateScenes((prev) => {
-          const result = [...prev];
-          result[currentIndex] = scene;
-          return result;
-        }, undefined);
+  const onRestore = useCallback(
+    (
+      drawing: Drawing,
+      index: number,
+      updateCurrent: (index: number, drawing: Drawing) => void
+    ) => {
+      setDrawingVersion((version) => version + 1);
+      setDrawing(drawing);
+      if (updateCurrent && index !== undefined) {
+        updateCurrent(index, drawing);
       }
+    },
+    []
+  );
+
+  const updateCurrentScene = useCallback(
+    (index: number, drawing: Drawing) => {
+      if (index != null && drawing) {
+        (async () => {
+          const scene = await createScene(
+            drawing,
+            requiredWidth === undefined || requiredHeight === undefined
+              ? undefined
+              : {
+                  width: requiredWidth,
+                  height: requiredHeight,
+                }
+          );
+          if (scene) {
+            setScenes((prev) => {
+              const result = [...prev];
+              result[index] = scene;
+              return result;
+            });
+          }
+        })();
+      }
+    },
+    [requiredWidth, requiredHeight]
+  );
+
+  const updateScenes = useCallback(
+    (
+      updater: (prev: Scene[]) => Scene[],
+      newCurrent: { index: number; drawing: Drawing } | undefined
+    ) => {
+      setScenes(updater);
+      if (newCurrent) {
+        setCurrentIndex(newCurrent.index);
+        onRestore(newCurrent.drawing, newCurrent.index, updateCurrentScene);
+      }
+    },
+    [setCurrentIndex, onRestore, updateCurrentScene]
+  );
+
+  const onChange = (
+    elements: readonly ExcalidrawElement[],
+    appState: AppState
+  ) => {
+    if (
+      currentIndex !== undefined &&
+      (drawing == null ||
+        !isEqual(elements, drawing.elements) ||
+        !isEqual(appState, drawing.appState))
+    ) {
+      const update = {
+        elements: elements.map((el) => {
+          return { ...(el as any) };
+        }),
+        appState: { ...(appState as any) },
+        files: null,
+      };
+      setDrawing(update);
+      updateCurrentScene(currentIndex, update);
     }
-  }, [
-    drawing,
-    currentIndex,
-    scenes.length,
-    updateScenes,
-    requiredWidth,
-    requiredHeight,
-  ]);
+  };
+
+  const moveToScene = useCallback(
+    (index: number) => {
+      onRestore(scenes[index].drawing, index, updateCurrentScene);
+      setCurrentIndex(index);
+    },
+    [onRestore, scenes, updateCurrentScene]
+  );
 
   const addScene = useCallback(
     (optionalDrawing?: Drawing) => {
       const drawingToAdd = optionalDrawing || drawing;
       if (drawingToAdd) {
-        const scene = createScene(
-          drawingToAdd,
-          scenes[0] && {
-            width: scenes[0].width,
-            height: scenes[0].height,
+        (async () => {
+          const scene = await createScene(
+            drawingToAdd,
+            scenes[0] && {
+              width: scenes[0].width,
+              height: scenes[0].height,
+            }
+          );
+          if (scene) {
+            updateScenes((prev) => [...prev, scene], {
+              index: scenes.length,
+              drawing: drawingToAdd,
+            });
           }
-        );
-        if (scene) {
-          updateScenes((prev) => [...prev, scene], {
-            index: scenes.length,
-            drawing: drawingToAdd,
-          });
-        }
+        })();
       }
     },
     [updateScenes, scenes, drawing]
   );
 
+  useEffect(() => {
+    if (initialisedRef.current === Initialisation.NotStarted) {
+      initialisedRef.current = Initialisation.Started;
+      (async () => {
+        const initialScenes = await loadStorage();
+        if (initialScenes && initialScenes.length > 0) {
+          setScenes(initialScenes);
+          setCurrentIndex(0);
+          onRestore(initialScenes[0].drawing, 0, updateCurrentScene);
+        } else {
+          addScene();
+        }
+        initialisedRef.current = Initialisation.Complete;
+      })();
+    }
+  }, [updateCurrentScene, onRestore, addScene]);
+
+  useEffect(() => {
+    if (initialisedRef.current === Initialisation.Complete) {
+      saveStorage(scenes);
+    }
+  }, [scenes]);
+
   return {
-    initialised,
     moveToScene,
     addScene,
     onChange,

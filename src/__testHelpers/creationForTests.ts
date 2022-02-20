@@ -28,7 +28,9 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
         seed: 129174614,
         groupIds: [],
         strokeSharpness: "sharp",
-        boundElementIds: [],
+        boundElements: null,
+        updated: 1,
+        link: null,
       },
       {
         type: "text",
@@ -51,13 +53,17 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
         seed: 2029939957,
         groupIds: [],
         strokeSharpness: "sharp",
-        boundElementIds: [],
+        boundElements: null,
+        updated: 1,
+        link: null,
         fontSize: 36,
         fontFamily: 1,
         text,
         baseline: 32,
         textAlign: "center",
         verticalAlign: "middle",
+        containerId: null,
+        originalText: text,
       },
     ],
     appState: {
@@ -122,10 +128,6 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
       zenModeEnabled: false,
       zoom: {
         value: 1 as any,
-        translation: {
-          x: 0,
-          y: 0,
-        },
       },
       viewModeEnabled: false,
       offsetLeft: 0,
@@ -134,7 +136,12 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
       height: 1297,
       exportScale: 1,
       openPopup: null,
+      penMode: false,
+      penDetected: false,
+      pendingImageElement: null,
+      showHyperlinkPopup: false,
     },
+    files: null,
   };
 };
 

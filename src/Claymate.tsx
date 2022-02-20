@@ -173,12 +173,6 @@ const Claymate = ({
     );
   };
 
-  useEffect(() => {
-    if (scenes.length === 0) {
-      addScene();
-    }
-  }, [scenes, addScene]);
-
   return (
     <div
       className="Claymate"

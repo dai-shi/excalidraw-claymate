@@ -2,11 +2,11 @@ import { nanoid } from "nanoid";
 import { exportToCanvas } from "@excalidraw/excalidraw";
 import { Drawing, Scene } from "./types";
 
-export const createScene = (
+export const createScene = async (
   drawing: Drawing,
   size?: { width: number; height: number }
-): Scene | undefined => {
-  const canvas = exportToCanvas(drawing);
+): Promise<Scene | undefined> => {
+  const canvas = await exportToCanvas(drawing);
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   if (!width || !height) {

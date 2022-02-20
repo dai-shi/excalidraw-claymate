@@ -19,11 +19,11 @@ export const importFromFile = async (
   }
   if (file.type === "image/svg+xml") {
     const elements = await convertSvgToElements(file);
-    return { elements, appState };
+    return { elements, appState, files: null };
   }
   if (file.type.startsWith("image/")) {
     const elements = await convertImageToElements(file);
-    return { elements, appState };
+    return { elements, appState, files: null };
   }
   console.log("Unsupported file dropped", file);
   window.alert("Unsupported file dropped");
@@ -91,7 +91,9 @@ export const convertImageToElements = async (
         seed: 0,
         groupIds: [groupId],
         strokeSharpness: "sharp",
-        boundElementIds: [],
+        boundElements: null,
+        updated: 1,
+        link: null,
       };
       elements.push(element);
     }
