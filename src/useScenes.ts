@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AppState } from "@excalidraw/excalidraw/types/types";
+import { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import isEqual from "lodash/isEqual";
 import { createScene } from "./creation";
@@ -88,7 +88,8 @@ export const useScenes = () => {
 
   const onChange = (
     elements: readonly ExcalidrawElement[],
-    appState: AppState
+    appState: AppState,
+    files: BinaryFiles,
   ) => {
     if (
       currentIndex !== undefined &&
@@ -101,7 +102,7 @@ export const useScenes = () => {
           return { ...(el as any) };
         }),
         appState: { ...(appState as any) },
-        files: null,
+        files,
       };
       setDrawing(update);
       updateCurrentScene(currentIndex, update);
