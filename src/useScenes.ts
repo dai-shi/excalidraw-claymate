@@ -89,7 +89,7 @@ export const useScenes = () => {
   const onChange = (
     elements: readonly ExcalidrawElement[],
     appState: AppState,
-    files: BinaryFiles,
+    files: BinaryFiles
   ) => {
     if (
       currentIndex !== undefined &&
