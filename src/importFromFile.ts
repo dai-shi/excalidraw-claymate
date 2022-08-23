@@ -94,6 +94,7 @@ export const convertImageToElements = async (
         boundElements: null,
         updated: 1,
         link: null,
+        locked: false,
       };
       elements.push(element);
     }
