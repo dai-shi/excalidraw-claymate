@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import Excalidraw from "@excalidraw/excalidraw";
+import { Excalidraw } from "@excalidraw/excalidraw";
 import type {
   ExcalidrawAPIRefValue,
   ExcalidrawImperativeAPI,
