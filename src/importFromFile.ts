@@ -90,7 +90,7 @@ export const convertImageToElements = async (
         height: 5,
         seed: 0,
         groupIds: [groupId],
-        strokeSharpness: "sharp",
+        roundness: null,
         boundElements: null,
         updated: 1,
         link: null,
