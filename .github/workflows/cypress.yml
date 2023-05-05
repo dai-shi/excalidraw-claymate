@@ -4,8 +4,8 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: cypress-io/github-action@v2
+      - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v5
         with:
           record: true
           browser: chrome
