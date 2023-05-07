@@ -26,6 +26,7 @@
     "@types/react-dom": "^18.2.3",
     "canvas": "^2.11.2",
     "cypress": "^12.11.0",
+    "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-cypress": "^2.13.3",
     "eslint-plugin-prettier": "^4.2.1",
