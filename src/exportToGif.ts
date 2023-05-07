@@ -1,4 +1,6 @@
 import { fileSave } from "browser-fs-access";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import GIF from "gif.js/dist/gif";
 
