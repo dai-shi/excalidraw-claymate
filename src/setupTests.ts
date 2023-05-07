@@ -3,7 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
-import crypto from "crypto";
+import * as crypto from "crypto";
 (window as any).crypto = {
   getRandomValues: function (buffer: any) {
     return crypto.randomFillSync(buffer);
