@@ -35,6 +35,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
     "prettier": "^2.8.8",
+    "react-scripts": "^5.0.1",
     "typescript": "^5.0.4"
   },
   "scripts": {
@@ -42,10 +43,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "yarn run test:all",
-    "test:all": "yarn run test:type && yarn run test:lint && yarn run test:format",
+    "test:all": "yarn run test:type && yarn run test:lint && yarn run test:format && yarn run test:app --watchAll=false",
     "test:type": "tsc",
     "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
+    "test:app": "react-scripts test --passWithNoTests",
     "e2e": "cypress open"
   },
   "jest": {
