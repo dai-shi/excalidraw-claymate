@@ -13,8 +13,7 @@
     "nanoid": "3.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "svg-to-excalidraw": "0.0.2",
-    "vite": "^4.3.5"
+    "svg-to-excalidraw": "0.0.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -36,7 +35,8 @@
     "eslint-plugin-react-refresh": "^0.4.1",
     "prettier": "^2.8.8",
     "react-scripts": "^5.0.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vite": "^4.3.5"
   },
   "scripts": {
     "start": "vite",
