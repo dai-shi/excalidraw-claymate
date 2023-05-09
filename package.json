@@ -18,7 +18,6 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
-    "@types/jest": "^29.5.1",
     "@types/lodash": "^4.14.194",
     "@types/nanoid": "^3.0.0",
     "@types/react": "^18.2.5",
@@ -33,10 +32,11 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
+    "jsdom": "^22.0.0",
     "prettier": "^2.8.8",
-    "react-scripts": "^5.0.1",
     "typescript": "^5.0.4",
-    "vite": "^4.3.5"
+    "vite": "^4.3.5",
+    "vitest": "^0.31.0"
   },
   "scripts": {
     "start": "vite",
@@ -47,7 +47,7 @@
     "test:type": "tsc",
     "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
-    "test:app": "react-scripts test --passWithNoTests",
+    "test:app": "vitest run",
     "e2e": "cypress open"
   },
   "jest": {

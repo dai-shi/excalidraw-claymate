@@ -4,6 +4,10 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
 import * as crypto from "crypto";
+
+import { cleanup } from "@testing-library/react";
+import matchers from "@testing-library/jest-dom/matchers";
+
 (window as any).crypto = {
   getRandomValues: function (buffer: any) {
     return crypto.randomFillSync(buffer);
@@ -12,3 +16,11 @@ import * as crypto from "crypto";
 const element = document.createElement("div");
 element.id = "root";
 document.body.appendChild(element);
+
+// extends Vitest's expect method with methods from react-testing-library
+expect.extend(matchers);
+
+// runs a cleanup after each test case (e.g. clearing jsdom)
+afterEach(() => {
+  cleanup();
+});
