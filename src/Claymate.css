@@ -38,6 +38,11 @@
 .Claymate-buttons button {
   margin: 0.125rem;
   padding: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
 }
 
 .Claymate button {
@@ -131,3 +136,19 @@
   height: 24px;
   padding: 0;
 }
+.preview-gif-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-gif-wrapper .preview-gif {
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    margin-block: auto;
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+  }

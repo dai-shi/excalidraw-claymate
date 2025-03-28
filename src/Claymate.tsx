@@ -7,6 +7,9 @@ import { exportToGif } from "./exportToGif";
 import { exportToHtml, previewHtml } from "./exportToHtml";
 import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
 import { importFromFile } from "./importFromFile";
+import { previewGif } from "./previewGif";
+import { ClayMateIcons } from "./components/Icon";
+import { Dialog } from "./components/ui";
 
 const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
 
@@ -44,6 +47,11 @@ type Props = {
   updateDrawing: (drawing: Drawing) => void;
 };
 
+type PreviewState = {
+  open: boolean;
+  url: string;
+};
+
 const Claymate = ({
   scenes,
   currentIndex,
@@ -55,6 +63,10 @@ const Claymate = ({
   const [showAnimateConfig, setShowAnimateConfig] = useState(false);
   const [animateEnabled, setAnimateEnabled] = useState(false);
   const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});
+  const [previewState, setPreviewState] = useState<PreviewState>({
+    open: false,
+    url: "",
+  });
 
   const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === "dark";
 
@@ -72,6 +84,15 @@ const Claymate = ({
 
   const exportGif = async () => {
     await exportToGif(scenes);
+  };
+
+  const showPreview = async () => {
+    const previewUrl = await previewGif(scenes);
+    setPreviewState({ open: true, url: previewUrl });
+  };
+
+  const closePreview = () => {
+    setPreviewState({ open: false, url: "" });
   };
 
   const exportHtml = async () => {
@@ -253,25 +274,43 @@ const Claymate = ({
           />
         )}
       </div>
+
       <div className="Claymate-buttons">
-        <button type="button" onClick={() => addScene()}>
+        <button type="button" title="Add scene" onClick={() => addScene()}>
           Add scene
         </button>
-        <button
-          type="button"
-          onClick={exportGif}
-          disabled={scenes.length === 0}
-        >
-          Export GIF
-        </button>
         <div>
-          <button type="button" onClick={() => setShowAnimateConfig((x) => !x)}>
+          <button
+            type="button"
+            disabled={scenes.length === 0}
+            onClick={showPreview}
+            title="Preview GIF"
+          >
+            <ClayMateIcons.Preview />
+          </button>
+          <button
+            type="button"
+            onClick={exportGif}
+            disabled={scenes.length === 0}
+            title="Export GIF"
+          >
+            <ClayMateIcons.Export />
+            Export GIF
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            title="Animate"
+            onClick={() => setShowAnimateConfig((x) => !x)}
+          >
             {showAnimateConfig ? <>&#9656;</> : <>&#9666;</>}
           </button>
           <button
             type="button"
             onClick={() => exportHtml()}
             disabled={scenes.length === 0}
+            title="Export HTML"
           >
             Export HTML
           </button>
@@ -284,6 +323,23 @@ const Claymate = ({
           Reverse order
         </button>
       </div>
+
+      {/* Preview GIF Dialog */}
+      {previewState.open && (
+        <Dialog
+          open={previewState.open}
+          title="Preview GIF"
+          handleClose={closePreview}
+        >
+          <div className="preview-gif-wrapper">
+            <img
+              src={previewState.url}
+              alt="Preview GIF"
+              className="preview-gif"
+            />
+          </div>
+        </Dialog>
+      )}
     </div>
   );
 };
