@@ -1,13 +1,12 @@
 import { fileSave } from "browser-fs-access";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error no types
 import GIF from "gif.js/dist/gif";
 
 import { Scene } from "./types";
 
 export const exportToGif = (scenes: Scene[]) =>
-  new Promise((resolve) => {
+  new Promise<void>((resolve) => {
     const gif = new GIF();
     scenes.forEach((scene, index) => {
       const last = index + 1 === scenes.length;
@@ -16,7 +15,7 @@ export const exportToGif = (scenes: Scene[]) =>
     gif.on("finished", (blob: Blob) => {
       fileSave(blob, {
         fileName: "excalidraw-claymate.gif",
-      }).then(resolve);
+      }).then(() => resolve());
     });
     gif.render();
   });

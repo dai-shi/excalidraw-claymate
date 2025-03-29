@@ -16,6 +16,7 @@ jobs:
           record: true
           browser: chrome
           headless: true
+          build: pnpm run build
           start: pnpm start
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
