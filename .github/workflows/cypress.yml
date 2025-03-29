@@ -11,7 +11,7 @@ jobs:
           node-version: 'lts/*'
           cache: 'pnpm'
       - run: pnpm install
-      - uses: cypress-io/github-action@v5
+      - uses: cypress-io/github-action@v6
         with:
           record: true
           browser: chrome
