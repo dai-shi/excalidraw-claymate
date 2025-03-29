@@ -51,7 +51,9 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
           return [scene];
         }
       }
-    } catch {}
+    } catch {
+      /* empty */
+    }
   }
   return null;
 };
