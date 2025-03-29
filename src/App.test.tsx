@@ -1,4 +1,6 @@
 import { render, waitForElementToBeRemoved } from "@testing-library/react";
+import { test, expect } from "vitest";
+
 import App from "./App";
 
 test("renders a button", async () => {

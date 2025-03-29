@@ -16,7 +16,7 @@
     "svg-to-excalidraw": "0.0.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.0.0",
     "@types/lodash": "^4.14.194",
     "@types/nanoid": "^3.0.0",
@@ -37,7 +37,7 @@
     "prettier": "^2.8.8",
     "typescript": "^5.0.4",
     "vite": "^4.3.5",
-    "vitest": "^0.31.0"
+    "vitest": "^3.0.9"
   },
   "scripts": {
     "start": "vite",
