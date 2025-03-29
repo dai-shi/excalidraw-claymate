@@ -2,10 +2,11 @@
   "name": "excalidraw-claymate",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@9.4.0",
   "homepage": "./",
   "dependencies": {
     "@excalidraw/excalidraw": "0.15.2",
-    "browser-fs-access": "^0.33.1",
+    "browser-fs-access": "^0.35.0",
     "excalidraw-animate": "0.6.0",
     "gif.js": "^0.2.0",
     "lodash": "^4.17.21",
@@ -15,7 +16,7 @@
     "svg-to-excalidraw": "0.0.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.0.0",
     "@types/lodash": "^4.14.194",
     "@types/nanoid": "^3.0.0",
@@ -24,8 +25,8 @@
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
     "@vitejs/plugin-react": "^4.0.0",
-    "canvas": "^2.11.2",
-    "cypress": "^12.11.0",
+    "canvas": "^3.1.0",
+    "cypress": "^14.2.1",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-cypress": "^2.13.3",
@@ -36,14 +37,14 @@
     "prettier": "^2.8.8",
     "typescript": "^5.0.4",
     "vite": "^4.3.5",
-    "vitest": "^0.31.0"
+    "vitest": "^3.0.9"
   },
   "scripts": {
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "yarn run test:all",
-    "test:all": "yarn run test:type && yarn run test:lint && yarn run test:format && yarn run test:app",
+    "test": "pnpm run test:all",
+    "test:all": "pnpm run test:type && pnpm run test:lint && pnpm run test:format && pnpm run test:app",
     "test:type": "tsc",
     "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
