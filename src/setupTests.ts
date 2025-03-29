@@ -9,11 +9,13 @@ import { cleanup } from "@testing-library/react";
 import { expect, afterEach } from "vitest";
 import * as matchers from "@testing-library/jest-dom/matchers";
 
-(window as any).crypto = {
-  getRandomValues: function (buffer: any) {
-    return crypto.randomFillSync(buffer);
-  },
-};
+try {
+  (window as any).crypto = {
+    getRandomValues: function (buffer: any) {
+      return crypto.randomFillSync(buffer);
+    },
+  };
+} catch {}
 const element = document.createElement("div");
 element.id = "root";
 document.body.appendChild(element);
