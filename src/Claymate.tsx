@@ -20,7 +20,7 @@ const Preview = memo<{ scene: Scene; darkMode: boolean }>(
       ctx.putImageData(scene.imageData, 0, 0);
     }, [scene]);
     const currentTheme = darkMode ? "dark" : "light";
-    const sceneTheme = scene.drawing.appState.theme
+    const sceneTheme = scene.drawing.appState.theme;
     const filter = sceneTheme !== currentTheme ? DARK_FILTER : undefined;
     return (
       <canvas
