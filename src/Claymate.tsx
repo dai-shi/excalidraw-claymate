@@ -22,13 +22,16 @@ const Preview = memo<{ scene: Scene; darkMode: boolean }>(
       if (!ctx) return;
       ctx.putImageData(scene.imageData, 0, 0);
     }, [scene]);
+    const currentTheme = darkMode ? "dark" : "light";
+    const sceneTheme = scene.drawing.appState.theme;
+    const filter = sceneTheme !== currentTheme ? DARK_FILTER : undefined;
     return (
       <canvas
         ref={ref}
         width={scene.width}
         height={scene.height}
         style={{
-          filter: darkMode ? DARK_FILTER : undefined,
+          filter,
         }}
       />
     );
@@ -126,34 +129,35 @@ const Claymate = ({
   };
 
   const deleteScene = (id: string) => {
-    const index = scenes.findIndex((sc) => sc.id === id);
-    if (index >= 0) {
-      const remainingScenes = scenes.length - 1;
-      if (remainingScenes > 0) {
-        let newCurrent;
-        if (currentIndex !== undefined) {
-          const deletingCurrentScene = index === currentIndex;
-          if (currentIndex > index || deletingCurrentScene) {
-            let sourceIndex = currentIndex;
-            if (deletingCurrentScene) {
-              if (currentIndex === remainingScenes) {
-                sourceIndex = currentIndex - 1;
-              } else if (currentIndex === 0) {
-                sourceIndex = 1;
-              }
-            }
-            newCurrent = {
-              index: currentIndex > 0 ? currentIndex - 1 : currentIndex,
-              drawing: scenes[sourceIndex].drawing,
-            };
-          }
-        }
-        updateScenes(
-          (prev: Scene[]) => prev.filter((item) => item.id !== id),
-          newCurrent
-        );
-      }
+    const deletedSceneIndex = scenes.findIndex((item) => item.id === id);
+    if (deletedSceneIndex < 0) return;
+    let nextSelectedScene = undefined;
+
+    if (currentIndex !== undefined) {
+      const remainingScenesCount = scenes.length - 1;
+      const nextIndex =
+        currentIndex === remainingScenesCount ||
+        currentIndex > deletedSceneIndex
+          ? currentIndex - 1
+          : currentIndex;
+
+      const nextDrawingIndex =
+        deletedSceneIndex <= currentIndex &&
+        remainingScenesCount !== deletedSceneIndex
+          ? nextIndex + 1
+          : nextIndex;
+
+      nextSelectedScene = {
+        index: nextIndex,
+        drawing: scenes[nextDrawingIndex].drawing,
+      };
     }
+
+    updateScenes((prev) => {
+      const next = [...prev];
+      next.splice(deletedSceneIndex, 1);
+      return next;
+    }, nextSelectedScene);
   };
 
   const moveLeft = (id: string) => {
