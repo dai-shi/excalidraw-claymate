@@ -15,7 +15,6 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install
-      - run: pnpx cypress install
       - uses: cypress-io/github-action@v6
         with:
           record: true
