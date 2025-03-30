@@ -1,0 +1,131 @@
+/* Dialog */
+ :root {
+	 --claymate-modal-bg: #fff;
+	 --claymate-modal-borderRadius: 8px;
+	/* Header */
+	 --claymate-header-fs: 1.2rem;
+	 --claymate-header-color: #001f3f;
+	 --claymate-header-padding: 10px 16px;
+	/* Content */
+	 --claymate-content-fs: 1rem;
+	 --claymate-content-color: #001f3f;
+	 --claymate-content-padding: 25px 16px;
+	/* Action */
+	 --claymate-actions-padding: 10px 16px;
+	 --claymate-actions-gap: 8px;
+	/* Backdrop */
+	 --claymate-backdrop-color: rgba(10, 10, 10, 0.53);
+	 --claymate-backdrop-blur: 2px;
+	/* Divider */
+	 --claymate-divider: #dadada;
+	/* Screen Margin */
+	 --claymate-screen-margin: 30px;
+}
+ .claymate-modal-wrapper {
+	 position: fixed;
+	 z-index: 200;
+	 height: 100vh;
+	 width: 100vw;
+	 top: 0;
+	 left: 0;
+	 padding: var(--claymate-screen-margin);
+	 background: var(--claymate-backdrop-color);
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 backdrop-filter: blur(var(--claymate-backdrop-blur));
+	 -webkit-backdrop-filter: blur(var(--claymate-backdrop-blur));
+	/* Position */
+}
+ .claymate-modal-wrapper:has(.claymate-modal.top-left) {
+	 justify-content: flex-start;
+	 align-items: flex-start;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.top-right) {
+	 justify-content: flex-end;
+	 align-items: flex-start;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.top-center) {
+	 justify-content: center;
+	 align-items: flex-start;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.left) {
+	 justify-content: flex-start;
+	 align-items: center;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.center) {
+	 justify-content: center;
+	 align-items: center;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.right) {
+	 justify-content: flex-end;
+	 align-items: center;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.bottom-left) {
+	 justify-content: flex-start;
+	 align-items: flex-end;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.bottom-right) {
+	 justify-content: flex-end;
+	 align-items: flex-end;
+}
+ .claymate-modal-wrapper:has(.claymate-modal.bottom) {
+	 justify-content: center;
+	 align-items: flex-end;
+}
+ .claymate-modal-wrapper .claymate-modal {
+	 position: relative;
+	 background-color: var(--claymate-modal-bg);
+	 border-radius: var(--claymate-modal-borderRadius);
+	 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	 width: 100%;
+	 max-width: 500px;
+}
+ .claymate-modal-wrapper .claymate-modal .modal-header {
+	 display: flex;
+	 justify-content: space-between;
+	 align-items: center;
+	 color: var(--claymate-header-color);
+	 padding: var(--claymate-header-padding);
+}
+ .claymate-modal-wrapper .claymate-modal .modal-header .typography {
+	 font-size: var(--claymate-header-fs);
+	 margin: 0;
+}
+ .claymate-modal-wrapper .claymate-modal .modal-header .close-icon {
+	 height: 30px;
+	 width: 30px;
+}
+ .claymate-modal-wrapper .claymate-modal .modal-header .close-icon img {
+	 height: 20px;
+	 width: 20px;
+}
+ .claymate-modal-wrapper .claymate-modal .divider {
+	 border-top: 1px solid var(--claymate-divider);
+	 margin: 0;
+}
+ .claymate-modal-wrapper .claymate-modal .modal-content {
+	 font-size: var(--claymate-content-fs);
+	 color: var(--claymate-content-color);
+	 padding: var(--claymate-content-padding);
+	 max-height: 70vh;
+	 overflow-y: auto;
+}
+ .claymate-modal-wrapper .claymate-modal .modal-actions {
+	 display: flex;
+	 justify-content: center;
+	 gap: var(--claymate-actions-gap);
+	 padding: var(--claymate-actions-padding);
+}
+ .claymate-modal-wrapper .close-button {
+	 height: 30px;
+	 width: 30px;
+	 border: 1px solid black;
+	 right: 10px;
+	 top: 10px;
+	 position: absolute;
+	 border-radius: 4px;
+	 background-color: white;
+	 font-weight: 600;
+	 cursor: pointer;
+}
