@@ -120,5 +120,15 @@ context("Scene Deletion", () => {
       SelectedSceneBorder
     );
   });
-});
 
+  it('Make 2nd to current and then delete second', () => {
+    const currentSceneId = getSceneId(scenes[1]);
+    const nextSceneId = getSceneId(scenes[2]);
+    cy.get(`[data-testid=${currentSceneId}]`).click();
+    const sceneIdToDelete = getSceneId(scenes[1]);
+    cy.get(`[data-testid=${sceneIdToDelete}]`).contains(`${DeleteButtonText}`).click({ force: true })
+    cy.get(`[data-testid=${sceneIdToDelete}]`).should("not.exist")
+    cy.get(`[class=Claymate-scenes]`).first()
+      .get(`[data-testid=${nextSceneId}]`).should("have.css", "border", SelectedSceneBorder)
+  })
+});
