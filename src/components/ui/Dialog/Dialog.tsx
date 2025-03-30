@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import "./Dialog.css";
 
 export const Dialog: React.FC<DialogProps> = ({
@@ -14,7 +14,7 @@ export const Dialog: React.FC<DialogProps> = ({
   dialogContentProps,
   headerActions,
   children,
-  position = "center",
+  position = "center"
 }) => {
   if (!open) return null;
   const modalClassname = `claymate-modal ${className} ${position}`;
@@ -23,9 +23,7 @@ export const Dialog: React.FC<DialogProps> = ({
       <div className={modalClassname}>
         <div className="modal-header">
           <h2 className="typography">{title}</h2>
-          {headerActions && (
-            <div className="header-actions">{headerActions}</div>
-          )}
+          {headerActions && <div className="header-actions">{headerActions}</div>}
           <button className="close-button" onClick={handleClose}>
             X
           </button>
