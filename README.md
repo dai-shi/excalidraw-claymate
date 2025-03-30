@@ -45,6 +45,7 @@ Notes:
 - [Importing files](https://twitter.com/dai_shi/status/1435569857408475137)
 - [Image support](https://twitter.com/dai_shi/status/1496088631462621187)
 - [Excalidraw v0.12.0](https://twitter.com/dai_shi/status/1561965847635427328)
+- [Excalidraw v0.15.2](https://twitter.com/dai_shi/status/1654468768813424640)
 
 ## Other projects with Excalidraw
 

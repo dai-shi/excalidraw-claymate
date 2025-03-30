@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="An experimental tool to create clay animations with Excalidraw"
+    />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Excalidraw Claymate</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+
+    <style>
+      #previewOuter {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(128, 128, 128, 0.8);
+        z-index: 9;
+        display: none;
+      }
+      #previewInner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+        border: 5px solid gray;
+        background-color: white;
+      }
+      #previewInner svg {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div id="previewOuter" onclick="this.style.display='none'">
+      <div id="previewInner"></div>
+    </div>
+  </body>
+</html>

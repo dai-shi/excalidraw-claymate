@@ -1,7 +1,7 @@
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { AppState } from "@excalidraw/excalidraw/types/types";
 import { loadFromBlob } from "@excalidraw/excalidraw";
-import svgToEx from "svg-to-excalidraw";
+import * as svgToEx from "svg-to-excalidraw";
 import { nanoid } from "nanoid";
 
 import { Drawing } from "./types";
@@ -90,7 +90,7 @@ export const convertImageToElements = async (
         height: 5,
         seed: 0,
         groupIds: [groupId],
-        strokeSharpness: "sharp",
+        roundness: null,
         boundElements: null,
         updated: 1,
         link: null,
