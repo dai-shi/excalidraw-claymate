@@ -123,20 +123,11 @@ const Claymate = ({
     setPreviewState({ open: false, url: "" });
   };
 
-  const showPreview = async () => {
-    const previewUrl = await previewGif(scenes);
-    setPreviewState({ open: true, url: previewUrl });
-  };
-
-  const closePreview = () => {
-    setPreviewState({ open: false, url: "" });
-  };
-
   const exportHtml = async () => {
     await exportToHtml(scenes, {
       darkMode,
       animate: animateEnabled,
-      animateOptions,
+      animateOptions
     });
   };
 
@@ -152,7 +143,7 @@ const Claymate = ({
         {
           darkMode,
           animate: animateEnabled,
-          animateOptions,
+          animateOptions
         },
         divId
       );
@@ -170,20 +161,18 @@ const Claymate = ({
     if (currentIndex !== undefined) {
       const remainingScenesCount = scenes.length - 1;
       const nextIndex =
-        currentIndex === remainingScenesCount ||
-        currentIndex > deletedSceneIndex
+        currentIndex === remainingScenesCount || currentIndex > deletedSceneIndex
           ? currentIndex - 1
           : currentIndex;
 
       const nextDrawingIndex =
-        deletedSceneIndex <= currentIndex &&
-        remainingScenesCount !== deletedSceneIndex
+        deletedSceneIndex <= currentIndex && remainingScenesCount !== deletedSceneIndex
           ? nextIndex + 1
           : nextIndex;
 
       nextSelectedScene = {
         index: nextIndex,
-        drawing: scenes[nextDrawingIndex].drawing,
+        drawing: scenes[nextDrawingIndex].drawing
       };
     }
 
@@ -226,7 +215,7 @@ const Claymate = ({
       currentIndex !== undefined
         ? {
             index: scenes.length - 1 - currentIndex,
-            drawing: scenes[currentIndex].drawing,
+            drawing: scenes[currentIndex].drawing
           }
         : undefined
     );
@@ -249,7 +238,7 @@ const Claymate = ({
     <div
       className="Claymate"
       style={{
-        filter: darkMode ? DARK_FILTER : undefined,
+        filter: darkMode ? DARK_FILTER : undefined
       }}
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
@@ -263,9 +252,7 @@ const Claymate = ({
           return (
             <div
               key={scene.id}
-              className={`Claymate-scene ${
-                index === currentIndex ? "Claymate-current-scene" : ""
-              }`}
+              className={`Claymate-scene ${index === currentIndex ? "Claymate-current-scene" : ""}`}
               onClick={() => moveToScene(index)}
               data-testid={testId}
             >
@@ -315,9 +302,7 @@ const Claymate = ({
           <AnimateConfig
             animateEnabled={animateEnabled}
             setAnimateEnabled={setAnimateEnabled}
-            scene={
-              currentIndex === undefined ? undefined : scenes[currentIndex]
-            }
+            scene={currentIndex === undefined ? undefined : scenes[currentIndex]}
             updateDrawing={updateDrawing}
             animateOptions={animateOptions}
             setAnimateOptions={setAnimateOptions}
@@ -332,22 +317,14 @@ const Claymate = ({
         )}
       </div>
 
-
       <div className="Claymate-buttons">
         <div className="flex">
-          <button
-            type="button"
-            title="Add scene"
-            onClick={() => setShowAutoSceneConfig((x) => !x)}
-          >
+          <button type="button" title="Add scene" onClick={() => setShowAutoSceneConfig((x) => !x)}>
             {showAutoSceneConfig ? <>&#9656;</> : <>&#9666;</>}
           </button>
           <button type="button" title="Add scene" onClick={() => addScene()}>
             {autoSceneConfig.enabled && (
-              <span
-                className="auto-add-scene-tag flex"
-                title="Auto add scene enabled"
-              >
+              <span className="auto-add-scene-tag flex" title="Auto add scene enabled">
                 <ClayMateIcons.Loading />
               </span>
             )}
@@ -374,16 +351,7 @@ const Claymate = ({
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            title="Animate"
-            onClick={() => setShowAnimateConfig((x) => !x)}
-          >
-          <button
-            type="button"
-            title="Animate"
-            onClick={() => setShowAnimateConfig((x) => !x)}
-          >
+          <button type="button" title="Animate" onClick={() => setShowAnimateConfig((x) => !x)}>
             {showAnimateConfig ? <>&#9656;</> : <>&#9666;</>}
           </button>
           <button
@@ -391,50 +359,29 @@ const Claymate = ({
             onClick={() => exportHtml()}
             disabled={scenes.length === 0}
             title="Export HTML"
-            title="Export HTML"
           >
             Export HTML
           </button>
         </div>
-        <button
-          type="button"
-          onClick={reverseOrder}
-          disabled={scenes.length <= 1}
-        >
+        <button type="button" onClick={reverseOrder} disabled={scenes.length <= 1}>
           Reverse order
         </button>
       </div>
 
       {/* Preview GIF Dialog */}
       {previewState.open && (
-        <Dialog
-          open={previewState.open}
-          title="Preview GIF"
-          handleClose={closePreview}
-        >
+        <Dialog open={previewState.open} title="Preview GIF" handleClose={closePreview}>
           <div className="preview-gif-wrapper">
-            <img
-              src={previewState.url}
-              alt="Preview GIF"
-              className="preview-gif"
-            />
+            <img src={previewState.url} alt="Preview GIF" className="preview-gif" />
           </div>
         </Dialog>
       )}
 
       {/* Preview GIF Dialog */}
       {previewState.open && (
-        <Dialog
-          open={previewState.open}
-          title="Preview GIF"
-          handleClose={closePreview}
-        >
+        <Dialog open={previewState.open} title="Preview GIF" handleClose={closePreview}>
           <div className="preview-gif-wrapper">
-            <img
-              src={previewState.url}
-              alt="Preview GIF"
-              className="preview-gif"
-            />
+            <img src={previewState.url} alt="Preview GIF" className="preview-gif" />
           </div>
         </Dialog>
       )}
