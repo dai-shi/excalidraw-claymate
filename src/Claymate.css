@@ -143,12 +143,12 @@
 }
 
 .preview-gif-wrapper .preview-gif {
-    width: auto;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    margin-block: auto;
-    display: block;
-    max-width: 100%;
-    max-height: 70vh;
-  }
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  margin-block: auto;
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+}
