@@ -109,32 +109,35 @@ const Claymate = ({
 
   const deleteScene = (id: string) => {
     const deletedSceneIndex = scenes.findIndex((item) => item.id === id);
-    if(deletedSceneIndex < 0) return;
+    if (deletedSceneIndex < 0) return;
     let nextSelectedScene = undefined;
 
-    if (currentIndex !== undefined){
+    if (currentIndex !== undefined) {
       const remainingScenesCount = scenes.length - 1;
-      const nextIndex = currentIndex === remainingScenesCount || currentIndex > deletedSceneIndex
-        ? currentIndex - 1
-        : currentIndex;
+      const nextIndex =
+        currentIndex === remainingScenesCount ||
+        currentIndex > deletedSceneIndex
+          ? currentIndex - 1
+          : currentIndex;
 
-      const nextDrawingIndex = deletedSceneIndex <= currentIndex && remainingScenesCount !== deletedSceneIndex
-        ? nextIndex + 1
-        : nextIndex;
+      const nextDrawingIndex =
+        deletedSceneIndex <= currentIndex &&
+        remainingScenesCount !== deletedSceneIndex
+          ? nextIndex + 1
+          : nextIndex;
 
       nextSelectedScene = {
         index: nextIndex,
-        drawing: scenes[nextDrawingIndex].drawing
+        drawing: scenes[nextDrawingIndex].drawing,
       };
     }
 
     updateScenes((prev) => {
-        const next = [...prev];
-        next.splice(deletedSceneIndex, 1);
-        return next;
-      }, nextSelectedScene
-    );
-  }
+      const next = [...prev];
+      next.splice(deletedSceneIndex, 1);
+      return next;
+    }, nextSelectedScene);
+  };
 
   const moveLeft = (id: string) => {
     const index = scenes.findIndex((item) => item.id === id);
