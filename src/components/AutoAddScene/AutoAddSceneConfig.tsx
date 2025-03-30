@@ -1,22 +1,23 @@
-import React from "react";
+import * as React from "react";
 import { AutoSceneConfig } from "../../Claymate";
 import "./AutoAddSceneConfig.css";
 
-type Props = {
+interface Props {
   autoSceneConfig: AutoSceneConfig;
-  setAutoSceneConfig: (autoSceneConfig: AutoSceneConfig) => void;
-};
+  setAutoSceneConfig: React.Dispatch<React.SetStateAction<AutoSceneConfig>>;
+}
 
 const AutoAddSceneConfig: React.FC<Props> = ({
   autoSceneConfig,
   setAutoSceneConfig,
 }) => {
   const toggleAutoAddScene = () => {
-    setAutoSceneConfig((prev: AutoSceneConfig) => ({
+    setAutoSceneConfig((prev) => ({
       ...prev,
       enabled: !prev.enabled,
     }));
   };
+
   return (
     <div className="auto-add-configs">
       <div className="flex">
@@ -33,9 +34,9 @@ const AutoAddSceneConfig: React.FC<Props> = ({
           id="autoSceneFrequency"
           value={autoSceneConfig.frequency}
           onChange={(e) => {
-            setAutoSceneConfig((prev: AutoSceneConfig) => ({
+            setAutoSceneConfig((prev) => ({
               ...prev,
-              frequency: parseInt(e?.target?.value),
+              frequency: parseInt(e.target.value),
             }));
           }}
         >

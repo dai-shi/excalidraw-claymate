@@ -1,8 +1,6 @@
 import * as React from "react";
 
-interface SVGComponentProps extends React.SVGProps<SVGSVGElement> {}
-
-const Loading: React.FC<SVGComponentProps> = (props) => (
+const Loading: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" {...props}>
     <circle
       fill="none"

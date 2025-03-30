@@ -235,7 +235,7 @@ const Claymate = ({
         clearInterval(autoSceneInterval.current);
       }
     };
-  }, [autoSceneConfig.enabled, addScene, autoSceneFrequencyToInterval]);
+  }, [autoSceneConfig, addScene, autoSceneFrequencyToInterval]);
   return (
     <div
       className="Claymate"
