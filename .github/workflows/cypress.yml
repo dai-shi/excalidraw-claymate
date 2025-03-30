@@ -10,6 +10,10 @@ jobs:
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install
       - uses: cypress-io/github-action@v6
         with:
