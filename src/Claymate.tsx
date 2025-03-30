@@ -123,6 +123,15 @@ const Claymate = ({
     setPreviewState({ open: false, url: "" });
   };
 
+  const showPreview = async () => {
+    const previewUrl = await previewGif(scenes);
+    setPreviewState({ open: true, url: previewUrl });
+  };
+
+  const closePreview = () => {
+    setPreviewState({ open: false, url: "" });
+  };
+
   const exportHtml = async () => {
     await exportToHtml(scenes, {
       darkMode,
@@ -323,6 +332,7 @@ const Claymate = ({
         )}
       </div>
 
+
       <div className="Claymate-buttons">
         <div className="flex">
           <button
@@ -369,12 +379,18 @@ const Claymate = ({
             title="Animate"
             onClick={() => setShowAnimateConfig((x) => !x)}
           >
+          <button
+            type="button"
+            title="Animate"
+            onClick={() => setShowAnimateConfig((x) => !x)}
+          >
             {showAnimateConfig ? <>&#9656;</> : <>&#9666;</>}
           </button>
           <button
             type="button"
             onClick={() => exportHtml()}
             disabled={scenes.length === 0}
+            title="Export HTML"
             title="Export HTML"
           >
             Export HTML
@@ -388,6 +404,23 @@ const Claymate = ({
           Reverse order
         </button>
       </div>
+
+      {/* Preview GIF Dialog */}
+      {previewState.open && (
+        <Dialog
+          open={previewState.open}
+          title="Preview GIF"
+          handleClose={closePreview}
+        >
+          <div className="preview-gif-wrapper">
+            <img
+              src={previewState.url}
+              alt="Preview GIF"
+              className="preview-gif"
+            />
+          </div>
+        </Dialog>
+      )}
 
       {/* Preview GIF Dialog */}
       {previewState.open && (
