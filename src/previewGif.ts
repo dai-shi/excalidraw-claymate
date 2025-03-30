@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// @ts-expect-error no types
 import GIF from "gif.js/dist/gif";
 
 import { Scene } from "./types";
