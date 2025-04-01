@@ -20,7 +20,7 @@ jobs:
         with:
           record: true
           browser: chrome
-          headless: true
+          headed: false
           build: pnpm run build
           start: pnpm start
         env:
