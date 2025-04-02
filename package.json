@@ -44,6 +44,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "pnpm run test:all",
+    "format": "prettier --write 'src/*.(js|ts|tsx|css|scss)'",
     "test:all": "pnpm run test:type && pnpm run test:lint && pnpm run test:format && pnpm run test:app",
     "test:type": "tsc",
     "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",

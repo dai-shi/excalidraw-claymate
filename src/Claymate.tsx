@@ -1,4 +1,11 @@
-import { DragEvent, memo, useState, useEffect, useRef } from "react";
+import {
+  DragEvent,
+  memo,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import { isEmpty } from "lodash";
 
 import "./Claymate.css";
@@ -10,6 +17,7 @@ import { importFromFile } from "./importFromFile";
 import { previewGif } from "./previewGif";
 import { ClayMateIcons } from "./components/Icon";
 import { Dialog } from "./components/ui";
+import AutoAddSceneConfig from "./components/AutoAddScene/AutoAddSceneConfig";
 
 const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
 
@@ -48,11 +56,17 @@ type Props = {
   moveToScene: (index: number) => void;
   addScene: (optionalDrawing?: Drawing) => void;
   updateDrawing: (drawing: Drawing) => void;
+  autoAddSceneUnit?: number;
 };
 
 type PreviewState = {
   open: boolean;
   url: string;
+};
+
+export type AutoSceneConfig = {
+  enabled: boolean;
+  frequency: number;
 };
 
 const Claymate = ({
@@ -62,6 +76,7 @@ const Claymate = ({
   moveToScene,
   addScene,
   updateDrawing,
+  autoAddSceneUnit = 0.1,
 }: Props) => {
   const [showAnimateConfig, setShowAnimateConfig] = useState(false);
   const [animateEnabled, setAnimateEnabled] = useState(false);
@@ -70,6 +85,16 @@ const Claymate = ({
     open: false,
     url: "",
   });
+  const [showAutoSceneConfig, setShowAutoSceneConfig] = useState(false);
+  const [autoSceneConfig, setAutoSceneConfig] = useState<AutoSceneConfig>({
+    enabled: false,
+    frequency: 50,
+  });
+  const autoSceneInterval = useRef<NodeJS.Timeout | null>(null);
+  const autoSceneFrequencyToInterval = useCallback(
+    (frequency: number) => frequency * autoAddSceneUnit * 1000,
+    [autoAddSceneUnit]
+  );
 
   const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === "dark";
 
@@ -198,6 +223,19 @@ const Claymate = ({
     );
   };
 
+  useEffect(() => {
+    if (autoSceneConfig.enabled) {
+      autoSceneInterval.current = setInterval(
+        () => addScene(),
+        autoSceneFrequencyToInterval(autoSceneConfig.frequency)
+      );
+    }
+    return () => {
+      if (autoSceneInterval.current) {
+        clearInterval(autoSceneInterval.current);
+      }
+    };
+  }, [autoSceneConfig, addScene, autoSceneFrequencyToInterval]);
   return (
     <div
       className="Claymate"
@@ -277,12 +315,35 @@ const Claymate = ({
             previewCurrentScene={previewCurrentSceneInHtml}
           />
         )}
+        {showAutoSceneConfig && (
+          <AutoAddSceneConfig
+            autoSceneConfig={autoSceneConfig}
+            setAutoSceneConfig={setAutoSceneConfig}
+          />
+        )}
       </div>
 
       <div className="Claymate-buttons">
-        <button type="button" title="Add scene" onClick={() => addScene()}>
-          Add scene
-        </button>
+        <div className="flex">
+          <button
+            type="button"
+            title="Show auto add scene config"
+            onClick={() => setShowAutoSceneConfig((x) => !x)}
+          >
+            {showAutoSceneConfig ? <>&#9656;</> : <>&#9666;</>}
+          </button>
+          <button type="button" title="Add scene" onClick={() => addScene()}>
+            {autoSceneConfig.enabled && (
+              <span
+                className="auto-add-scene-tag flex"
+                title="Auto add scene enabled"
+              >
+                <ClayMateIcons.Loading />
+              </span>
+            )}
+            Add scene
+          </button>
+        </div>
         <div>
           <button
             type="button"
@@ -327,6 +388,23 @@ const Claymate = ({
           Reverse order
         </button>
       </div>
+
+      {/* Preview GIF Dialog */}
+      {previewState.open && (
+        <Dialog
+          open={previewState.open}
+          title="Preview GIF"
+          handleClose={closePreview}
+        >
+          <div className="preview-gif-wrapper">
+            <img
+              src={previewState.url}
+              alt="Preview GIF"
+              className="preview-gif"
+            />
+          </div>
+        </Dialog>
+      )}
 
       {/* Preview GIF Dialog */}
       {previewState.open && (
