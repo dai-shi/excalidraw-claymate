@@ -36,7 +36,7 @@
     "jsdom": "^22.0.0",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4",
-    "vite": "^4.3.5",
+    "vite": "^4.5.14",
     "vitest": "^3.0.9"
   },
   "scripts": {
