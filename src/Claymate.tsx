@@ -327,7 +327,11 @@ const Claymate = ({
 
       <div className="Claymate-buttons">
         <div>
-          <button type="button" title="Clear scenes" onClick={() => clearScenes()}>
+          <button
+            type="button"
+            title="Clear scenes"
+            onClick={() => clearScenes()}
+          >
             Clear all scenes
           </button>
         </div>

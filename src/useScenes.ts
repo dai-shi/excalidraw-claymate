@@ -178,6 +178,6 @@ export const useScenes = () => {
     scenes,
     updateScenes,
     initialData: drawing,
-    clearScenes
+    clearScenes,
   };
 };
