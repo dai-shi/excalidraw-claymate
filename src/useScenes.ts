@@ -141,6 +141,11 @@ export const useScenes = () => {
     [updateScenes, scenes, drawing]
   );
 
+  const clearScenes = useCallback(() => {
+    setScenes([]);
+    setCurrentIndex(undefined);
+  }, []);
+
   useEffect(() => {
     if (initialisedRef.current === Initialisation.NotStarted) {
       initialisedRef.current = Initialisation.Started;
@@ -173,5 +178,6 @@ export const useScenes = () => {
     scenes,
     updateScenes,
     initialData: drawing,
+    clearScenes
   };
 };
