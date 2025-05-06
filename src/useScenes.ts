@@ -3,14 +3,108 @@ import { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
 import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import { createScene } from "./creation";
 import { Drawing, Scene } from "./types";
-import { loadStorage, saveStorage } from "./persistence";
+import { loadStorage, saveStorage, SCENE_STORAGE_KEY } from "./persistence";
 import { isEqual } from "lodash";
+import { nanoid } from "nanoid";
 
 enum Initialisation {
   NotStarted,
   Started,
   Complete,
 }
+
+const emptyScene: Scene = {
+  id: nanoid(),
+  width: 800,
+  height: 600,
+  imageData: new ImageData(800, 600),
+  drawing: {
+    elements: [],
+    appState: {
+      contextMenu: null,
+      showWelcomeScreen: false,
+      isLoading: false,
+      errorMessage: null,
+      draggingElement: null,
+      resizingElement: null,
+      multiElement: null,
+      selectionElement: null,
+      isBindingEnabled: false,
+      startBoundElement: null,
+      suggestedBindings: [],
+      editingElement: null,
+      editingLinearElement: null,
+      activeTool: {
+        lastActiveTool: null as any, // Замените на подходящее значение типа LastActiveTool
+        locked: false,
+        type: "hand",
+        customType: null,
+      },
+      penMode: false,
+      penDetected: false,
+      exportBackground: true,
+      exportEmbedScene: false,
+      exportWithDarkMode: false,
+      exportScale: 1,
+      currentItemStrokeColor: "#000000",
+      currentItemBackgroundColor: "transparent",
+      currentItemFillStyle: "hachure",
+      currentItemStrokeWidth: 1,
+      currentItemStrokeStyle: "solid",
+      currentItemRoughness: 1,
+      currentItemOpacity: 100,
+      currentItemFontFamily: 1,
+      currentItemFontSize: 20,
+      currentItemTextAlign: "left",
+      currentItemStartArrowhead: null,
+      currentItemEndArrowhead: null,
+      currentItemRoundness: "round",
+      viewBackgroundColor: "#ffffff",
+      scrollX: 0,
+      scrollY: 0,
+      cursorButton: "up",
+      scrolledOutside: false,
+      name: "Untitled",
+      isResizing: false,
+      isRotating: false,
+      zoom: {
+        value: 1 as any,
+      },
+      openMenu: null,
+      openPopup: null,
+      openSidebar: null,
+      openDialog: null,
+      isSidebarDocked: false,
+      lastPointerDownWith: "mouse",
+      selectedElementIds: {},
+      previousSelectedElementIds: {},
+      shouldCacheIgnoreZoom: false,
+      toast: null,
+      zenModeEnabled: false,
+      theme: "light",
+      gridSize: null,
+      viewModeEnabled: false,
+      selectedGroupIds: {},
+      editingGroupId: null,
+      width: 0,
+      height: 0,
+      offsetTop: 0,
+      offsetLeft: 0,
+      fileHandle: null,
+      collaborators: new Map(),
+      showStats: false,
+      currentChartType: "bar",
+      pasteDialog: {
+        shown: false,
+        data: null,
+      },
+      pendingImageElementId: null,
+      showHyperlinkPopup: false,
+      selectedLinearElement: null,
+    },
+    files: {},
+  },
+};
 
 export const useScenes = () => {
   const initialisedRef = useRef<Initialisation>(Initialisation.NotStarted);
@@ -141,6 +235,17 @@ export const useScenes = () => {
     [updateScenes, scenes, drawing]
   );
 
+  const clearScenes = useCallback(() => {
+    localStorage.removeItem(SCENE_STORAGE_KEY);
+    setScenes([]);
+    setCurrentIndex(undefined);
+    setDrawing(undefined);
+    setDrawingVersion(0);
+
+    setScenes([emptyScene]);
+    setCurrentIndex(0);
+  }, []);
+
   useEffect(() => {
     if (initialisedRef.current === Initialisation.NotStarted) {
       initialisedRef.current = Initialisation.Started;
@@ -173,5 +278,6 @@ export const useScenes = () => {
     scenes,
     updateScenes,
     initialData: drawing,
+    clearScenes,
   };
 };

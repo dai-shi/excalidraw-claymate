@@ -56,6 +56,7 @@ type Props = {
   moveToScene: (index: number) => void;
   addScene: (optionalDrawing?: Drawing) => void;
   updateDrawing: (drawing: Drawing) => void;
+  clearScenes: VoidFunction;
   autoAddSceneUnit?: number;
 };
 
@@ -76,6 +77,7 @@ const Claymate = ({
   moveToScene,
   addScene,
   updateDrawing,
+  clearScenes,
   autoAddSceneUnit = 0.1,
 }: Props) => {
   const [showAnimateConfig, setShowAnimateConfig] = useState(false);
@@ -324,6 +326,15 @@ const Claymate = ({
       </div>
 
       <div className="Claymate-buttons">
+        <div>
+          <button
+            type="button"
+            title="Clear scenes"
+            onClick={() => clearScenes()}
+          >
+            Clear all scenes
+          </button>
+        </div>
         <div className="flex">
           <button
             type="button"
