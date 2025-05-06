@@ -148,9 +148,9 @@ export const useScenes = () => {
             requiredWidth === undefined || requiredHeight === undefined
               ? undefined
               : {
-                width: requiredWidth,
-                height: requiredHeight,
-              }
+                  width: requiredWidth,
+                  height: requiredHeight,
+                }
           );
           if (scene) {
             setScenes((prev) => {
@@ -277,6 +277,6 @@ export const useScenes = () => {
     scenes,
     updateScenes,
     initialData: drawing,
-    clearScenes
+    clearScenes,
   };
 };
