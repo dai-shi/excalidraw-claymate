@@ -5,6 +5,7 @@ import { createScene } from "./creation";
 import { Drawing, Scene } from "./types";
 import { loadStorage, saveStorage, SCENE_STORAGE_KEY } from "./persistence";
 import { isEqual } from "lodash";
+import { nanoid } from "nanoid";
 
 enum Initialisation {
   NotStarted,
@@ -13,7 +14,7 @@ enum Initialisation {
 }
 
 const emptyScene: Scene = {
-  id: "empty",
+  id: nanoid(),
   width: 800,
   height: 600,
   imageData: new ImageData(800, 600),
