@@ -2,7 +2,7 @@ import { createScene } from "./creation";
 import { Drawing, Scene } from "./types";
 
 const ELEMENTS_STORAGE_KEY = "excalidraw-elements";
-const SCENE_STORAGE_KEY = "claymate-scenes";
+export const SCENE_STORAGE_KEY = "claymate-scenes";
 
 const loadDrawingFromStorage = (): Drawing | null => {
   try {
