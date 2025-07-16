@@ -16,6 +16,7 @@
     "svg-to-excalidraw": "0.0.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.54.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.0.0",
     "@types/lodash": "^4.14.194",
@@ -26,10 +27,9 @@
     "@typescript-eslint/parser": "^5.59.2",
     "@vitejs/plugin-react": "^4.0.0",
     "canvas": "^3.1.0",
-    "cypress": "^14.2.1",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-cypress": "^2.13.3",
+    "eslint-plugin-playwright": "^2.2.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
@@ -50,7 +50,9 @@
     "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
     "test:app": "vitest run",
-    "e2e": "cypress open"
+    "e2e": "playwright test",
+    "e2e:ci": "playwright test --project=chromium",
+    "e2e:ui": "playwright test --ui"
   },
   "jest": {
     "moduleNameMapper": {
