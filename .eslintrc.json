@@ -13,7 +13,7 @@
   },
   "overrides": [
     {
-      "files": ["tests/**/*"],
+      "files": ["e2e/**/*"],
       "extends": ["plugin:playwright/recommended"]
     }
   ]
