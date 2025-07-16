@@ -37,8 +37,12 @@ test.describe('Scene Deletion', () => {
 
   test('Delete First', async ({ page }) => {
     const firstSceneId = getSceneId(scenes[0]);
-    await page.locator(`[data-testid="${firstSceneId}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${firstSceneId}"]`)).toBeHidden();
+    const sceneElement = page.locator(`[data-testid="${firstSceneId}"]`);
+    
+    // Hover to make delete button visible
+    await sceneElement.hover();
+    await sceneElement.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneElement).toBeHidden();
     
     const newCurrentSceneId = getSceneId(scenes[1]);
     await expect(page.locator(`[data-testid="${newCurrentSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
@@ -47,23 +51,35 @@ test.describe('Scene Deletion', () => {
   test('Delete Last', async ({ page }) => {
     const currentSceneId = getSceneId(scenes[0]);
     const sceneIdToDelete = getSceneId(scenes[scenes.length - 1]);
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
     
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
   });
 
   test('Delete 2nd to Last', async ({ page }) => {
     const sceneIdToDelete = getSceneId(scenes[scenes.length - 2]);
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
+    
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
   });
 
   test('Make last current and then delete it', async ({ page }) => {
     const sceneIdToDelete = getSceneId(scenes[scenes.length - 1]);
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).click();
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
+    
+    await sceneToDelete.click();
+    
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
     
     const newCurrentSceneId = getSceneId(scenes[scenes.length - 2]);
     await expect(page.locator(`[data-testid="${newCurrentSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
@@ -74,8 +90,12 @@ test.describe('Scene Deletion', () => {
     await page.locator(`[data-testid="${currentSceneId}"]`).click();
     
     const sceneIdToDelete = getSceneId(scenes[0]);
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
+    
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
   });
 
@@ -84,8 +104,12 @@ test.describe('Scene Deletion', () => {
     await page.locator(`[data-testid="${currentSceneId}"]`).click();
     
     const sceneIdToDelete = getSceneId(scenes[0]);
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
+    
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
   });
 
@@ -94,8 +118,12 @@ test.describe('Scene Deletion', () => {
     await page.locator(`[data-testid="${currentSceneId}"]`).click();
     
     const sceneIdToDelete = getSceneId(scenes[1]);
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
+    
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
   });
 
@@ -105,8 +133,12 @@ test.describe('Scene Deletion', () => {
     await page.locator(`[data-testid="${currentSceneId}"]`).click();
     
     const sceneIdToDelete = getSceneId(scenes[1]);
-    await page.locator(`[data-testid="${sceneIdToDelete}"]`).locator(`text=${DeleteButtonText}`).click();
-    await expect(page.locator(`[data-testid="${sceneIdToDelete}"]`)).toBeHidden();
+    const sceneToDelete = page.locator(`[data-testid="${sceneIdToDelete}"]`);
+    
+    // Hover to make delete button visible
+    await sceneToDelete.hover();
+    await sceneToDelete.locator(`text=${DeleteButtonText}`).click();
+    await expect(sceneToDelete).toBeHidden();
     
     await expect(page.locator('.Claymate-scenes').first().locator(`[data-testid="${nextSceneId}"]`)).toHaveCSS('border', SelectedSceneBorder);
   });
