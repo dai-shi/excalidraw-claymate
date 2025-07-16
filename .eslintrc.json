@@ -2,14 +2,19 @@
   "env": { "browser": true, "es2020": true },
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "plugin:cypress/recommended",
     "plugin:react-hooks/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "cypress", "react-refresh"],
+  "plugins": ["@typescript-eslint", "react-refresh"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "react-refresh/only-export-components": "warn"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["tests/**/*"],
+      "extends": ["plugin:playwright/recommended"]
+    }
+  ]
 }

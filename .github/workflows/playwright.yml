@@ -1,0 +1,15 @@
+name: Playwright
+on: [pull_request]
+jobs:
+  playwright-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+      - run: npm install --legacy-peer-deps
+      - run: npx playwright install --with-deps
+      - run: npm run build
+      - run: npm run e2e
