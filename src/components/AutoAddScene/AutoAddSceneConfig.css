@@ -7,14 +7,14 @@
   width: 200px;
 }
 
-.auto-add-scene-tag{
+.auto-add-scene-tag {
   color: #6c757d;
   background-color: rgb(215, 252, 191);
   padding: 2px;
   border-radius: 4px;
   font-size: 10px;
-  svg{
-    width: 10px;  
+  svg {
+    width: 10px;
     height: 10px;
     stroke: #339609;
   }

@@ -4,6 +4,20 @@
   "private": true,
   "packageManager": "pnpm@9.4.0",
   "homepage": "./",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite preview",
+    "fix:format": "prettier -w .",
+    "test": "pnpm run '/^test:.*/'",
+    "test:type": "tsc",
+    "test:lint": "eslint .",
+    "test:format": "prettier -c .",
+    "test:spec": "vitest run",
+    "e2e": "playwright test",
+    "e2e:ci": "playwright test --project=chromium",
+    "e2e:ui": "playwright test --ui"
+  },
   "dependencies": {
     "@excalidraw/excalidraw": "0.15.2",
     "browser-fs-access": "^0.35.0",
@@ -39,39 +53,7 @@
     "vite": "^4.3.5",
     "vitest": "^3.0.9"
   },
-  "scripts": {
-    "start": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "pnpm run test:all",
-    "format": "prettier --write 'src/*.(js|ts|tsx|css|scss)'",
-    "test:all": "pnpm run test:type && pnpm run test:lint && pnpm run test:format && pnpm run test:app",
-    "test:type": "tsc",
-    "test:lint": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
-    "test:format": "prettier 'src/*.(js|ts|tsx|css|scss)' --list-different",
-    "test:app": "vitest run",
-    "e2e": "playwright test",
-    "e2e:ci": "playwright test --project=chromium",
-    "e2e:ui": "playwright test --ui"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|sass)$": "identity-obj-proxy"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(excalidraw-animate|browser-fs-access)/)"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "prettier": {
+    "singleQuote": true
   }
 }
