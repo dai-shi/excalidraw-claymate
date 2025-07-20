@@ -76,7 +76,7 @@ export default defineConfig({
     command: process.env.npm_config_user_agent?.includes('pnpm')
       ? 'pnpm start'
       : 'npm start',
-    url: 'http://localhost:3000',
+    url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },
