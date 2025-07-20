@@ -1,6 +1,6 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
@@ -11,17 +11,15 @@ export default defineConfig({
   build: {
     outDir: 'build',
   },
-  ssr: {
-    noExternal: ['@excalidraw/excalidraw'],
-  },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
-    exclude: [...configDefaults.exclude],
-    deps: {
-      interopDefault: true,
-      inline: ['@excalidraw/excalidraw'],
+    exclude: ['**/node_modules/**', '**/e2e/**', '**/build/**'],
+    server: {
+      deps: {
+        inline: ['@excalidraw/excalidraw'],
+      },
     },
   },
 });

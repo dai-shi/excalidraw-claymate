@@ -16,6 +16,9 @@ try {
     },
   };
 } catch {}
+(window as any).Path2D = function () {};
+(window as any).FontFace = class {};
+(document as any).fonts = new Set();
 const element = document.createElement('div');
 element.id = 'root';
 document.body.appendChild(element);
