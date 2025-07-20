@@ -9,10 +9,9 @@ import {
 import { isEmpty } from "lodash";
 
 import "./Claymate.css";
-import { Drawing, Scene } from "./types";
+import type { Drawing, Scene } from "./types";
 import { exportToGif } from "./exportToGif";
-import { exportToHtml, previewHtml } from "./exportToHtml";
-import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
+import { exportToHtml } from "./exportToHtml";
 import { importFromFile } from "./importFromFile";
 import { previewGif } from "./previewGif";
 import { ClayMateIcons } from "./components/Icon";
@@ -55,7 +54,6 @@ type Props = {
   ) => void;
   moveToScene: (index: number) => void;
   addScene: (optionalDrawing?: Drawing) => void;
-  updateDrawing: (drawing: Drawing) => void;
   autoAddSceneUnit?: number;
 };
 
@@ -75,12 +73,8 @@ const Claymate = ({
   updateScenes,
   moveToScene,
   addScene,
-  updateDrawing,
   autoAddSceneUnit = 0.1,
 }: Props) => {
-  const [showAnimateConfig, setShowAnimateConfig] = useState(false);
-  const [animateEnabled, setAnimateEnabled] = useState(false);
-  const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});
   const [previewState, setPreviewState] = useState<PreviewState>({
     open: false,
     url: "",
@@ -126,31 +120,7 @@ const Claymate = ({
   const exportHtml = async () => {
     await exportToHtml(scenes, {
       darkMode,
-      animate: animateEnabled,
-      animateOptions,
     });
-  };
-
-  const previewCurrentSceneInHtml = async () => {
-    if (currentIndex !== undefined) {
-      let divId = "";
-      const ele = document.getElementById("previewOuter");
-      if (ele) {
-        divId = "previewInner";
-      }
-      await previewHtml(
-        scenes[currentIndex],
-        {
-          darkMode,
-          animate: animateEnabled,
-          animateOptions,
-        },
-        divId
-      );
-      if (ele) {
-        ele.style.display = "block";
-      }
-    }
   };
 
   const deleteScene = (id: string) => {
@@ -302,19 +272,6 @@ const Claymate = ({
         })}
       </div>
       <div className="Claymate-configs">
-        {showAnimateConfig && (
-          <AnimateConfig
-            animateEnabled={animateEnabled}
-            setAnimateEnabled={setAnimateEnabled}
-            scene={
-              currentIndex === undefined ? undefined : scenes[currentIndex]
-            }
-            updateDrawing={updateDrawing}
-            animateOptions={animateOptions}
-            setAnimateOptions={setAnimateOptions}
-            previewCurrentScene={previewCurrentSceneInHtml}
-          />
-        )}
         {showAutoSceneConfig && (
           <AutoAddSceneConfig
             autoSceneConfig={autoSceneConfig}
@@ -364,13 +321,6 @@ const Claymate = ({
           </button>
         </div>
         <div>
-          <button
-            type="button"
-            title="Animate"
-            onClick={() => setShowAnimateConfig((x) => !x)}
-          >
-            {showAnimateConfig ? <>&#9656;</> : <>&#9666;</>}
-          </button>
           <button
             type="button"
             onClick={() => exportHtml()}

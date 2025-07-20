@@ -1,4 +1,4 @@
-import { LibraryItems } from "@excalidraw/excalidraw/types/types";
+import type { LibraryItems } from "@excalidraw/excalidraw/types";
 import { useCallback, useMemo, useRef } from "react";
 
 const LIBRARY_STORAGE_KEY = "claymate-libraries";

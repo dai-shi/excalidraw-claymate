@@ -1,5 +1,8 @@
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import { AppState } from "@excalidraw/excalidraw/types/types";
+import type {
+  ExcalidrawElement,
+  ExcalidrawRectangleElement,
+} from "@excalidraw/excalidraw/element/types";
+import type { AppState } from "@excalidraw/excalidraw/types";
 import { loadFromBlob } from "@excalidraw/excalidraw";
 import * as svgToEx from "svg-to-excalidraw";
 import { nanoid } from "nanoid";
@@ -70,27 +73,29 @@ export const convertImageToElements = async (
   for (let y = 0; y < canvas.height; ++y) {
     for (let x = 0; x < canvas.width; ++x) {
       const [r, g, b, a] = imageData.data.slice((y * canvas.width + x) * 4);
-      const element: ExcalidrawElement = {
+      const element: ExcalidrawRectangleElement = {
         type: "rectangle",
-        version: 1,
-        versionNonce: 0,
-        isDeleted: false,
         id: nanoid(),
-        fillStyle: "solid",
-        strokeWidth: 1,
-        strokeStyle: "solid",
-        roughness: 0,
-        opacity: 100,
-        angle: 0,
         x: 300 + x * 5,
         y: 100 + y * 5,
         strokeColor: "transparent",
         backgroundColor: `rgba(${r},${g},${b},${a})`,
+        fillStyle: "solid",
+        strokeWidth: 1,
+        strokeStyle: "solid",
+        roundness: null,
+        roughness: 0,
+        opacity: 100,
         width: 5,
         height: 5,
+        angle: 0,
         seed: 0,
+        version: 1,
+        versionNonce: 0,
+        index: null,
+        isDeleted: false,
         groupIds: [groupId],
-        roundness: null,
+        frameId: null,
         boundElements: null,
         updated: 1,
         link: null,
