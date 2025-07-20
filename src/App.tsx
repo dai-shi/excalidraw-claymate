@@ -5,6 +5,8 @@ import Claymate from "./Claymate";
 import { useScenes } from "./useScenes";
 import { useLibrary } from "./useLibrary";
 
+import "@excalidraw/excalidraw/index.css";
+
 const App = () => {
   const {
     moveToScene,
