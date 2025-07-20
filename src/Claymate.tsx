@@ -5,32 +5,32 @@ import {
   useEffect,
   useRef,
   useCallback,
-} from "react";
-import { isEmpty } from "lodash";
+} from 'react';
+import { isEmpty } from 'lodash';
 
-import "./Claymate.css";
-import { Drawing, Scene } from "./types";
-import { exportToGif } from "./exportToGif";
-import { exportToHtml, previewHtml } from "./exportToHtml";
-import AnimateConfig, { AnimateOptions } from "./AnimateConfig";
-import { importFromFile } from "./importFromFile";
-import { previewGif } from "./previewGif";
-import { ClayMateIcons } from "./components/Icon";
-import { Dialog } from "./components/ui";
-import AutoAddSceneConfig from "./components/AutoAddScene/AutoAddSceneConfig";
+import './Claymate.css';
+import { Drawing, Scene } from './types';
+import { exportToGif } from './exportToGif';
+import { exportToHtml, previewHtml } from './exportToHtml';
+import AnimateConfig, { AnimateOptions } from './AnimateConfig';
+import { importFromFile } from './importFromFile';
+import { previewGif } from './previewGif';
+import { ClayMateIcons } from './components/Icon';
+import { Dialog } from './components/ui';
+import AutoAddSceneConfig from './components/AutoAddScene/AutoAddSceneConfig';
 
-const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
+const DARK_FILTER = 'invert(93%) hue-rotate(180deg)';
 
 const Preview = memo<{ scene: Scene; darkMode: boolean }>(
   ({ scene, darkMode }) => {
     const ref = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
       if (!ref.current) return;
-      const ctx = ref.current.getContext("2d");
+      const ctx = ref.current.getContext('2d');
       if (!ctx) return;
       ctx.putImageData(scene.imageData, 0, 0);
     }, [scene]);
-    const currentTheme = darkMode ? "dark" : "light";
+    const currentTheme = darkMode ? 'dark' : 'light';
     const sceneTheme = scene.drawing.appState.theme;
     const filter = sceneTheme !== currentTheme ? DARK_FILTER : undefined;
     return (
@@ -83,7 +83,7 @@ const Claymate = ({
   const [animateOptions, setAnimateOptions] = useState<AnimateOptions>({});
   const [previewState, setPreviewState] = useState<PreviewState>({
     open: false,
-    url: "",
+    url: '',
   });
   const [showAutoSceneConfig, setShowAutoSceneConfig] = useState(false);
   const [autoSceneConfig, setAutoSceneConfig] = useState<AutoSceneConfig>({
@@ -96,7 +96,7 @@ const Claymate = ({
     [autoAddSceneUnit]
   );
 
-  const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === "dark";
+  const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === 'dark';
 
   const handleDrop = async (e: DragEvent) => {
     const file = e.dataTransfer?.files[0];
@@ -120,7 +120,7 @@ const Claymate = ({
   };
 
   const closePreview = () => {
-    setPreviewState({ open: false, url: "" });
+    setPreviewState({ open: false, url: '' });
   };
 
   const exportHtml = async () => {
@@ -133,10 +133,10 @@ const Claymate = ({
 
   const previewCurrentSceneInHtml = async () => {
     if (currentIndex !== undefined) {
-      let divId = "";
-      const ele = document.getElementById("previewOuter");
+      let divId = '';
+      const ele = document.getElementById('previewOuter');
       if (ele) {
-        divId = "previewInner";
+        divId = 'previewInner';
       }
       await previewHtml(
         scenes[currentIndex],
@@ -148,7 +148,7 @@ const Claymate = ({
         divId
       );
       if (ele) {
-        ele.style.display = "block";
+        ele.style.display = 'block';
       }
     }
   };
@@ -247,7 +247,7 @@ const Claymate = ({
     >
       <div className="Claymate-scenes">
         {scenes.map((scene, index) => {
-          let testId = "MissingId";
+          let testId = 'MissingId';
           if (!isEmpty(scenes[index].drawing.elements)) {
             testId = scenes[index].drawing.elements[0].id;
           }
@@ -255,7 +255,7 @@ const Claymate = ({
             <div
               key={scene.id}
               className={`Claymate-scene ${
-                index === currentIndex ? "Claymate-current-scene" : ""
+                index === currentIndex ? 'Claymate-current-scene' : ''
               }`}
               onClick={() => moveToScene(index)}
               data-testid={testId}

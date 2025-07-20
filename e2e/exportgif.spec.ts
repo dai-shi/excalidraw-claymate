@@ -1,18 +1,18 @@
-import { test, expect } from "@playwright/test";
-import { createDrawing } from "../src/__testHelpers/creationForTests";
+import { test, expect } from '@playwright/test';
+import { createDrawing } from '../src/__testHelpers/creationForTests';
 
-test.describe("GIF", () => {
+test.describe('GIF', () => {
   test.beforeEach(async ({ page }) => {
-    const initialData = createDrawing("Test", "Primary");
+    const initialData = createDrawing('Test', 'Primary');
 
     // Set up the page with localStorage and mocked file picker
-    await page.goto("/", {
-      waitUntil: "domcontentloaded",
+    await page.goto('/', {
+      waitUntil: 'domcontentloaded',
     });
 
     // Set localStorage data
     await page.evaluate((data) => {
-      window.localStorage.setItem("excalidraw-elements", JSON.stringify(data));
+      window.localStorage.setItem('excalidraw-elements', JSON.stringify(data));
     }, initialData);
 
     // Mock the file save picker
@@ -28,12 +28,12 @@ test.describe("GIF", () => {
     await page.reload();
   });
 
-  test("Export GIF", async ({ page }) => {
+  test('Export GIF', async ({ page }) => {
     // Click "Add scene" button
-    await page.click("text=Add scene");
+    await page.click('text=Add scene');
 
     // Verify the "Export GIF" button is visible and clickable
-    const exportButton = page.locator("text=Export GIF");
+    const exportButton = page.locator('text=Export GIF');
     await expect(exportButton).toBeVisible();
 
     // Click "Export GIF" button

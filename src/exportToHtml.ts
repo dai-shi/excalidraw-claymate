@@ -1,15 +1,15 @@
-import { fileSave } from "browser-fs-access";
-import { exportToSvg } from "@excalidraw/excalidraw";
+import { fileSave } from 'browser-fs-access';
+import { exportToSvg } from '@excalidraw/excalidraw';
 import type {
   ExcalidrawElement,
   NonDeletedExcalidrawElement,
-} from "@excalidraw/excalidraw/types/element/types";
-import { animateSvg, getBeginTimeList } from "excalidraw-animate/dist/library";
-import { AnimateOptions } from "./AnimateConfig";
+} from '@excalidraw/excalidraw/types/element/types';
+import { animateSvg, getBeginTimeList } from 'excalidraw-animate/dist/library';
+import { AnimateOptions } from './AnimateConfig';
 
-import { Scene } from "./types";
+import { Scene } from './types';
 
-const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
+const DARK_FILTER = 'invert(93%) hue-rotate(180deg)';
 
 const getNonDeletedElements = (
   elements: readonly ExcalidrawElement[]
@@ -110,7 +110,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       <style>
         svg { width: 100%; height: 100%; }
         body { margin: 0px; font-size: 24px; ${
-          options.darkMode ? `filter: ${DARK_FILTER}; ` : ""
+          options.darkMode ? `filter: ${DARK_FILTER}; ` : ''
         }}
         button { background: transparent; border: none; cursor: pointer; padding: 3px; margin: 0px 10px; font-size: inherit;}
         #container { display: flex; flex-direction: column; height: 100%; background: white; }
@@ -202,7 +202,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       );
     }
     svg.id = `scene${index}`;
-    svg.style.display = "none";
+    svg.style.display = 'none';
     html += svg.outerHTML;
     if (options.animate) {
       const beginTimeList = getBeginTimeList(svg);
@@ -222,7 +222,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
      <button type="button" onclick="resetAnimations()" title="Reset animations">R</button>
     </div>
 `
-    : "";
+    : '';
   html += `
     </div>
     <div id="navigation">
@@ -238,8 +238,8 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
     </div>
   </div></body></html>
 `;
-  await fileSave(new Blob([html], { type: "text/html" }), {
-    fileName: "excalidraw-claymate.html",
+  await fileSave(new Blob([html], { type: 'text/html' }), {
+    fileName: 'excalidraw-claymate.html',
   });
 };
 
@@ -263,7 +263,7 @@ export const previewHtml = async (
       ele.innerHTML = html;
     }
   } else {
-    const win = window.open("", "_blank");
+    const win = window.open('', '_blank');
     if (win) {
       win.document.body.innerHTML = html;
     }
