@@ -1,21 +1,24 @@
-/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { configDefaults } from "vitest/config";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 3000,
-  },
   base: "./",
   build: {
     outDir: "build",
   },
+  ssr: {
+    noExternal: ["@excalidraw/excalidraw"],
+  },
   test: {
-    environment: "jsdom",
     globals: true,
+    environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
-    exclude: ["**/node_modules/**", "**/e2e/**", "**/dist/**"],
+    exclude: [...configDefaults.exclude],
+    deps: {
+      interopDefault: true,
+      inline: ["@excalidraw/excalidraw"],
+    },
   },
 });

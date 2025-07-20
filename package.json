@@ -50,27 +50,10 @@
     "jsdom": "^22.0.0",
     "prettier": "^2.8.8",
     "typescript": "^5.8.3",
-    "vite": "^4.3.5",
-    "vitest": "^3.0.9"
+    "vite": "^7.0.5",
+    "vitest": "^3.2.4"
   },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|sass)$": "identity-obj-proxy"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(excalidraw-animate|browser-fs-access)/)"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "prettier": {
+    "singleQuote": true
   }
 }
