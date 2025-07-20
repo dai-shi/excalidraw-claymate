@@ -1,7 +1,8 @@
-import * as ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
+import type { HTMLAttributes, ReactNode } from 'react';
 import './Dialog.css';
 
-export const Dialog: React.FC<DialogProps> = ({
+export const Dialog = ({
   className = '',
   open,
   title,
@@ -15,10 +16,10 @@ export const Dialog: React.FC<DialogProps> = ({
   headerActions,
   children,
   position = 'center',
-}) => {
+}: DialogProps) => {
   if (!open) return null;
   const modalClassname = `claymate-modal ${className} ${position}`;
-  return ReactDOM.createPortal(
+  return createPortal(
     <div className="claymate-modal-wrapper">
       <div className={modalClassname}>
         <div className="modal-header">
@@ -44,7 +45,7 @@ export const Dialog: React.FC<DialogProps> = ({
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
 
@@ -52,15 +53,15 @@ export interface DialogProps {
   className?: string;
   open: boolean;
   title: string;
-  actions?: React.ReactNode;
+  actions?: ReactNode;
   handleClose: () => void;
   dividers?: boolean;
   dividerTop?: boolean;
   dividerBottom?: boolean;
-  dialogActionProps?: React.HTMLAttributes<HTMLDivElement>;
-  dialogContentProps?: React.HTMLAttributes<HTMLDivElement>;
-  headerActions?: React.ReactNode;
-  children: React.ReactNode;
+  dialogActionProps?: HTMLAttributes<HTMLDivElement>;
+  dialogContentProps?: HTMLAttributes<HTMLDivElement>;
+  headerActions?: ReactNode;
+  children: ReactNode;
   position?:
     | 'top-left'
     | 'top-right'

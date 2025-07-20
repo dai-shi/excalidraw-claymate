@@ -5,6 +5,7 @@ import Claymate from './Claymate';
 import { useScenes } from './useScenes';
 import { useLibrary } from './useLibrary';
 
+// eslint-disable-next-line import/no-unresolved
 import '@excalidraw/excalidraw/index.css';
 
 const App = () => {

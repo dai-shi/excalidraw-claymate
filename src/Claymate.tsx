@@ -20,37 +20,43 @@ import AutoAddSceneConfig from './components/AutoAddScene/AutoAddSceneConfig';
 
 const DARK_FILTER = 'invert(93%) hue-rotate(180deg)';
 
-const Preview = memo<{ scene: Scene; darkMode: boolean }>(
-  ({ scene, darkMode }) => {
-    const ref = useRef<HTMLCanvasElement>(null);
-    useEffect(() => {
-      if (!ref.current) return;
-      const ctx = ref.current.getContext('2d');
-      if (!ctx) return;
-      ctx.putImageData(scene.imageData, 0, 0);
-    }, [scene]);
-    const currentTheme = darkMode ? 'dark' : 'light';
-    const sceneTheme = scene.drawing.appState.theme;
-    const filter = sceneTheme !== currentTheme ? DARK_FILTER : undefined;
-    return (
-      <canvas
-        ref={ref}
-        width={scene.width}
-        height={scene.height}
-        style={{
-          filter,
-        }}
-      />
-    );
-  }
-);
+const PreviewInner = ({
+  scene,
+  darkMode,
+}: {
+  scene: Scene;
+  darkMode: boolean;
+}) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const ctx = ref.current.getContext('2d');
+    if (!ctx) return;
+    ctx.putImageData(scene.imageData, 0, 0);
+  }, [scene]);
+  const currentTheme = darkMode ? 'dark' : 'light';
+  const sceneTheme = scene.drawing.appState.theme;
+  const filter = sceneTheme !== currentTheme ? DARK_FILTER : undefined;
+  return (
+    <canvas
+      ref={ref}
+      width={scene.width}
+      height={scene.height}
+      style={{
+        filter,
+      }}
+    />
+  );
+};
+
+const Preview = memo(PreviewInner);
 
 type Props = {
   currentIndex: number | undefined;
   scenes: Scene[];
   updateScenes: (
     updater: (prev: Scene[]) => Scene[],
-    newCurrent?: { index: number; drawing: Drawing }
+    newCurrent?: { index: number; drawing: Drawing },
   ) => void;
   moveToScene: (index: number) => void;
   addScene: (optionalDrawing?: Drawing) => void;
@@ -87,7 +93,7 @@ const Claymate = ({
   const autoSceneInterval = useRef<NodeJS.Timeout | null>(null);
   const autoSceneFrequencyToInterval = useCallback(
     (frequency: number) => frequency * autoAddSceneUnit * 1000,
-    [autoAddSceneUnit]
+    [autoAddSceneUnit],
   );
 
   const darkMode = scenes[currentIndex || 0]?.drawing.appState.theme === 'dark';
@@ -164,7 +170,7 @@ const Claymate = ({
         tmp[index] = prev[index - 1];
         return tmp;
       },
-      { index: index - 1, drawing: scenes[index].drawing }
+      { index: index - 1, drawing: scenes[index].drawing },
     );
   };
 
@@ -177,7 +183,7 @@ const Claymate = ({
         tmp[index] = prev[index + 1];
         return tmp;
       },
-      { index: index + 1, drawing: scenes[index].drawing }
+      { index: index + 1, drawing: scenes[index].drawing },
     );
   };
 
@@ -189,7 +195,7 @@ const Claymate = ({
             index: scenes.length - 1 - currentIndex,
             drawing: scenes[currentIndex].drawing,
           }
-        : undefined
+        : undefined,
     );
   };
 
@@ -197,7 +203,7 @@ const Claymate = ({
     if (autoSceneConfig.enabled) {
       autoSceneInterval.current = setInterval(
         () => addScene(),
-        autoSceneFrequencyToInterval(autoSceneConfig.frequency)
+        autoSceneFrequencyToInterval(autoSceneConfig.frequency),
       );
     }
     return () => {
@@ -228,6 +234,7 @@ const Claymate = ({
                 index === currentIndex ? 'Claymate-current-scene' : ''
               }`}
               onClick={() => moveToScene(index)}
+              aria-hidden="true"
               data-testid={testId}
             >
               <Preview scene={scene} darkMode={darkMode} />

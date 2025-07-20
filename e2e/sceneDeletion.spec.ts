@@ -27,7 +27,7 @@ test.describe('Scene Deletion', () => {
       ({ key, data }) => {
         window.localStorage.setItem(key, JSON.stringify(data));
       },
-      { key: SCENE_STORAGE_KEY, data: scenes }
+      { key: SCENE_STORAGE_KEY, data: scenes },
     );
 
     // Reload to apply localStorage data
@@ -49,7 +49,7 @@ test.describe('Scene Deletion', () => {
 
     const newCurrentSceneId = getSceneId(scenes[1]);
     await expect(
-      page.locator(`[data-testid="${newCurrentSceneId}"]`)
+      page.locator(`[data-testid="${newCurrentSceneId}"]`),
     ).toHaveCSS('border', SelectedSceneBorder);
   });
 
@@ -64,7 +64,7 @@ test.describe('Scene Deletion', () => {
     await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS(
       'border',
-      SelectedSceneBorder
+      SelectedSceneBorder,
     );
   });
 
@@ -91,7 +91,7 @@ test.describe('Scene Deletion', () => {
 
     const newCurrentSceneId = getSceneId(scenes[scenes.length - 2]);
     await expect(
-      page.locator(`[data-testid="${newCurrentSceneId}"]`)
+      page.locator(`[data-testid="${newCurrentSceneId}"]`),
     ).toHaveCSS('border', SelectedSceneBorder);
   });
 
@@ -108,7 +108,7 @@ test.describe('Scene Deletion', () => {
     await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS(
       'border',
-      SelectedSceneBorder
+      SelectedSceneBorder,
     );
   });
 
@@ -125,7 +125,7 @@ test.describe('Scene Deletion', () => {
     await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS(
       'border',
-      SelectedSceneBorder
+      SelectedSceneBorder,
     );
   });
 
@@ -142,7 +142,7 @@ test.describe('Scene Deletion', () => {
     await expect(sceneToDelete).toBeHidden();
     await expect(page.locator(`[data-testid="${currentSceneId}"]`)).toHaveCSS(
       'border',
-      SelectedSceneBorder
+      SelectedSceneBorder,
     );
   });
 
@@ -163,7 +163,7 @@ test.describe('Scene Deletion', () => {
       page
         .locator('.Claymate-scenes')
         .first()
-        .locator(`[data-testid="${nextSceneId}"]`)
+        .locator(`[data-testid="${nextSceneId}"]`),
     ).toHaveCSS('border', SelectedSceneBorder);
   });
 });

@@ -4,7 +4,7 @@ import { Drawing, Scene } from './types';
 
 export const createScene = async (
   drawing: Drawing,
-  size?: { width: number; height: number }
+  size?: { width: number; height: number },
 ): Promise<Scene | undefined> => {
   const canvas = await exportToCanvas(drawing);
   const width = size ? size.width : canvas.width;
