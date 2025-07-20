@@ -1,7 +1,7 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
-import './AnimateConfig.css';
-import { Drawing, Scene } from './types';
+import "./AnimateConfig.css";
+import { Drawing, Scene } from "./types";
 
 const extractNumberFromId = (id: string, key: string) => {
   const match = id.match(new RegExp(`${key}:(-?\\d+)`));
@@ -79,13 +79,13 @@ const AnimateConfig = ({
 
   const animateOrderSet = new Set<number | undefined>();
   selectedIds.forEach((id) => {
-    animateOrderSet.add(extractNumberFromId(id, 'animateOrder'));
+    animateOrderSet.add(extractNumberFromId(id, "animateOrder"));
   });
   const onChangeAnimateOrder = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Math.floor(Number(e.target.value));
     if (scene && Number.isFinite(value)) {
       updateDrawing(
-        applyNumberInId(scene.drawing, selectedIds, 'animateOrder', value)
+        applyNumberInId(scene.drawing, selectedIds, "animateOrder", value)
       );
     }
   };
@@ -93,13 +93,13 @@ const AnimateConfig = ({
 
   const animateDurationSet = new Set<number | undefined>();
   selectedIds.forEach((id) => {
-    animateDurationSet.add(extractNumberFromId(id, 'animateDuration'));
+    animateDurationSet.add(extractNumberFromId(id, "animateDuration"));
   });
   const onChangeAnimateDuration = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Math.floor(Number(e.target.value));
     if (scene && Number.isFinite(value)) {
       updateDrawing(
-        applyNumberInId(scene.drawing, selectedIds, 'animateDuration', value)
+        applyNumberInId(scene.drawing, selectedIds, "animateDuration", value)
       );
     }
   };
@@ -119,7 +119,7 @@ const AnimateConfig = ({
     }
     const reader = new FileReader();
     reader.onload = () => {
-      if (typeof reader.result === 'string') {
+      if (typeof reader.result === "string") {
         const pointerImg = reader.result;
         setAnimateOptions((prev) => ({ ...prev, pointerImg }));
       }
@@ -144,13 +144,13 @@ const AnimateConfig = ({
             onChange={() => setAnimateEnabled((x) => !x)}
           />
           Enable animate
-        </label>{' '}
+        </label>{" "}
         <button disabled={!animateEnabled} onClick={previewCurrentScene}>
           Preview
         </button>
       </div>
       <div style={{ opacity: animateOrderDisabled ? 0.3 : 1.0 }}>
-        Animate order:{' '}
+        Animate order:{" "}
         {animateOrderSet.size > 1 ? (
           <>(mixed)</>
         ) : (
@@ -168,7 +168,7 @@ const AnimateConfig = ({
         )}
       </div>
       <div style={{ opacity: animateDurationDisabled ? 0.3 : 1.0 }}>
-        Animate duration (ms):{' '}
+        Animate duration (ms):{" "}
         {animateDurationSet.size > 1 ? (
           <>(mixed)</>
         ) : (
@@ -177,7 +177,7 @@ const AnimateConfig = ({
             value={
               (animateDurationSet.size === 1 &&
                 animateDurationSet.values().next().value) ||
-              ''
+              ""
             }
             onChange={onChangeAnimateDuration}
             placeholder="Default"
@@ -186,19 +186,19 @@ const AnimateConfig = ({
         )}
       </div>
       <div style={{ opacity: !animateEnabled ? 0.3 : 1.0 }}>
-        Animate pointer:{' '}
+        Animate pointer:{" "}
         <input
           disabled={!animateEnabled}
-          value={animateOptions.pointerImg || ''}
+          value={animateOptions.pointerImg || ""}
           onChange={onChangeAnimatePointerText}
           placeholder="URL..."
           style={{ width: 50 }}
-        />{' '}
+        />{" "}
         <label
           className={`AnimateConfig-button-like ${
             animateEnabled
-              ? 'AnimateConfig-button-like-enabled'
-              : 'AnimateConfig-button-like-disabled'
+              ? "AnimateConfig-button-like-enabled"
+              : "AnimateConfig-button-like-disabled"
           }`}
         >
           <input
@@ -212,10 +212,10 @@ const AnimateConfig = ({
         </label>
       </div>
       <div style={{ opacity: !animateEnabled ? 0.3 : 1.0 }}>
-        (Pointer width:{' '}
+        (Pointer width:{" "}
         <input
           disabled={!animateEnabled}
-          value={animateOptions.pointerWidth || ''}
+          value={animateOptions.pointerWidth || ""}
           onChange={onChangeAnimatePointerWidth}
           placeholder="Num..."
           style={{ width: 50 }}

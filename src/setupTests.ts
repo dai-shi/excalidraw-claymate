@@ -2,12 +2,12 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom/vitest';
-import * as crypto from 'node:crypto';
+import "@testing-library/jest-dom/vitest";
+import * as crypto from "node:crypto";
 
-import { cleanup } from '@testing-library/react';
-import { expect, afterEach } from 'vitest';
-import * as matchers from '@testing-library/jest-dom/matchers';
+import { cleanup } from "@testing-library/react";
+import { expect, afterEach } from "vitest";
+import * as matchers from "@testing-library/jest-dom/matchers";
 
 try {
   (window as any).crypto = {
@@ -16,8 +16,8 @@ try {
     },
   };
 } catch {}
-const element = document.createElement('div');
-element.id = 'root';
+const element = document.createElement("div");
+element.id = "root";
 document.body.appendChild(element);
 
 // extends Vitest's expect method with methods from react-testing-library

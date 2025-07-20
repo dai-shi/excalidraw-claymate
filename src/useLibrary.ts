@@ -1,7 +1,7 @@
-import { LibraryItems } from '@excalidraw/excalidraw/types/types';
-import { useCallback, useMemo, useRef } from 'react';
+import { LibraryItems } from "@excalidraw/excalidraw/types/types";
+import { useCallback, useMemo, useRef } from "react";
 
-const LIBRARY_STORAGE_KEY = 'claymate-libraries';
+const LIBRARY_STORAGE_KEY = "claymate-libraries";
 
 export const loadLibraries = (): LibraryItems | undefined => {
   try {
@@ -11,7 +11,7 @@ export const loadLibraries = (): LibraryItems | undefined => {
       return items as LibraryItems;
     }
   } catch (e) {
-    console.error('Unable to load libraries', e);
+    console.error("Unable to load libraries", e);
   }
   return undefined;
 };

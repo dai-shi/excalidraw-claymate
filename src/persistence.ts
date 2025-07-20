@@ -1,12 +1,12 @@
-import { createScene } from './creation';
-import { Drawing, Scene } from './types';
+import { createScene } from "./creation";
+import { Drawing, Scene } from "./types";
 
-const ELEMENTS_STORAGE_KEY = 'excalidraw-elements';
-const SCENE_STORAGE_KEY = 'claymate-scenes';
+const ELEMENTS_STORAGE_KEY = "excalidraw-elements";
+const SCENE_STORAGE_KEY = "claymate-scenes";
 
 const loadDrawingFromStorage = (): Drawing | null => {
   try {
-    const data = JSON.parse(localStorage.getItem(ELEMENTS_STORAGE_KEY) || '');
+    const data = JSON.parse(localStorage.getItem(ELEMENTS_STORAGE_KEY) || "");
     data.appState.collaborators = new Map();
     return data;
   } catch (e) {
@@ -16,7 +16,7 @@ const loadDrawingFromStorage = (): Drawing | null => {
 
 export const loadStorage = async (): Promise<Scene[] | null> => {
   try {
-    const stored = localStorage.getItem(SCENE_STORAGE_KEY) || '';
+    const stored = localStorage.getItem(SCENE_STORAGE_KEY) || "";
     const drawings =
       stored && stored.length > 0
         ? (JSON.parse(stored) as Drawing[])
@@ -42,7 +42,7 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
       return scenes;
     }
   } catch (e) {
-    console.error('Error loading from storage', e);
+    console.error("Error loading from storage", e);
     try {
       const drawing = loadDrawingFromStorage();
       if (drawing) {

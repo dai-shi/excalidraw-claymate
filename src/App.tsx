@@ -1,14 +1,14 @@
-import { useMemo, useRef } from 'react';
-import { Excalidraw } from '@excalidraw/excalidraw';
+import { useMemo, useRef } from "react";
+import { Excalidraw } from "@excalidraw/excalidraw";
 import type {
   ExcalidrawAPIRefValue,
   ExcalidrawImperativeAPI,
-} from '@excalidraw/excalidraw/types/types';
-import './App.css';
-import Claymate from './Claymate';
-import { Drawing } from './types';
-import { useScenes } from './useScenes';
-import { useLibrary } from './useLibrary';
+} from "@excalidraw/excalidraw/types/types";
+import "./App.css";
+import Claymate from "./Claymate";
+import { Drawing } from "./types";
+import { useScenes } from "./useScenes";
+import { useLibrary } from "./useLibrary";
 
 const App = () => {
   const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
