@@ -35,7 +35,7 @@ export const useScenes = () => {
     (
       drawing: Drawing,
       index: number,
-      updateCurrent: (index: number, drawing: Drawing) => void
+      updateCurrent: (index: number, drawing: Drawing) => void,
     ) => {
       setDrawingVersion((version) => version + 1);
       setDrawing(drawing);
@@ -43,7 +43,7 @@ export const useScenes = () => {
         updateCurrent(index, drawing);
       }
     },
-    []
+    [],
   );
 
   const updateCurrentScene = useCallback(
@@ -57,7 +57,7 @@ export const useScenes = () => {
               : {
                   width: requiredWidth,
                   height: requiredHeight,
-                }
+                },
           );
           if (scene) {
             setScenes((prev) => {
@@ -69,13 +69,13 @@ export const useScenes = () => {
         })();
       }
     },
-    [requiredWidth, requiredHeight]
+    [requiredWidth, requiredHeight],
   );
 
   const updateScenes = useCallback(
     (
       updater: (prev: Scene[]) => Scene[],
-      newCurrent: { index: number; drawing: Drawing } | undefined
+      newCurrent: { index: number; drawing: Drawing } | undefined,
     ) => {
       setScenes(updater);
       if (newCurrent) {
@@ -83,13 +83,13 @@ export const useScenes = () => {
         onRestore(newCurrent.drawing, newCurrent.index, updateCurrentScene);
       }
     },
-    [setCurrentIndex, onRestore, updateCurrentScene]
+    [setCurrentIndex, onRestore, updateCurrentScene],
   );
 
   const onChange = (
     elements: readonly ExcalidrawElement[],
     appState: AppState,
-    files: BinaryFiles
+    files: BinaryFiles,
   ) => {
     if (
       currentIndex !== undefined &&
@@ -99,9 +99,9 @@ export const useScenes = () => {
     ) {
       const update = {
         elements: elements.map((el) => {
-          return { ...(el as any) };
+          return { ...el };
         }),
-        appState: { ...(appState as any) },
+        appState: { ...appState },
         files,
       };
       setDrawing(update);
@@ -114,7 +114,7 @@ export const useScenes = () => {
       onRestore(scenes[index].drawing, index, updateCurrentScene);
       setCurrentIndex(index);
     },
-    [onRestore, scenes, updateCurrentScene]
+    [onRestore, scenes, updateCurrentScene],
   );
 
   const addScene = useCallback(
@@ -127,7 +127,7 @@ export const useScenes = () => {
             scenes[0] && {
               width: scenes[0].width,
               height: scenes[0].height,
-            }
+            },
           );
           if (scene) {
             updateScenes((prev) => [...prev, scene], {
@@ -138,7 +138,7 @@ export const useScenes = () => {
         })();
       }
     },
-    [updateScenes, scenes, drawing]
+    [updateScenes, scenes, drawing],
   );
 
   useEffect(() => {

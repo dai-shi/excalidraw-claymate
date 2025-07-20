@@ -1,6 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
-import './AnimateConfig.css';
 import { Drawing, Scene } from './types';
 
 const extractNumberFromId = (id: string, key: string) => {
@@ -12,7 +11,7 @@ const applyNumberInId = (
   drawing: Drawing,
   ids: string[],
   key: string,
-  value: number
+  value: number,
 ): Drawing => {
   const selectedElementIds = { ...drawing.appState.selectedElementIds };
   const elements = drawing.elements.map((element) => {
@@ -73,7 +72,7 @@ const AnimateConfig = ({
     ? Object.keys(scene.drawing.appState.selectedElementIds ?? {}).filter(
         (id) =>
           scene.drawing.appState.selectedElementIds[id] &&
-          elements.some((element) => element.id === id)
+          elements.some((element) => element.id === id),
       )
     : [];
 
@@ -85,7 +84,7 @@ const AnimateConfig = ({
     const value = Math.floor(Number(e.target.value));
     if (scene && Number.isFinite(value)) {
       updateDrawing(
-        applyNumberInId(scene.drawing, selectedIds, 'animateOrder', value)
+        applyNumberInId(scene.drawing, selectedIds, 'animateOrder', value),
       );
     }
   };
@@ -99,7 +98,7 @@ const AnimateConfig = ({
     const value = Math.floor(Number(e.target.value));
     if (scene && Number.isFinite(value)) {
       updateDrawing(
-        applyNumberInId(scene.drawing, selectedIds, 'animateDuration', value)
+        applyNumberInId(scene.drawing, selectedIds, 'animateDuration', value),
       );
     }
   };

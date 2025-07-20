@@ -9,7 +9,7 @@ const loadDrawingFromStorage = (): Drawing | null => {
     const data = JSON.parse(localStorage.getItem(ELEMENTS_STORAGE_KEY) || '');
     data.appState.collaborators = new Map();
     return data;
-  } catch (e) {
+  } catch {
     return null;
   }
 };
@@ -30,7 +30,7 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
           drawing,
           firstScene
             ? { width: firstScene.width, height: firstScene.height }
-            : undefined
+            : undefined,
         );
         if (scene) {
           if (!firstScene) {

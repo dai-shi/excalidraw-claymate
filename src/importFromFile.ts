@@ -11,7 +11,7 @@ import { Drawing } from './types';
 
 export const importFromFile = async (
   file: File,
-  appState: AppState
+  appState: AppState,
 ): Promise<Drawing | null> => {
   if (file.name.endsWith('.excalidraw')) {
     const result = await loadFromBlob(file, appState, null);
@@ -34,7 +34,7 @@ export const importFromFile = async (
 };
 
 export const convertSvgToElements = async (
-  file: File
+  file: File,
 ): Promise<Drawing['elements']> => {
   const text = await file.text();
   const { hasErrors, content } = svgToEx.convert(text);
@@ -45,7 +45,7 @@ export const convertSvgToElements = async (
 };
 
 export const convertImageToElements = async (
-  file: File
+  file: File,
 ): Promise<Drawing['elements']> => {
   const bitmap = await createImageBitmap(file);
   const scale = 64 / Math.max(bitmap.width, bitmap.height);
@@ -65,7 +65,7 @@ export const convertImageToElements = async (
     0,
     0,
     canvas.width,
-    canvas.height
+    canvas.height,
   );
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const elements: ExcalidrawElement[] = [];

@@ -65,7 +65,7 @@ export const createDrawing = (text: string, primaryId: string): Drawing => {
         fontSize: 36,
         fontFamily: 1,
         text,
-        lineHeight: 1.25 as any,
+        lineHeight: 1.25 as never,
         textAlign: 'center',
         verticalAlign: 'middle',
         containerId: null,
