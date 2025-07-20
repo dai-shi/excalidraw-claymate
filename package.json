@@ -19,7 +19,7 @@
     "e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@excalidraw/excalidraw": "0.15.2",
+    "@excalidraw/excalidraw": "0.15.3",
     "browser-fs-access": "^0.35.0",
     "excalidraw-animate": "0.6.0",
     "gif.js": "^0.2.0",
