@@ -1,6 +1,6 @@
-import Export from "./Export";
-import Preview from "./Preview";
-import Loading from "./Loading";
+import Export from './Export';
+import Preview from './Preview';
+import Loading from './Loading';
 
 export const ClayMateIcons = {
   Export,

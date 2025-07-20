@@ -1,8 +1,8 @@
-import * as ReactDOM from "react-dom";
-import "./Dialog.css";
+import * as ReactDOM from 'react-dom';
+import './Dialog.css';
 
 export const Dialog: React.FC<DialogProps> = ({
-  className = "",
+  className = '',
   open,
   title,
   actions,
@@ -14,7 +14,7 @@ export const Dialog: React.FC<DialogProps> = ({
   dialogContentProps,
   headerActions,
   children,
-  position = "center",
+  position = 'center',
 }) => {
   if (!open) return null;
   const modalClassname = `claymate-modal ${className} ${position}`;
@@ -62,13 +62,13 @@ export interface DialogProps {
   headerActions?: React.ReactNode;
   children: React.ReactNode;
   position?:
-    | "top-left"
-    | "top-right"
-    | "top-center"
-    | "left"
-    | "center"
-    | "right"
-    | "bottom-left"
-    | "bottom"
-    | "bottom-right";
+    | 'top-left'
+    | 'top-right'
+    | 'top-center'
+    | 'left'
+    | 'center'
+    | 'right'
+    | 'bottom-left'
+    | 'bottom'
+    | 'bottom-right';
 }

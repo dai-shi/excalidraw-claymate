@@ -54,6 +54,6 @@
     "vitest": "^3.0.9"
   },
   "prettier": {
-    "singleQuote": false
+    "singleQuote": true
   }
 }
