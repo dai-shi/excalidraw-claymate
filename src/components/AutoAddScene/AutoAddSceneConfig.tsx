@@ -1,6 +1,6 @@
-import * as React from "react";
-import { AutoSceneConfig } from "../../Claymate";
-import "./AutoAddSceneConfig.css";
+import * as React from 'react';
+import { AutoSceneConfig } from '../../Claymate';
+import './AutoAddSceneConfig.css';
 
 interface Props {
   autoSceneConfig: AutoSceneConfig;

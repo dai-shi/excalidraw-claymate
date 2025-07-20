@@ -1,5 +1,5 @@
-import * as React from "react";
-import { ClayMateIconProps } from ".";
+import * as React from 'react';
+import { ClayMateIconProps } from '.';
 
 const Export: React.FC<ClayMateIconProps> = ({ fontSize = 14 }) => {
   return (

@@ -1,6 +1,6 @@
-import { nanoid } from "nanoid";
-import { exportToCanvas } from "@excalidraw/excalidraw";
-import { Drawing, Scene } from "./types";
+import { nanoid } from 'nanoid';
+import { exportToCanvas } from '@excalidraw/excalidraw';
+import { Drawing, Scene } from './types';
 
 export const createScene = async (
   drawing: Drawing,
@@ -12,7 +12,7 @@ export const createScene = async (
   if (!width || !height) {
     return;
   }
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
   if (ctx) {
     return {
       id: nanoid(),

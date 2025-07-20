@@ -1,7 +1,7 @@
 // @ts-expect-error no types
-import GIF from "gif.js/dist/gif";
+import GIF from 'gif.js/dist/gif';
 
-import { Scene } from "./types";
+import { Scene } from './types';
 
 export const previewGif = (scenes: Scene[]): Promise<string> =>
   new Promise((resolve) => {
@@ -10,7 +10,7 @@ export const previewGif = (scenes: Scene[]): Promise<string> =>
       const last = index + 1 === scenes.length;
       gif.addFrame(scene.imageData, { delay: last ? 2000 : 500 });
     });
-    gif.on("finished", (blob: Blob) => {
+    gif.on('finished', (blob: Blob) => {
       const url = URL.createObjectURL(blob);
       resolve(url);
     });

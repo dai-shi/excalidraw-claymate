@@ -85,7 +85,7 @@ npm test
 
 # Run individual test suites
 npm run test:lint
-npm run test:type 
+npm run test:type
 npm run test:app
 npm run e2e
 ```

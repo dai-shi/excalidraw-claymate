@@ -24,7 +24,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    
+
     /* Increase action timeout on CI */
     actionTimeout: process.env.CI ? 30000 : 10000,
   },
@@ -36,17 +36,19 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    ...(process.env.CI ? [] : [
-      {
-        name: 'firefox',
-        use: { ...devices['Desktop Firefox'] },
-      },
+    ...(process.env.CI
+      ? []
+      : [
+          {
+            name: 'firefox',
+            use: { ...devices['Desktop Firefox'] },
+          },
 
-      {
-        name: 'webkit',
-        use: { ...devices['Desktop Safari'] },
-      },
-    ]),
+          {
+            name: 'webkit',
+            use: { ...devices['Desktop Safari'] },
+          },
+        ]),
 
     /* Test against mobile viewports. */
     // {
@@ -71,7 +73,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: process.env.npm_config_user_agent?.includes('pnpm') ? 'pnpm start' : 'npm start',
+    command: process.env.npm_config_user_agent?.includes('pnpm')
+      ? 'pnpm dev'
+      : 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
