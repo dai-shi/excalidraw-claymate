@@ -2,7 +2,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -13,9 +12,14 @@ export default defineConfig({
     outDir: 'build',
   },
   test: {
-    environment: 'jsdom',
     globals: true,
+    environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
-    exclude: ['**/node_modules/**', '**/e2e/**', '**/dist/**'],
+    exclude: ['**/node_modules/**', '**/e2e/**', '**/build/**'],
+    server: {
+      deps: {
+        inline: ['@excalidraw/excalidraw'],
+      },
+    },
   },
 });

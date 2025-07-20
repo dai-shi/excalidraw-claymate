@@ -1,68 +1,9 @@
 import { fileSave } from 'browser-fs-access';
 import { exportToSvg } from '@excalidraw/excalidraw';
-import type {
-  ExcalidrawElement,
-  NonDeletedExcalidrawElement,
-} from '@excalidraw/excalidraw/types/element/types';
-import { animateSvg, getBeginTimeList } from 'excalidraw-animate/dist/library';
-import { AnimateOptions } from './AnimateConfig';
 
 import { Scene } from './types';
 
 const DARK_FILTER = 'invert(93%) hue-rotate(180deg)';
-
-const getNonDeletedElements = (
-  elements: readonly ExcalidrawElement[]
-): NonDeletedExcalidrawElement[] =>
-  elements.filter(
-    (element): element is NonDeletedExcalidrawElement => !element.isDeleted
-  );
-
-const getAnimateFunctions = (enabled: boolean) =>
-  enabled
-    ? `
-      function togglePausedAnimations() {
-        const svg = document.getElementById('scene' + index);
-        if (svg.animationsPaused()) {
-          for (const svg of document.getElementsByTagName('svg')) {
-            svg.unpauseAnimations();
-          }
-        } else {
-          for (const svg of document.getElementsByTagName('svg')) {
-            svg.pauseAnimations();
-          }
-        }
-      }
-      const beginTimeLists = [];
-      let animateTimer;
-      function stepForwardAnimations() {
-        const svg = document.getElementById('scene' + index);
-        const beginTimeList = beginTimeLists[index];
-        const currentTime = svg.getCurrentTime() * 1000;
-        let nextTime = beginTimeList.find((t) => t > currentTime + 50);
-        console.log(currentTime, beginTimeList, nextTime);
-        if (nextTime) {
-          nextTime -= 1;
-        } else {
-          nextTime = currentTime + 500;
-        }
-        clearTimeout(animateTimer);
-        svg.unpauseAnimations();
-        animateTimer = setTimeout(() => {
-          svg.pauseAnimations();
-          svg.setCurrentTime(nextTime / 1000);
-        }, nextTime - currentTime);
-      }
-      function resetAnimations() {
-        const svg = document.getElementById('scene' + index);
-        svg.setCurrentTime(0);
-      }
-`
-    : `
-      function togglePausedAnimations() {}
-      function stepForwardAnimations() {}
-      function resetAnimations() {}
-`;
 
 const recordingFunction = `
   function startRecording() {
@@ -100,8 +41,6 @@ const recordingFunction = `
 
 type Options = {
   darkMode: boolean;
-  animate?: boolean;
-  animateOptions?: AnimateOptions;
 };
 
 export const exportToHtml = async (scenes: Scene[], options: Options) => {
@@ -154,7 +93,6 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
             document.body.requestFullscreen();
           }
         }
-        ${getAnimateFunctions(!!options.animate)}
         ${recordingFunction}
         document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('scene' + index).style.display = 'block';
@@ -194,39 +132,13 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
         exportWithDarkMode: false,
       },
     });
-    if (options.animate) {
-      animateSvg(
-        svg,
-        getNonDeletedElements(scene.drawing.elements),
-        options.animateOptions
-      );
-    }
     svg.id = `scene${index}`;
     svg.style.display = 'none';
     html += svg.outerHTML;
-    if (options.animate) {
-      const beginTimeList = getBeginTimeList(svg);
-      beginTimeList.sort((a, b) => a - b);
-      html += `
-        <script>
-          beginTimeLists.push(${JSON.stringify(beginTimeList)});
-        </script>
-      `;
-    }
   }
-  const animateButtons = options.animate
-    ? `
-    <div id="leftbuttons">
-     <button type="button" onclick="togglePausedAnimations()" title="Play or pause animations">P</button>
-     <button type="button" onclick="stepForwardAnimations()" title="Step forward animations">S</button>
-     <button type="button" onclick="resetAnimations()" title="Reset animations">R</button>
-    </div>
-`
-    : '';
   html += `
     </div>
     <div id="navigation">
-      ${animateButtons}
       <button class="navbutton" type="button" onclick="moveLeft()" title="Previous slide">&#9664;</button>
       <div id="title">1 of ${scenes.length}</div>
       <button class="navbutton" type="button" onclick="moveRight()" title="Next slide">&#9654;</button>
@@ -243,19 +155,8 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
   });
 };
 
-export const previewHtml = async (
-  scene: Scene,
-  options: Options,
-  divId?: string
-) => {
+export const previewHtml = async (scene: Scene, divId?: string) => {
   const svg: SVGSVGElement = await exportToSvg(scene.drawing);
-  if (options.animate) {
-    animateSvg(
-      svg,
-      getNonDeletedElements(scene.drawing.elements),
-      options.animateOptions
-    );
-  }
   const html = svg.outerHTML;
   if (divId) {
     const ele = document.getElementById(divId);

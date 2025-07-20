@@ -1,23 +1,13 @@
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { Excalidraw } from '@excalidraw/excalidraw';
-import type {
-  ExcalidrawAPIRefValue,
-  ExcalidrawImperativeAPI,
-} from '@excalidraw/excalidraw/types/types';
 import './App.css';
 import Claymate from './Claymate';
-import { Drawing } from './types';
 import { useScenes } from './useScenes';
 import { useLibrary } from './useLibrary';
 
-const App = () => {
-  const excalidrawRef = useRef<ExcalidrawAPIRefValue>(null);
-  const updateDrawing = (drawing: Drawing) => {
-    (excalidrawRef.current as ExcalidrawImperativeAPI | null)?.updateScene(
-      drawing
-    );
-  };
+import '@excalidraw/excalidraw/index.css';
 
+const App = () => {
   const {
     moveToScene,
     addScene,
@@ -45,7 +35,6 @@ const App = () => {
   return (
     <div className="ClaymateApp">
       <Excalidraw
-        ref={excalidrawRef}
         key={drawingVersion}
         initialData={initialData}
         onChange={onChange}
@@ -57,7 +46,6 @@ const App = () => {
         updateScenes={updateScenes}
         moveToScene={moveToScene}
         addScene={addScene}
-        updateDrawing={updateDrawing}
       />
     </div>
   );
