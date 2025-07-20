@@ -1,11 +1,11 @@
-import { useMemo } from "react";
-import { Excalidraw } from "@excalidraw/excalidraw";
-import "./App.css";
-import Claymate from "./Claymate";
-import { useScenes } from "./useScenes";
-import { useLibrary } from "./useLibrary";
+import { useMemo } from 'react';
+import { Excalidraw } from '@excalidraw/excalidraw';
+import './App.css';
+import Claymate from './Claymate';
+import { useScenes } from './useScenes';
+import { useLibrary } from './useLibrary';
 
-import "@excalidraw/excalidraw/index.css";
+import '@excalidraw/excalidraw/index.css';
 
 const App = () => {
   const {

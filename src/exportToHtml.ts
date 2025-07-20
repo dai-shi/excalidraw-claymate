@@ -1,9 +1,9 @@
-import { fileSave } from "browser-fs-access";
-import { exportToSvg } from "@excalidraw/excalidraw";
+import { fileSave } from 'browser-fs-access';
+import { exportToSvg } from '@excalidraw/excalidraw';
 
-import { Scene } from "./types";
+import { Scene } from './types';
 
-const DARK_FILTER = "invert(93%) hue-rotate(180deg)";
+const DARK_FILTER = 'invert(93%) hue-rotate(180deg)';
 
 const recordingFunction = `
   function startRecording() {
@@ -49,7 +49,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       <style>
         svg { width: 100%; height: 100%; }
         body { margin: 0px; font-size: 24px; ${
-          options.darkMode ? `filter: ${DARK_FILTER}; ` : ""
+          options.darkMode ? `filter: ${DARK_FILTER}; ` : ''
         }}
         button { background: transparent; border: none; cursor: pointer; padding: 3px; margin: 0px 10px; font-size: inherit;}
         #container { display: flex; flex-direction: column; height: 100%; background: white; }
@@ -133,7 +133,7 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
       },
     });
     svg.id = `scene${index}`;
-    svg.style.display = "none";
+    svg.style.display = 'none';
     html += svg.outerHTML;
   }
   html += `
@@ -150,8 +150,8 @@ export const exportToHtml = async (scenes: Scene[], options: Options) => {
     </div>
   </div></body></html>
 `;
-  await fileSave(new Blob([html], { type: "text/html" }), {
-    fileName: "excalidraw-claymate.html",
+  await fileSave(new Blob([html], { type: 'text/html' }), {
+    fileName: 'excalidraw-claymate.html',
   });
 };
 
@@ -164,7 +164,7 @@ export const previewHtml = async (scene: Scene, divId?: string) => {
       ele.innerHTML = html;
     }
   } else {
-    const win = window.open("", "_blank");
+    const win = window.open('', '_blank');
     if (win) {
       win.document.body.innerHTML = html;
     }

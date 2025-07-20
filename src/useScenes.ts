@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { ExcalidrawElement } from "@excalidraw/excalidraw/element/types";
-import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
-import { createScene } from "./creation";
-import type { Drawing, Scene } from "./types";
-import { loadStorage, saveStorage } from "./persistence";
-import { isEqual } from "lodash";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
+import type { AppState, BinaryFiles } from '@excalidraw/excalidraw/types';
+import { createScene } from './creation';
+import type { Drawing, Scene } from './types';
+import { loadStorage, saveStorage } from './persistence';
+import { isEqual } from 'lodash';
 
 enum Initialisation {
   NotStarted,
