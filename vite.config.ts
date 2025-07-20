@@ -4,6 +4,9 @@ import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    port: 3000,
+  },
   base: './',
   build: {
     outDir: 'build',
