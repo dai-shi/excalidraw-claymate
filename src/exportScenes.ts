@@ -3,7 +3,7 @@ import { fileSave } from 'browser-fs-access';
 // Exports all localStorage key/value pairs for this origin into a single JSON file.
 // The file structure is a plain object mapping keys to string values.
 // This keeps it generic so future keys are automatically included.
-export const saveScene = async () => {
+export const exportScenes = async () => {
   try {
     const data: Record<string, string> = {};
     for (let i = 0; i < localStorage.length; i += 1) {

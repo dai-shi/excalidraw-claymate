@@ -4,7 +4,7 @@ import { loadLibraries } from './useLibrary';
 
 // Imports a previously saved claymate-scene.json file and restores localStorage.
 // After successful import the page is reloaded to let hooks pick up new storage.
-export const importScene = async () => {
+export const importScenes = async () => {
   try {
     const file = await fileOpen({
       extensions: ['.json'],
@@ -18,14 +18,16 @@ export const importScene = async () => {
       throw new Error('Invalid JSON structure');
     }
     // Replace only keys present in the file (avoid deleting other app/user data).
-    Object.entries(parsed as Record<string, unknown>).forEach(([key, value]) => {
-      if (typeof value === 'string') {
-        localStorage.setItem(key, value);
-      } else {
-        // Non-string values were probably stored as objects; re-stringify.
-        localStorage.setItem(key, JSON.stringify(value));
-      }
-    });
+    Object.entries(parsed as Record<string, unknown>).forEach(
+      ([key, value]) => {
+        if (typeof value === 'string') {
+          localStorage.setItem(key, value);
+        } else {
+          // Non-string values were probably stored as objects; re-stringify.
+          localStorage.setItem(key, JSON.stringify(value));
+        }
+      },
+    );
     // Quick validation attempt (optional): try loading scenes.
     const scenes = await loadStorage();
     const libraries = loadLibraries();
