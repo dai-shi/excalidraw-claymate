@@ -23,7 +23,7 @@
     "@excalidraw/excalidraw": "0.18.0",
     "browser-fs-access": "^0.35.0",
     "gif.js": "^0.2.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "nanoid": "3.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
