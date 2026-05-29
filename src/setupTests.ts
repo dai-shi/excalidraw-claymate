@@ -25,7 +25,7 @@ try {
 };
 (window as any).FontFace = class {};
 (document as any).fonts = new Set();
-if (!HTMLCanvasElement.prototype.getContext) {
+{
   const noop = () => {};
   const createCanvasContextMock = (canvas: HTMLCanvasElement) => ({
     canvas,
