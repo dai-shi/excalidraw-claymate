@@ -46,7 +46,7 @@ if (!HTMLCanvasElement.prototype.getContext) {
       },
     );
   (HTMLCanvasElement.prototype as any).getContext = function (
-    contextId: unknown,
+    contextId: string,
   ) {
     if (contextId !== '2d') {
       return null;
