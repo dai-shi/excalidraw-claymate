@@ -25,6 +25,11 @@ try {
 };
 (window as any).FontFace = class {};
 (document as any).fonts = new Set();
+if (!HTMLCanvasElement.prototype.getContext) {
+  (HTMLCanvasElement.prototype as any).getContext = function () {
+    return {};
+  };
+}
 const element = document.createElement('div');
 element.id = 'root';
 document.body.appendChild(element);
