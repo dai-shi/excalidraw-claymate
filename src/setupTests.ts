@@ -26,15 +26,35 @@ try {
 (window as any).FontFace = class {};
 (document as any).fonts = new Set();
 if (!HTMLCanvasElement.prototype.getContext) {
-  const canvasContextMock = new Proxy(
-    {},
-    {
-      get: () => () => {},
-      set: () => true,
-    },
-  );
-  (HTMLCanvasElement.prototype as any).getContext = function () {
-    return canvasContextMock;
+  const createCanvasContextMock = (canvas: HTMLCanvasElement) =>
+    new Proxy<Record<string, unknown>>(
+      {
+        canvas,
+        fillStyle: '#000000',
+        strokeStyle: '#000000',
+        globalAlpha: 1,
+        lineWidth: 1,
+        font: '10px sans-serif',
+      },
+      {
+        get: (target, prop) =>
+          prop in target ? target[prop as string] : () => {},
+        set: (target, prop, value) => {
+          target[prop as string] = value;
+          return true;
+        },
+      },
+    );
+  (HTMLCanvasElement.prototype as any).getContext = function (
+    contextId: unknown,
+  ) {
+    if (contextId !== '2d') {
+      return null;
+    }
+    if (!(this as any).__mockContext2d) {
+      (this as any).__mockContext2d = createCanvasContextMock(this);
+    }
+    return (this as any).__mockContext2d;
   };
 }
 const element = document.createElement('div');
