@@ -29,9 +29,7 @@ if (!HTMLCanvasElement.prototype.getContext) {
   const canvasContextMock = new Proxy(
     {},
     {
-      get: () => () => {
-        // empty
-      },
+      get: () => () => {},
       set: () => true,
     },
   );
