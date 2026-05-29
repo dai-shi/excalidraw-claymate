@@ -26,8 +26,17 @@ try {
 (window as any).FontFace = class {};
 (document as any).fonts = new Set();
 if (!HTMLCanvasElement.prototype.getContext) {
+  const canvasContextMock = new Proxy(
+    {},
+    {
+      get: () => () => {
+        // empty
+      },
+      set: () => true,
+    },
+  );
   (HTMLCanvasElement.prototype as any).getContext = function () {
-    return {};
+    return canvasContextMock;
   };
 }
 const element = document.createElement('div');
