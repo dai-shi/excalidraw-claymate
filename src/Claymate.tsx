@@ -14,6 +14,8 @@ import { exportToGif } from './exportToGif';
 import { exportToHtml } from './exportToHtml';
 import { importFromFile } from './importFromFile';
 import { previewGif } from './previewGif';
+import { exportScenes } from './exportScenes';
+import { importScenes } from './importScenes';
 import { ClayMateIcons } from './components/Icon';
 import { Dialog } from './components/ui';
 import AutoAddSceneConfig from './components/AutoAddScene/AutoAddSceneConfig';
@@ -335,6 +337,20 @@ const Claymate = ({
             title="Export HTML"
           >
             Export HTML
+          </button>
+          <button
+            type="button"
+            onClick={() => exportScenes()}
+            title="Save scenes (export localStorage)"
+          >
+            Save scene
+          </button>
+          <button
+            type="button"
+            onClick={() => importScenes()}
+            title="Import scenes (restore localStorage)"
+          >
+            Import scene
           </button>
         </div>
         <button
