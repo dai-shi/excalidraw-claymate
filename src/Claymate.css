@@ -90,6 +90,11 @@
   border: 1px dotted gray;
 }
 
+.Claymate-scene:has(.Claymate-select:checked) {
+  background-color: rgba(99, 179, 237, 0.25);
+  border-color: #63b3ed;
+}
+
 .Claymate-scene canvas {
   display: block;
   max-width: 100%;
@@ -101,20 +106,20 @@
   margin: 0;
 }
 
-.Claymate-scene:hover .Claymate-delete,
 .Claymate-scene:hover .Claymate-left,
 .Claymate-scene:hover .Claymate-right {
   display: block;
 }
 
-.Claymate-delete {
-  display: none;
+.Claymate-select {
   position: absolute;
   top: 4px;
-  right: 4px;
-  width: 24px;
-  height: 24px;
-  padding: 0;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .Claymate-left {

@@ -20,6 +20,16 @@ try {
 } catch {
   //ignore
 }
+(global as any).ImageData = class {
+  data: Uint8ClampedArray;
+  width: number;
+  height: number;
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+    this.data = new Uint8ClampedArray(width * height * 4);
+  }
+};
 (window as any).Path2D = function () {
   // empty
 };
