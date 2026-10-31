@@ -27,7 +27,7 @@
     "browser-fs-access": "^0.35.0",
     "gif.js": "^0.2.0",
     "lodash": "^4.18.1",
-    "nanoid": "3.3.4",
+    "nanoid": "3.3.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "svg-to-excalidraw": "0.0.2"
@@ -38,6 +38,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^14.3.1",
     "@types/lodash": "^4.17.24",
+    "@types/node": "^22.13.14",
     "@types/nanoid": "^3.0.0",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
