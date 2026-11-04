@@ -102,7 +102,25 @@ document.body.appendChild(element);
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers);
 
+const localStorageMock = (() => {
+  let store: Record<string, string> = {};
+  return {
+    getItem: (key: string) => store[key] ?? null,
+    setItem: (key: string, value: string) => {
+      store[key] = value;
+    },
+    removeItem: (key: string) => {
+      delete store[key];
+    },
+    clear: () => {
+      store = {};
+    },
+  };
+})();
+Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup();
+  localStorageMock.clear();
 });
