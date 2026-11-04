@@ -331,6 +331,7 @@ const Claymate = ({
                 checked={selectedIds.has(scene.id)}
                 onChange={() => toggleSelected(scene.id)}
                 onClick={(event) => event.stopPropagation()}
+                disabled={isSingleEmptyScene}
               />
               <button
                 type="button"
