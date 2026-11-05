@@ -28,3 +28,5 @@ yarn-error.log*
 
 *~
 *.swp
+
+.claude/

@@ -12,6 +12,7 @@ const App = () => {
   const {
     moveToScene,
     addScene,
+    clearScenes,
     onChange,
     drawingVersion,
     currentIndex,
@@ -47,6 +48,7 @@ const App = () => {
         updateScenes={updateScenes}
         moveToScene={moveToScene}
         addScene={addScene}
+        clearScenes={clearScenes}
       />
     </div>
   );

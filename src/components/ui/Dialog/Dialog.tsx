@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import type { HTMLAttributes, ReactNode } from 'react';
 import './Dialog.css';
@@ -17,19 +18,35 @@ export const Dialog = ({
   children,
   position = 'center',
 }: DialogProps) => {
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, handleClose]);
+
   if (!open) return null;
   const modalClassname = `claymate-modal ${className} ${position}`;
   return createPortal(
-    <div className="claymate-modal-wrapper">
-      <div className={modalClassname}>
+    <div
+      className="claymate-modal-wrapper"
+      role="presentation"
+      onClick={(e) => e.target === e.currentTarget && handleClose()}
+      onKeyDown={(e) => e.key === 'Escape' && handleClose()}
+    >
+      <div
+        className={modalClassname}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+      >
         <div className="modal-header">
           <h2 className="typography">{title}</h2>
           {headerActions && (
             <div className="header-actions">{headerActions}</div>
           )}
-          <button className="close-button" onClick={handleClose}>
-            X
-          </button>
         </div>
 
         {(dividers || dividerTop) && <div className="divider" />}
