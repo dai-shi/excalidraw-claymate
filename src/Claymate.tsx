@@ -393,7 +393,7 @@ const Claymate = ({
             Add scene
           </button>
         </div>
-        <div>
+        <div className="flex">
           <button
             type="button"
             disabled={scenes.length === 0}
@@ -411,8 +411,6 @@ const Claymate = ({
             <ClayMateIcons.Export />
             Export GIF
           </button>
-        </div>
-        <div>
           <button
             type="button"
             onClick={() => exportHtml()}
@@ -421,6 +419,8 @@ const Claymate = ({
           >
             Export HTML
           </button>
+        </div>
+        <div>
           <button
             type="button"
             onClick={() => exportScenes()}

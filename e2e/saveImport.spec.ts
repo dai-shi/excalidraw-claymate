@@ -1,19 +1,20 @@
 import { test, expect } from '@playwright/test';
 
-const FIXTURE_PATH = new URL('./fixtures/claymate-scene.json', import.meta.url).pathname;
+const FIXTURE_PATH = new URL('./fixtures/claymate-scene.json', import.meta.url)
+  .pathname;
 const FIXTURE_SCENE_COUNT = 2;
 
 test.describe('Save and Import Scenes', () => {
   test.setTimeout(60000);
 
   test.beforeEach(async ({ page }) => {
-    // browser-fs-access uses File System Access API when available in Chromium,
-    // which Playwright cannot intercept. Force fallback to legacy <input>/<a> APIs.
+    // Force browser-fs-access to use legacy <input>/<a> APIs.
+    // Chromium supports File System Access API, which Playwright cannot intercept.
     await page.addInitScript(() => {
-      delete (window as Window & { showSaveFilePicker?: unknown })
-        .showSaveFilePicker;
-      delete (window as Window & { showOpenFilePicker?: unknown })
-        .showOpenFilePicker;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const w = window as any;
+      delete w.showSaveFilePicker;
+      delete w.showOpenFilePicker;
     });
   });
 
