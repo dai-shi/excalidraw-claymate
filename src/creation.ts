@@ -6,7 +6,10 @@ export const createScene = async (
   drawing: Drawing,
   size?: { width: number; height: number },
 ): Promise<Scene | undefined> => {
-  const canvas = await exportToCanvas(drawing);
+  const canvas = await exportToCanvas({
+    ...drawing,
+    elements: drawing.elements.filter((el) => !el.isDeleted),
+  });
   const width = size ? size.width : canvas.width;
   const height = size ? size.height : canvas.height;
   if (!width || !height) {
