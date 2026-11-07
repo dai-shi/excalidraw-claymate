@@ -51,6 +51,7 @@ export const useScenes = () => {
   const updateCurrentScene = useCallback(
     (index: number, drawing: Drawing) => {
       if (index != null && drawing) {
+        generationRef.current += 1;
         const generation = generationRef.current;
         (async () => {
           const scene = await createScene(
