@@ -16,15 +16,15 @@ If you are already familiar with Excalidraw,
 just visit <https://dai-shi.github.io/excalidraw-claymate>
 and you can do the same.
 
-The main difference is in the footer, where you can:
+Claymate adds a scene panel at the bottom of Excalidraw, where you can:
 
 - add/edit scenes
 - reorder scenes
+- clear selected scenes or all scenes at once
+- save and import scenes as JSON
 - export the scenes as either:
   - an animated GIF
-  - an HTML slide show
-    - with animation (configurable order & speed)
-    - with video recording (See [#46](https://github.com/dai-shi/excalidraw-claymate/pull/46) for instructions)
+  - an HTML slideshow
 
 Notes:
 
