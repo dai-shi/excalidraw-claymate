@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { test, expect, vi, beforeEach, afterEach } from 'vitest';
 
 import Claymate from './Claymate';
+import { DEFAULT_DURATION } from './types';
 import type { Scene } from './types';
 
 const makeScene = (id: string, elements: any[] = []): Scene => ({
@@ -15,6 +16,7 @@ const makeScene = (id: string, elements: any[] = []): Scene => ({
     appState: { theme: 'light' } as any,
     files: null,
   },
+  duration: DEFAULT_DURATION,
 });
 
 const renderClaymate = (override: Record<string, unknown> = {}) => {

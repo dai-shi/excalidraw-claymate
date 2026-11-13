@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { exportToCanvas } from '@excalidraw/excalidraw';
-import { Drawing, Scene } from './types';
+import { DEFAULT_DURATION, Drawing, Scene } from './types';
 
 export const createScene = async (
   drawing: Drawing,
@@ -23,6 +23,7 @@ export const createScene = async (
       height,
       imageData: ctx.getImageData(0, 0, width, height),
       drawing,
+      duration: DEFAULT_DURATION,
     };
   }
 };

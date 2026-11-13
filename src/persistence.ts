@@ -14,17 +14,22 @@ const loadDrawingFromStorage = (): Drawing | null => {
   }
 };
 
+type StoredScene = { drawing: Drawing; duration?: number };
+
 export const loadStorage = async (): Promise<Scene[] | null> => {
   try {
     const stored = localStorage.getItem(SCENE_STORAGE_KEY) || '';
-    const drawings =
+    const parsed =
       stored && stored.length > 0
-        ? (JSON.parse(stored) as Drawing[])
+        ? (JSON.parse(stored) as StoredScene[] | Drawing[])
         : undefined;
-    if (drawings && drawings.length > 0) {
+    if (parsed && parsed.length > 0) {
+      const storedScenes: StoredScene[] = parsed.map((item) =>
+        'drawing' in item ? item : { drawing: item as Drawing },
+      );
       let firstScene: Scene | undefined;
       const scenes: Scene[] = [];
-      for (const drawing of drawings) {
+      for (const { drawing, duration } of storedScenes) {
         drawing.appState.collaborators = new Map();
         const scene = await createScene(
           drawing,
@@ -33,6 +38,9 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
             : undefined,
         );
         if (scene) {
+          if (duration !== undefined) {
+            scene.duration = duration;
+          }
           if (!firstScene) {
             firstScene = scene;
           }
@@ -59,6 +67,8 @@ export const loadStorage = async (): Promise<Scene[] | null> => {
 };
 
 export const saveStorage = (scenes: Scene[]) => {
-  const result = JSON.stringify(scenes.map((s) => s.drawing));
+  const result = JSON.stringify(
+    scenes.map((s) => ({ drawing: s.drawing, duration: s.duration })),
+  );
   localStorage.setItem(SCENE_STORAGE_KEY, result);
 };

@@ -3,6 +3,7 @@ import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
 import type { AppState, BinaryFiles } from '@excalidraw/excalidraw/types';
 import { nanoid } from 'nanoid';
 import { createScene } from './creation';
+import { DEFAULT_DURATION } from './types';
 import type { Drawing, Scene } from './types';
 import { loadStorage, saveStorage } from './persistence';
 import { isEqual } from 'lodash';
@@ -67,7 +68,10 @@ export const useScenes = () => {
           if (scene) {
             setScenes((prev) => {
               const result = [...prev];
-              result[index] = scene;
+              result[index] = {
+                ...scene,
+                duration: prev[index]?.duration ?? scene.duration,
+              };
               return result;
             });
           }
@@ -165,6 +169,7 @@ export const useScenes = () => {
       height: 1,
       imageData: new ImageData(1, 1),
       drawing: blankDrawing,
+      duration: DEFAULT_DURATION,
     };
     setScenes(() => [finalScene]);
     setCurrentIndex(0);
