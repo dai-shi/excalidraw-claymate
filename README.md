@@ -20,6 +20,7 @@ Claymate adds a scene panel at the bottom of Excalidraw, where you can:
 
 - add/edit scenes
 - reorder scenes
+- configure the duration of each scene
 - clear selected scenes or all scenes at once
 - save and import scenes as JSON
 - export the scenes as either:
