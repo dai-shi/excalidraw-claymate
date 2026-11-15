@@ -9,6 +9,7 @@ import {
 import { isEmpty } from 'lodash';
 
 import './Claymate.css';
+import { DEFAULT_DURATION } from './types';
 import type { Drawing, Scene } from './types';
 import { exportToGif } from './exportToGif';
 import { exportToHtml } from './exportToHtml';
@@ -187,6 +188,18 @@ const Claymate = ({
     });
   };
 
+  const updateDuration = (id: string, duration: number) => {
+    updateScenes((prev) =>
+      prev.map((scene) => (scene.id === id ? { ...scene, duration } : scene)),
+    );
+  };
+
+  const resetAllDurations = () => {
+    updateScenes((prev) =>
+      prev.map((scene) => ({ ...scene, duration: DEFAULT_DURATION })),
+    );
+  };
+
   const isSingleEmptyScene =
     scenes.length === 0 ||
     (scenes.length === 1 && isEmpty(scenes[0].drawing.elements));
@@ -325,40 +338,75 @@ const Claymate = ({
               aria-hidden="true"
               data-testid={testId}
             >
-              <Preview scene={scene} darkMode={darkMode} />
-              <input
-                type="checkbox"
-                className="Claymate-select"
-                aria-label="Select scene"
-                checked={selectedIds.has(scene.id)}
-                onChange={() => toggleSelected(scene.id)}
-                onClick={(event) => event.stopPropagation()}
-                disabled={isSingleEmptyScene}
-              />
-              <button
-                type="button"
-                className="Claymate-left"
-                aria-label="Move Left"
-                disabled={index === 0}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  moveLeft(scene.id);
-                }}
+              <div className="Claymate-scene-content">
+                <Preview scene={scene} darkMode={darkMode} />
+                <input
+                  type="checkbox"
+                  className="Claymate-select"
+                  aria-label="Select scene"
+                  checked={selectedIds.has(scene.id)}
+                  onChange={() => toggleSelected(scene.id)}
+                  onClick={(event) => event.stopPropagation()}
+                  disabled={isSingleEmptyScene}
+                />
+                <button
+                  type="button"
+                  className="Claymate-left"
+                  aria-label="Move Left"
+                  disabled={index === 0}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    moveLeft(scene.id);
+                  }}
+                >
+                  &#x2b05;
+                </button>
+                <button
+                  type="button"
+                  className="Claymate-right"
+                  aria-label="Move Right"
+                  disabled={index === scenes.length - 1}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    moveRight(scene.id);
+                  }}
+                >
+                  &#x27a1;
+                </button>
+              </div>
+              <div
+                className="Claymate-duration"
+                role="none"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
               >
-                &#x2b05;
-              </button>
-              <button
-                type="button"
-                className="Claymate-right"
-                aria-label="Move Right"
-                disabled={index === scenes.length - 1}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  moveRight(scene.id);
-                }}
-              >
-                &#x27a1;
-              </button>
+                <input
+                  key={scene.duration}
+                  type="number"
+                  className="Claymate-duration-input"
+                  aria-label="Scene duration in ms"
+                  defaultValue={scene.duration}
+                  min={100}
+                  step={100}
+                  onBlur={(e) => {
+                    const val = Number(e.target.value);
+                    if (val > 0) updateDuration(scene.id, val);
+                  }}
+                />
+                <button
+                  type="button"
+                  className="Claymate-duration-reset"
+                  aria-label="Reset duration"
+                  title={
+                    index === scenes.length - 1
+                      ? '+1500ms added for last scene'
+                      : 'Reset to 500ms'
+                  }
+                  onClick={() => updateDuration(scene.id, DEFAULT_DURATION)}
+                >
+                  ↺
+                </button>
+              </div>
             </div>
           );
         })}
@@ -443,6 +491,14 @@ const Claymate = ({
             disabled={scenes.length <= 1}
           >
             Reverse order
+          </button>
+          <button
+            type="button"
+            onClick={resetAllDurations}
+            disabled={scenes.length === 0}
+            title="Reset all scene durations to 500ms"
+          >
+            Reset all durations
           </button>
           <button
             type="button"

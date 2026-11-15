@@ -84,6 +84,8 @@
   position: relative;
   width: 128px;
   min-width: 128px;
+  display: flex;
+  flex-direction: column;
 }
 
 .Claymate-current-scene {
@@ -93,6 +95,13 @@
 .Claymate-scene:has(.Claymate-select:checked) {
   background-color: rgba(99, 179, 237, 0.25);
   border-color: #63b3ed;
+}
+
+.Claymate-scene-content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .Claymate-scene canvas {
@@ -120,6 +129,34 @@
   margin: 0;
   cursor: pointer;
   z-index: 1;
+}
+
+.Claymate-duration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px 4px;
+  flex-shrink: 0;
+}
+
+.Claymate-duration-input {
+  width: 52px;
+  font-size: 11px;
+  padding: 1px 2px;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  text-align: right;
+}
+
+.Claymate-duration-reset {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .Claymate-left {
