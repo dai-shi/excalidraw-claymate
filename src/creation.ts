@@ -6,17 +6,23 @@ export const createScene = async (
   drawing: Drawing,
   size?: { width: number; height: number },
 ): Promise<Scene | undefined> => {
-  const canvas = await exportToCanvas({
+  const exportedCanvas = await exportToCanvas({
     ...drawing,
     elements: drawing.elements.filter((el) => !el.isDeleted),
   });
-  const width = size ? size.width : canvas.width;
-  const height = size ? size.height : canvas.height;
+  const width = size ? size.width : exportedCanvas.width;
+  const height = size ? size.height : exportedCanvas.height;
   if (!width || !height) {
     return;
   }
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
   const ctx = canvas.getContext('2d');
   if (ctx) {
+    ctx.fillStyle = drawing.appState.viewBackgroundColor ?? '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+    ctx.drawImage(exportedCanvas, 0, 0);
     return {
       id: nanoid(),
       width,
