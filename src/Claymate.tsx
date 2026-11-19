@@ -390,9 +390,14 @@ const Claymate = ({
                   step={100}
                   onBlur={(e) => {
                     const val = Number(e.target.value);
-                    if (val > 0) updateDuration(scene.id, val);
+                    if (val >= 100) {
+                      updateDuration(scene.id, val);
+                    } else {
+                      e.target.value = String(scene.duration);
+                    }
                   }}
                 />
+                <span style={{ fontSize: 11 }}>ms</span>
                 <button
                   type="button"
                   className="Claymate-duration-reset"
